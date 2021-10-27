@@ -1,31 +1,27 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import NavBar from './components/NavBar/NavBar';
 import Home from './containers/Home/Home';
-import HallOfFame from './containers/HallOfFame/HallOfFame'
+import HallOfFame from './containers/HallOfFame/HallOfFame';
 import Footer from './components/Footer/Footer';
 
+import './styles/App.scss';
 
-const App = () => {
-  return (
-    <div className="app">
-      <NavBar></NavBar>
+const App = () => (
+  <div className="app">
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route exact path="/hall-of-fame">
+          <HallOfFame />
+        </Route>
+      </Switch>
+    </BrowserRouter>
 
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/hall-of-fame">
-            <HallOfFame />
-          </Route>
-        </Switch>
-      </BrowserRouter>
-      
-      <Footer></Footer>
-    </div>
-  );
-}
+    <Footer />
+  </div>
+);
 
 export default App;
