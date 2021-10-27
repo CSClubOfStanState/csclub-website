@@ -1,0 +1,13 @@
+$black : #202325;
+$blue : #39719e;
+$red: rgba(121, 31, 31, 0.7);
+$gradient-red: linear-gradient(to right, #ffc500, #c21500);
+$yellow: #f1dd38;
+$grey : #8c8e8f;
+$light_grey: #202020;
+
+@mixin red-gradient-color {
+    color: #c21500;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #ffc500, #c21500);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #ffc500, #c21500); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}

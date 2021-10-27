@@ -1,0 +1,26 @@
+@import "variables";
+
+.color {
+    &-transparent {
+        color: white !important;
+    }
+}
+.link {
+    &-text {
+        color: #D3D3D3 !important;
+
+        &:hover {
+            color:white !important;
+        }
+    }
+}
+
+.bg {
+    &-transparent {
+        background: transparent !important;
+    }
+
+    &-solid {
+        background: #790E1C !important;
+    }
+}

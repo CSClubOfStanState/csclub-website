@@ -5,18 +5,18 @@ const HackathonLink = require('../assets/hackathon.jpg').default;
 
 const CarouselData = [
   {
+    link: MercedLink,
+    alt: 'Stan Students at HackMerced Hackathon',
+    caption: 'Computer Science Club at Stanislaus State',
+  },
+  {
     link: StanHacksLink,
     alt: 'StanHacks Group Photo',
-    caption: 'Computer Science Club at Stanislaus State',
     subcaption: 'A community of undergrads at CSU Stanislaus aiming to foster and cultivate technical interest in Central Valley.',
   },
   {
     link: ClubLink,
     alt: 'Club Group Photo',
-  },
-  {
-    link: MercedLink,
-    alt: 'Stan Students at HackMerced Hackathon',
   },
   {
     link: HackathonLink,

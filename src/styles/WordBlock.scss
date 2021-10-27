@@ -1,0 +1,26 @@
+@import "variables";
+.word-block {
+    & h2 {
+        margin: 10px;
+    }
+}
+
+.blue {
+    border-bottom: solid $blue 10px;
+}
+
+.red {
+    color: $black;
+}
+
+.gradient-red {
+    height: 10px;
+    width: 150px;
+    @include red-gradient-color;
+}
+
+
+
+.yellow {
+    border-bottom: solid $yellow 10px;
+}

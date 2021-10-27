@@ -25,6 +25,11 @@ const ControlledCarousel = ({ interval }) => {
               <h1 className="slideshow-caption">{d.caption}</h1>
             </Carousel.Caption>
             )}
+            {d.subcaption && (
+            <Carousel.Caption className="caption-container">
+              <h4 className="slideshow-caption">{d.subcaption}</h4>
+            </Carousel.Caption>
+            )}
           </Carousel.Item>
 
         ))}
@@ -34,12 +39,10 @@ const ControlledCarousel = ({ interval }) => {
 };
 
 ControlledCarousel.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
   interval: PropTypes.number,
 };
 
 ControlledCarousel.defaultProps = {
-  // eslint-disable-next-line react/forbid-prop-types
   interval: 5000,
 };
 
