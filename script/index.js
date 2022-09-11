@@ -1,5 +1,5 @@
 let yearDate = new Date().getFullYear();
-console.log(yearDate);
+// console.log(yearDate);
 
 // document.getElementById("yearDate").innerHTML = yearDate;
 
