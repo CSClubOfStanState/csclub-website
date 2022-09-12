@@ -1,0 +1,763 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Minecraft Fabric Modding - Workshop 1: Items, Assets, &amp; Data</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="71d1d341-d15d-4110-8fcc-265da573fd88" class="page sans"><header><img class="page-cover-image" src="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/Untitled%202.png" style="object-position:center 69.35%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/gilded_netherite_ingot%202.png"/></div><h1 class="page-title">Minecraft Fabric Modding - Workshop 1: Items, Assets, &amp; Data</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M7.01356 14.0001C8.8042 14.0001 10.5958 13.3107 11.9575 11.9324C14.681 9.21201 14.6808 4.7603 11.9571 2.04013C9.23336 -0.680043 4.77573 -0.680043 2.05199 2.04013C0.727519 3.36277 0 5.13301 0 6.99553C0 8.8764 0.727811 10.6285 2.05199 11.9509C3.43207 13.3106 5.22243 14.0001 7.01356 14.0001ZM3.72947 7.00914V8.461V8.65543H3.92382H5.34563H8.2794H8.4738V8.461V5.52541V3.37947V3.18502H8.2794H6.82747H6.63307V3.37947V6.81467H3.92382H3.72947V7.00914ZM1.83985 6.99553C1.83985 5.61698 2.38099 4.32597 3.36061 3.3477C5.36746 1.34337 8.64803 1.34062 10.6585 3.33944C10.6613 3.34219 10.6639 3.34494 10.6668 3.3477C12.676 5.3546 12.6763 8.63642 10.6668 10.6434C8.65705 12.6504 5.37031 12.6504 3.36061 10.6434C2.38099 9.66506 1.83985 8.37408 1.83985 6.99553Z"></path></svg></span>Created</th><td><time>@January 27, 2022 7:03 PM</time></td></tr><tr class="property-row property-row-multi_select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>Tags</th><td></td></tr></tbody></table></header><div class="page-body"><p id="50fe404f-12e1-437f-9268-c3b9e9eef526" class="">Estimated Time: ~51:59</p><h1 id="07be50bc-7b5e-4113-a2d9-bbc326c1ba5e" class="">Overview</h1><p id="bbd5337e-67f5-4eaa-9abb-a80145f43c89" class="">This first workshop will cover some fundamentals of Fabric modding, including the following topics:</p><ul id="7783ca97-c0b4-4203-9ad1-52a6d5759312" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">How to declare &amp; register a new item</span></li></ul><ul id="e72ba821-cfae-4f3c-ba10-b3a1852e31c3" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">How to model &amp; texture an item</span></li></ul><ul id="948ccdbd-4ce8-4872-bb30-1d2aecd308b3" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">How to create different types of recipes</span></li></ul><p id="e9ffb652-a281-4773-812d-e19b136c847b" class="">There are several pages on the Wiki that can assist in this endeavor, many of which will be linked so you can refer back to them at any time. Feel free to explore the Wiki in more depth during and after this workshop to see what else you can do with items:</p><ul id="e879ed24-84e6-4a85-bad6-1243d947f25c" class="bulleted-list"><li style="list-style-type:disc">Items: <a href="https://fabricmc.net/wiki/tutorial:items_docs">https://fabricmc.net/wiki/tutorial:items_docs</a></li></ul><ul id="1c348c28-fdb8-4988-a534-3152e8acee6c" class="bulleted-list"><li style="list-style-type:disc">Adding an Item: <a href="https://fabricmc.net/wiki/tutorial:items">https://fabricmc.net/wiki/tutorial:items</a></li></ul><ul id="2e6a65aa-ffd3-4d04-84a8-573191c4ef0d" class="bulleted-list"><li style="list-style-type:disc">Recipes: <a href="https://fabricmc.net/wiki/tutorial:recipes">https://fabricmc.net/wiki/tutorial:recipes</a></li></ul><ul id="d381cdf4-172a-4502-8aa5-0ecb9ba0b9bb" class="bulleted-list"><li style="list-style-type:disc">Recipe Types: <a href="https://fabricmc.net/wiki/tutorial:recipe_types_introduction">https://fabricmc.net/wiki/tutorial:recipe_types_introduction</a></li></ul><ul id="e9a0a69c-35aa-47f9-b780-01f4078b6358" class="bulleted-list"><li style="list-style-type:disc">Tags: <a href="https://fabricmc.net/wiki/tutorial:tags">https://fabricmc.net/wiki/tutorial:tags</a></li></ul><p id="e5cffbc6-cced-4dab-b3a2-77fdb845e660" class="">I will be going through these steps in-depth, starting with adding items and then expanding on that first step with each new concept. I will be structuring things in a different way than the Wiki does, which continuously adds to the main file. My version separates the main from initialization and declarations to better organize ourselves as these workshops continue and we add more and more stuff. With that, let’s get started.</p><h1 id="8e9cdf02-a83e-49db-bdd4-6e1bbfe94055" class="">Items</h1><p id="ef0d94b7-4b54-4227-b4a4-ebe656a6207f" class="">There are three major components to adding an item:</p><ol type="1" id="8bff75e7-42df-491e-a364-14806834b5a9" class="numbered-list" start="1"><li>Declaring &amp; registering the item</li></ol><ol type="1" id="92642026-04a4-4a7b-afd7-8050c109d231" class="numbered-list" start="2"><li>Adding a model &amp; texture</li></ol><ol type="1" id="72fa48f9-1c72-40e4-ab8d-6922a7f8b967" class="numbered-list" start="3"><li>Adding a recipe or other way to obtain it</li></ol><p id="7e796d4c-7507-4c00-a230-b279bcdd9042" class="">None of these are particularly hard, though it does take some precision and a good workflow to avoid errors. Let’s first declare the item.</p><h3 id="71dbe5be-0f30-4734-a987-ca89c9d256dc" class="">Declarations</h3><p id="fbd33a7f-3c5f-48fa-a061-8fea2e4c5b47" class="">We are going to declare a couple of items at the same time so you can compare and contrast the process of making them. The first will be something called “Brilliant Alloy” and the second will be “Gilded Netherite Ingot”, both of which will be used in later workshops as well.
+
+First, highlight your init package and right-click. Select New &gt; Java Class and name this class something like ‘ItemInit’. This is where we will declare all of our items. Import our main class as “import net.workshop.main;”. Then, we’ll make two methods, neither of which need parameters. I will name mine <code>registerItems()</code> and <code>init()</code>. Then, within <code>init()</code>, call <code>registerItems()</code>. So far, you should have something like:</p><pre id="02853bd4-3a1d-4a73-95ac-1fdfd0a7f722" class="code"><code>package net.workshop.init;
+
+import net.workshop.main;
+
+public class ItemInit {
+
+
+    public static void registerItems() {
+
+    }
+
+    public static void init() {
+        ItemInit.registerItems();
+    }
+}</code></pre><p id="1c280156-9d6d-4831-b7dc-b9ed470088a2" class="">Now we can start declaring the items. Inside the public class, but before registerItems(), we’ll add a line for <span style="border-bottom:0.05em solid"><strong>each</strong></span> new item. The example given on the wiki goes as follows, replacing anything with &lt;&gt; with a name of our choice <span style="border-bottom:0.05em solid">(also remove the &lt;&gt; symbols)</span>:</p><pre id="78d23d39-f8e8-4f7b-8ddc-f8862b1bf034" class="code"><code>public static final Item &lt;ITEM_NAME&gt; = 
+	new Item(new FabricItemSettings().group(ItemGroup.MISC));</code></pre><p id="abdb0ad8-7669-46d3-bee2-aec4b0f06940" class="">Traditionally, the ITEM_NAME is written in all caps, and uses underscores ( _ ) any time you want to use a space. Therefore, I replaced &lt;ITEM_NAME&gt; with <code>BRILLIANT_ALLOY</code> in the first declaration and <code>GILDED_NETHERITE_INGOT</code> in the second. The ending .group tag adds this item to the MISC tab of the creative menu. By default, it will put it at the very end of the list. We can change this if we like, but for now, it’s not necessary. 
+
+As well, for the Gilded Netherite Ingot, I am going to add an extra tag to its declaration. After the <code>.group(ItemGroup.MISC)</code>, I will put <code>.rarity(Rarity.RARE)</code> so that this item has a cooler name color. This is what items like golden apples and potions use to show that they are valuable.
+
+You also probably got red letters throughout these. This is because we didn’t import the libraries we’re referencing yet. If you hover over a red section, it should have a small popup with “Import Class” under the error. Click on that and the error will go away given that the code now recognizes the imported libraries.</p><ul id="00a16000-1198-4862-87fc-4c08160b27c1" class="bulleted-list"><li style="list-style-type:disc">As well, there are other times that multiple options for an import can come up, and sometimes these are parts of JetBrains libraries and not Minecraft’s. Whenever you have multiple options for an import, usually you should go with the one that references Minecraft</li></ul><ul id="ab0dd470-dc0b-4708-8f43-16775cf51721" class="bulleted-list"><li style="list-style-type:disc">Weirdly, there are two different places where rarity is mentioned. When you import that part, pick the one with ‘util’ as part of its name/path</li></ul><p id="34a84742-f0fd-46a2-a5ac-136bbb88a244" class="">So far, we should done the following:</p><ul id="9fe54ae5-541d-41f2-93c1-77257ce12c96" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Created two new declarations, one for a brilliant alloy and one for gilded netherite ingot</span></li></ul><ul id="637262c3-1f74-48f1-913f-151a8350d5ff" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">added a <code>.rarity</code> tag to gilded netherite ingot’s declaration</span></li></ul><ul id="16e8db6d-9033-49e0-8c01-b194a36a134b" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Have 4 imports in our ItemInit class</span></li></ul><p id="22d27044-a361-42ca-8c4e-19ef5bab1fa6" class="">Next, we’ll add to the body of <code>registerItems()</code>. This will be the registry so the item actually gets added to the game. The base code looks like this:</p><pre id="2cbbb9e0-d5c6-421f-a54e-5502d3a588dc" class="code"><code>Registry.register(Registry.ITEM, new Identifier(&lt;namespace&gt;, &quot;&lt;item_name&gt;&quot;), &lt;ITEM_NAME&gt;);</code></pre><p id="79b70385-347b-4a2a-bc21-35173dee7839" class="">However, we’ll need to be more careful this time. First, <strong>&lt;namespace&gt;</strong> was already declared. Our namespace is the <code>main.MOD_NAME</code> inside the main class, the global variable we declared. Therefore, replace the whole of <code>&lt;namespace&gt;</code> with <code>main.MOD_NAME</code>.</p><p id="3894d16a-4c43-4899-9558-f41999e44f58" class="">Next, we need to be consistent with our format. Notice that <strong>&lt;ITEM_NAME&gt;</strong> appears again. Therefore, we should copy exactly what we named our item before, as in <code>BRILLIANT_ALLOY</code> and <code>GILDED_NETHERITE_INGOT</code>. This goes for both items; their corresponding registry line should have the exact same all-caps name. </p><p id="42984313-f6b6-49fe-a956-7dcb61420d69" class="">Next, for <strong>&lt;item_name&gt;</strong> inside the parentheses, it’s the same thing as &lt;ITEM_NAME&gt; but lowercase. Funny enough, we should follow that exact format. Copy whatever you replaced <code>&lt;ITEM_NAME&gt;</code> with and place it inside the quotation marks, replacing the whole of <code>&lt;item_name&gt;</code>. However, it will be all lowercase instead of uppercase, so instead of <code>BRILLIANT_ALLOY</code>, it will be <code>brilliant_alloy</code> in the quotations. This is once again a precedent set by Mojang themselves for how they declare and register stuff, so we’ll be consistent with them.</p><ul id="c0e89cb0-f063-4ab2-b994-3ae38ab3e54b" class="bulleted-list"><li style="list-style-type:disc">Notes on this part: what the namespace is telling us is where to find the assets we will create later. Our namespace is ‘workshop’, so later we’ll work in a resource folder under assets called ‘workshop’</li></ul><ul id="08b68fb7-4770-4164-8f17-f9002fc1a521" class="bulleted-list"><li style="list-style-type:disc">As well, the lowercase &lt;item_name&gt; is the name of an asset file we’re making later. When we make that file, we’ll make sure that its name is the exact same as the lowercase &lt;item_name&gt;we placed here</li></ul><p id="f13a6911-9534-48aa-8204-f6d0d25c816b" class="">Lastly, we need to go back to our main class. Within the onInitialize() method, we’ll call our init() method in ItemInit. So now it looks like:</p><pre id="fa29b6b6-849a-410b-9a64-cead2827f189" class="code"><code>@Override
+public void onInitialize() {
+	ItemInit.init();
+}</code></pre><p id="c19b74a6-982d-413b-b649-14422a5a0f93" class="">Here’s what we just did:</p><ul id="1ae8496c-e92c-49da-939b-c6ed1fb7a33d" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Registered <code>BRILLIANT_ALLOY</code> and <code>GILDED_NETHERITE_INGOT</code> in <code>registerItems()</code></span></li></ul><ul id="90390360-66b1-4b10-986f-23ca9fb2c13f" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Added <code>ItemInit.init();</code> to the main class’s <code>onInitialize()</code> method</span></li></ul><p id="0c1fa3ff-72dc-4302-a1dc-d7cc1474df30" class="">With this, our items have been registered! You can runClient and check the MISC tab of the Creative menu to see that they’re both there.</p><figure id="ccafcf8d-54dd-499b-bffc-682bffd15d60" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/Untitled.png"><img style="width:1920px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/Untitled.png"/></a></figure><p id="216fb3d1-15b2-4cfe-adc9-2d56ce3f205c" class="">However, you can immediately tell they’re very unfinished. They don’t have textures, and their names are their internal reference names. Let’s solve both of these by adding to the resources section of the mod.</p><h1 id="809312f2-5fd1-4678-9f92-649f51ff4cb4" class="">Asset Files</h1><p id="43e1cf5b-dac8-499f-a975-00a224c12e3d" class="">Asset files are resources that add new things to our declared items. This is where we keep track of new sounds, models, textures, language files for naming items in-game, and much more that we can touch on in later workshops.</p><h3 id="8fb7bc5a-d618-4490-8e41-89e9333d42c8" class="">Modeling &amp; Texturing</h3><p id="44fec12c-567b-4841-84ef-902103d6f987" class="">Under resources, we have assets/workshop. Right-click workshop and select New &gt; Directory and call in ‘models’. Then, make another directory called ‘item’ inside ‘models’. This is so that we can tell the difference between an item model and a block model (which we’ll be doing far in the future).
+
+Now, inside ‘item’, make a New &gt; File. Name this file exactly whatever you used before in &lt;item_name&gt;, the lowercase version. As well, be sure to add .json at the end of the name, as that will tell IntelliJ that this is a json file. Now that we have our model file, we’ll add the below code to it, replacing anything with &lt;&gt; again (don’t forget to remove the &lt;&gt; symbols too):</p><pre id="8f258158-7a3b-4301-863a-5e236825c099" class="code code-wrap"><code>{
+  &quot;parent&quot;: &quot;item/generated&quot;,
+  &quot;textures&quot;: {
+    &quot;layer0&quot;: &quot;&lt;namespace&gt;:item/&lt;item_name&gt;&quot;
+  }
+}</code></pre><p id="37a803c2-5d36-4f71-b72a-d8f2ac16a69e" class="">What this is doing is telling the mod what kind of model this is (generated is a basic item, held in the hand) and where the texture file is. The namespace references the name of the directory over models (workshop), and &lt;item_name&gt; tells it the name of the texture file to find and use for this item (which is right after this). Do this for <span style="border-bottom:0.05em solid"><strong>both</strong></span> items. In this case, it will be in a directory we haven’t made yet, so let’s make it.
+
+Right-click workshop again and create a new directory called ‘textures’, and inside of that create a directory called ‘item’. Now we’ll need a texture png. Item textures are typically 16x16 pixels in size with a transparent background. To make your own, you’ll need some kind of photo editing program that supports transparency. Windows’s Paint does not. A free one is <a href="https://www.gimp.org/">Gimp</a>, though it seems a bit cumbersome to learn. Personally, I use PaintTool SAI, but that requires a license.
+
+For this workshop, I can provide all necessary textures required. For our two items here, we will add two png files named exactly as &lt;item_name&gt;.png for both, just like what we listed in their model files. Here they are:</p><div id="045a6fe9-4c7e-4d99-b154-0555f282d48c" class="column-list"><div id="dd7a788f-53ad-4c85-96d5-cbd83392e65f" style="width:50.000000000000014%" class="column"><figure id="63f59062-d130-43ab-920a-f085c05cdd6b"><div class="source"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/gilded_netherite_ingot.png">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/632effd9-bfb0-49d9-8466-a6b8352fdad0/gilded_netherite_ingot.png</a></div></figure></div><div id="734c240e-886f-4df3-8be3-f9faf2907a89" style="width:50%" class="column"><figure id="ecdec770-4b65-4d84-a27e-9563b6a78629" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/gilded_netherite_ingot%201.png"><img style="width:36px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/gilded_netherite_ingot%201.png"/></a></figure></div></div><div id="0b0965ad-e3de-4c89-b287-f3af55cdbf13" class="column-list"><div id="168d7be3-b890-4a9f-8c6c-9b098d0cdaa2" style="width:50%" class="column"><figure id="b9609c0a-ae84-4445-b55a-51b9d5a5bfb6"><div class="source"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/brilliant_alloy.png">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/37d24833-c93f-4b0e-a4a0-5c99419fef1a/brilliant_alloy.png</a></div></figure></div><div id="4918c14c-3d1a-4608-900f-b9b2b1ea8d50" style="width:50%" class="column"><figure id="bdffdfa9-24a2-4ee2-bba4-85098f21e404" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/brilliant_alloy%201.png"><img style="width:36px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/brilliant_alloy%201.png"/></a></figure></div></div><p id="7d4b82ce-d303-471d-bb68-d7b2163f9885" class="">They’re very small, but you can click on the files on the left and save them to add them to the project. Place them into the textures/item directory and we’ll be good.</p><h1 id="70747ba9-4067-4112-bb1c-cd7f94c8cd2e" class="">Data Files</h1><p id="60a41aab-f74f-4f41-a915-16f1b56a3820" class="">Data files tell us about the functionality of our modded stuff. It is here that we create new advancements, recipes, and tags that give our stuff additional uses in the game.</p><h3 id="fd5b3ee2-12ee-4122-b921-c8fc28c69a59" class="">Recipes</h3><p id="308be3bc-b3af-42ef-bc3d-fd5b696c0e54" class="">Now we’ll need to add some data to our mod so we can obtain these items. First, we’ll do a shaped recipe for the brilliant alloy, then two recipes for the gilded netherite ingot, one for a furnace and one for a blast furnace.
+
+Select the resources folder and make a new directory titled “data”. Then, within that, create a directory with the same name as your namespace (mine is workshop). Then create another directory inside that title “recipes”. Lastly, make a new file title “&lt;item_name&gt;.json”. This file will be structured like so:</p><pre id="75ce67d6-7dc2-455b-9a0b-6d8d300331cb" class="code"><code>{
+  &quot;type&quot;: &quot;minecraft:crafting_shaped&quot;,
+  &quot;pattern&quot;: [
+    &quot;123&quot;,
+    &quot;123&quot;,
+    &quot;123&quot;
+  ],
+  &quot;key&quot;: {
+    &quot;1&quot;: {&quot;item&quot;: &quot;&lt;namespace&gt;:&lt;item_name1&gt;&quot;},
+    &quot;2&quot;: {&quot;item&quot;: &quot;&lt;namespace&gt;:&lt;item_name2&gt;&quot;},
+    &quot;3&quot;: {&quot;item&quot;: &quot;&lt;namespace&gt;:&lt;item_name3&gt;&quot;}
+  },
+  &quot;result&quot;: {
+    &quot;item&quot;: &quot;&lt;namespace&gt;:&lt;item_name&gt;&quot;,
+    &quot;count&quot;: 1
+  }
+}</code></pre><p id="8a93e5d6-2f13-48ee-871a-7fca91975df7" class="">Now it gets a bit tricky. Notice the three lines of “123” after each other. That actually mimics the 3x3 grid of a crafting table, so wherever you place a symbol is where an ingredient will go. Next, we have the “key” section. This tells the recipe what each symbol in the recipe means. For instance, wherever a 1 appears could be a diamond, so for key “1”, we list “item”: “minecraft:diamond” (Minecraft is the namespace for all items normally in the game). The “result” says what we get out of the recipe, and how many of the items. For my recipe for brilliant alloy, I went with 1 netherite ingot, 4 gold ingots, and 4 copper ingots.
+
+As well, here’s a link to the full list of items, and you can click on them to find their internal reference names on their pages</p><ul id="fecb7d5b-5ccb-40c9-aca8-3544482f1bb1" class="bulleted-list"><li style="list-style-type:disc"><a href="https://minecraft.fandom.com/wiki/Item">https://minecraft.fandom.com/wiki/Item</a></li></ul><figure id="9a196137-9863-4cbf-a6e1-1deb0d22ef4b" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/Untitled1.png"><img style="width:904px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/Untitled1.png"/></a></figure><p id="fdeda5cb-4c6c-47cb-a9f9-24a578753e81" class="">Now for the recipes for gilded netherite ingots. The structure for a furnace recipe is:</p><pre id="50d79e07-a6ba-48fa-b434-492bf21aa3b4" class="code"><code>{
+  &quot;type&quot;: &quot;minecraft:smelting&quot;,
+  &quot;ingredient&quot;: {
+    &quot;item&quot;: &quot;&lt;namespace&gt;:&lt;item_name&gt;&quot;
+  },
+  &quot;result&quot;: &quot;&lt;namespace&gt;:&lt;item_name&gt;&quot;,
+  &quot;experience&quot;: &lt;int&gt;,
+  &quot;cookingtime&quot;: &lt;int&gt;
+}</code></pre><p id="84506383-7f69-4322-b4f2-51a4d0bd3c3e" class="">Notice the change in the “type” at the top of the file. “item” refers to what we put in, “result” is what we get. “experience” is the number of experience we get when we take the item out of the furnace. Typically, an item of this level still only gives around 3-5 xp. “cookingtime” is how long it’ll take to cook. The standard for a furnace is 200. The blast furnace recipe is very similar, except the “type” is now “minecraft:blasting” and the “cookingtime” is cut in half (so 100 typically).</p><figure id="24cd163b-9d21-46eb-88ca-8760715b0481" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/Untitled2.png"><img style="width:746px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/Untitled2.png"/></a></figure><figure id="6befd6e0-c3f9-4b5a-b4b5-041207182721" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/Untitled3.png"><img style="width:784px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/Untitled3.png"/></a></figure><p id="6948e48c-973a-4bbf-8eaa-07391be6983c" class="">
+</p><p id="6ffc12f6-b613-4e7e-ae57-859358a4624f" class=""><strong>After all of this, the first section of your first items are (mostly) done! You’ve checked off every box at the start of the page.</strong></p><h1 id="8ef4ed3a-7ecf-4aeb-83fa-2a62a10a214f" class="">Additional Challenges</h1><p id="8d667fb2-3857-4471-9269-1e799a46f313" class="">These are some challenges or extra features that we did not have time for in the main workshop. Their full instructions are still listed and you can complete them if you would like some extra practice in Fabric and Gradle outside of these workshops. Any features used in these additional challenges will be not be expected to be completed for future workshops, they are solely for you.</p><h3 id="9dfec6e6-a60a-4164-931a-f1c4892606e7" class="">Language Files</h3><p id="b496555f-aa0a-4b7c-bf17-c8eddb84c2f1" class="">You might have noticed that in one above photo, my Brilliant Alloy item actually had a name, and not item.workshop.brilliant_alloy. That’s because I used a language file to rename it.
+
+We can add a language file to our mod that can give in-game names to all of our items. That way, their name in-game is not their internal reference name. To do this, we’ll need a new directory under resources &gt; assets &gt; workshop. Title this directory ‘lang’, which Fabric automatically knows is a language folder. Then add a New &gt; File called en_us.json, which will act as an extension to Minecraft’s English US language file. Within this file, we will first reference the internal name of our items in quotations, then use a string in quotations to say what we want the item to display as in-game. This looks like:</p><pre id="d7e7348a-4e36-45c4-a1d2-8a18f698be8a" class="code"><code>{
+	&quot;&lt;type&gt;.&lt;namespace&gt;.&lt;item_name&gt;&quot;: &quot;&lt;in-game name&gt;&quot;
+}</code></pre><p id="c8b8cdcd-650c-4882-986e-f8c9d68720bc" class="">In this case, type is item, and you can quickly look up your namespace and item_name as needed. The second string can be anything you’d like and will be exactly how Minecraft names the item in-game. The name you see here is a copy of the string I put in.</p><figure id="1e119eda-69fa-4725-9fdc-66001c17e780" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/Untitled%201.png"><img style="width:1052px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%201%20Items,%20Asset%20ccafcf8d54dd499bbffc682bffd15d60/Untitled%201.png"/></a></figure><h3 id="f43276a2-4c12-4cc0-a3c9-9ad55978476e" class="">Recipe Advancements</h3><p id="be9123b5-c058-46c8-8262-8b2489d48430" class="">This section is dedicated to adding our recipes to the recipe book once we have the proper materials. Under resources &gt; data &gt; workshop, create a new directory called “advancements”. In that, we’ll need two JSON files, one for the recipe for Brilliant Alloy and one for <span style="border-bottom:0.05em solid">both</span> recipes of Gilded Netherite Ingot. I named my files “get_recipe_brilliant_alloy” and “get_recipe_gilded_netherite”. The names aren’t very important, the mod will load them anyhow, but they’re for you to keep track of their contents. Let’s do the brilliant alloy first. In its advancement file, use the following structure:
+</p><pre id="c3b06347-9d22-4444-bb11-eb911f0844a0" class="code"><code>{
+  &quot;parent&quot;: &quot;minecraft:recipes/root&quot;,
+  &quot;rewards&quot;: {
+    &quot;recipes&quot;: [
+      &quot;&lt;namespace&gt;:&lt;recipe_name&gt;&quot;
+    ]
+  },
+  &quot;criteria&quot;: {
+    &quot;&lt;criteria_name&gt;&quot;: {
+      &quot;trigger&quot;: &quot;minecraft:inventory_changed&quot;,
+      &quot;conditions&quot;: {
+        &quot;items&quot;: [
+          {
+            &quot;items&quot;: [&quot;&lt;namescape&gt;:&lt;item_name&gt;&quot;]
+          }
+        ]
+      }
+    }
+  }
+}</code></pre><p id="1f331701-c1bd-4c2f-b75e-cf922274fbdb" class="">The first recipe_name reference is to whatever item’s recipe you want. In this case, brilliant alloy’s, so it’s namespace is  ‘workshop’ again, and the recipe_name is the name of json file we made that has the recipe. The second item is a reference to whatever item has to be in your inventory to trigger you learning the recipe, and last is criteria_name, which in this context can be whatever you like. I went with “get_netherite_ingot”. Similarly, the second item for me was a netherite ingot, so once I first have one in my inventory, I’ll learn the recipe to brilliant alloy.
+
+For gilded netherite ingots, the code will look very similar, but I’ll replace the netherite ingot reference with brilliant alloy. As well, the recipe listings will instead list the namespaces and file names of <span style="border-bottom:0.05em solid"><strong>both</strong></span> JSON recipe files we made for gilded netherite ingots.</p><h1 id="643df6e5-37a5-456a-992d-6bc26e2f2d0f" class="">Conclusion &amp; Looking Forward</h1><p id="a6fbd60b-5197-495d-a573-f776fbfe04f5" class="">With all of this, you have started your path towards understanding Fabric modding on a deep and technical level. This crash course in all of the basics was meant to be dense and tough so that you could take time to chew on the material and make connections about the code and how it talks to each part of itself.
+
+Moving forward, our next topic will be creating tools and weapons using base materials in the game, as well as our new modded materials so you can compare the differences between the two. As well, as the project gets more complex, comments in our java class files will become increasingly important, and it is up to you to learn how to organize your code efficiently so you can read it and navigate it.
+
+Thank you, and we hope to see you next week!</p><h1 id="a71f338d-f3ad-4437-b4bd-ae4ff19edd0b" class="">Link to Workshop 2 Notion Page:</h1><p id="91fa3dfb-fd60-4d5f-8fea-3c79e76a8fc4" class=""><a href="https://www.notion.so/Minecraft-Fabric-Modding-Workshop-2-Weapons-More-Recipes-578091042df84c70aff7b2cb9744aabb">https://ggiande.notion.site/Minecraft-Fabric-Modding-Workshop-2-Weapons-More-Recipes-578091042df84c70aff7b2cb9744aabb</a></p></div></article></body></html>

@@ -1,0 +1,843 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>NextJS Workshop 1</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="70a1fc46-8a2f-47b8-8678-508c5f91d818" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/gradients_10.jpg" style="object-position:center 40%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🖥️</span></div><h1 class="page-title">NextJS Workshop 1</h1></header><div class="page-body"><h2 id="8f5f5630-6ad7-49ea-bb4d-394ee64adf23" class="">Description 🗨️</h2><p id="b8f07a66-303b-457d-82ba-76d249453898" class="">The purpose of this workshop is to create a simple portfolio website to upload and deploy through <a href="https://pages.github.com/">Github Pages</a>. </p><blockquote id="7913cd4f-f4f7-40bc-a504-ea77b8c31520" class="">Remember: A jack of all trades is a master of none. But still always better than a master of one.</blockquote><h2 id="d59bff8e-4bff-42c2-9f71-5b1564ffbbf6" class="">Requirements 📃</h2><p id="670c90eb-e9b0-465e-ac13-a1b19b98694a" class="">At this stage, we expect the <a href="https://www.notion.so/On-boarding-Web-Development-Workshop-5717b9b98e6943929e24bbbd187e05e4"><span class="icon">🔨</span>On-boarding Web Development Workshop</a> page to have been completed. If you still have to complete the <a href="https://www.notion.so/On-boarding-Web-Development-Workshop-5717b9b98e6943929e24bbbd187e05e4">onboarding section</a>, then please try to run through it to the best of your ability up through Step 4.</p><h2 id="b182dbce-fb63-48b7-a933-e8e2c0ca2ed1" class="">Want to Accomplish 🤔</h2><ul id="8e11a440-a0ac-4336-9375-7588e67517ae" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Hypertext Markup Language (HTML) Semantics for Search Engine Output (SEO)</span></li></ul><ul id="50c2d955-7b52-4916-a5d2-32c05e5bbe4a" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">nav, header, main elements</span></li></ul><ul id="9e2137fd-bb84-43a7-9625-5d36411202e9" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Google Fonts</span></li></ul><ul id="ab221348-0724-42ff-82f8-b0c8f48da028" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Cascading Style Sheets (CSS) styling for different HTML tags</span></li></ul><ul id="51b16f73-9d46-49c6-824d-8c545ed77ab8" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Deploy a basic portfolio site onto <a href="https://pages.github.com/">Github Pages</a></span></li></ul><p id="33dee0db-2ec3-431e-af0e-1341cad7e2df" class="">
+</p><p id="d8586752-31bf-48ff-a526-a0bbcd99d690" class="">First off, let’s look at the semantics of HTML. If we are new to HTML, simply know that the more of these elements you use, the easier it will be for others to find information on your page and how others can interact with your page.</p><figure id="d962ef26-3ba4-49f5-9fbc-7db9ac95f191" class="image"><a href="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Untitled.png"><img style="width:720px" src="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Untitled.png"/></a><figcaption>Source: <a href="https://twitter.com/Prathkum/status/1466484906071109635">https://twitter.com/Prathkum/status/1466484906071109635</a></figcaption></figure><p id="16beced7-68a6-46c8-9e17-32cad8f49995" class="">For this workshop, we will be using the following elements: <code>&lt;header /&gt;</code> ,<code>&lt;nav /&gt;</code>, <code>&lt;main /&gt;</code>. For the sake of time, these are the only elements we will go over. The content within each of these elements will be stylized later. (To make look pretty)</p><ul id="ba66bb6c-8203-4aea-a2e2-21663acacf31" class="bulleted-list"><li style="list-style-type:disc">Header (header) → Introductory content like the name of the site or the owner’s information, for us this will serve as the main header for our page.</li></ul><ul id="623edde7-cc41-4ab9-8cf8-827624e665ab" class="bulleted-list"><li style="list-style-type:disc">Navigation (nav) →  A major group of hyperlinks that can take us anywhere on the internet, including across our page, for us this will serve as redirect links.</li></ul><ul id="9d9baa68-0e06-459c-af17-e3241cbfa5b3" class="bulleted-list"><li style="list-style-type:disc">Main (main) → The main contents of the webpage, for us this is will include the content below our <code>&lt;nav /&gt;</code>.</li></ul><h2 id="e02c7737-be66-4e47-aed3-b5c363ca18d7" class="">Editor 🧑🏾‍💻</h2><p id="ddaf8484-8203-4800-acc3-1469c1673c57" class="">We will use <a href="https://code.visualstudio.com/">Visual Studio Code</a> as our main editor for this project. If you would like to learn how to set up the VSCode editor, then feel free to onboard VSCode NOW.</p><p id="9fbfbedf-1fc5-43ff-a6a2-f6f15fde4531" class="">From within VSCode, we want to open a new terminal window change directory <code>cd my-app</code>, and run <code>code .</code> If you know the path of your project, then you can just run <code>code my-app</code> to open the whole project in VSCode.</p><p id="511aa600-9f8a-4147-b793-a86017c9c150" class="">
+</p><p id="6ab39a6e-8763-4964-a69a-81006b6c238d" class="">Now that this is out of the way, let’s jump into learning the basics of creating a blank template in VSCode. Create a new file named <code>index.html</code> and another file named <code>index.css</code>. Inside of our <code>index.html</code> type in a single exclamation point and hit ENTER. <code>!</code> The exclamation point used VSCode’s <a href="https://code.visualstudio.com/docs/editor/emmet">emmet </a>ability to create a basic HTML page for us. </p><figure id="295d6df8-3357-484a-ac16-df8b372194e5" class="image"><a href="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Untitled%201.png"><img style="width:951px" src="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Untitled%201.png"/></a></figure><p id="2c5ec879-9761-419d-bd80-2aa6e3d303a3" class="">Find the <code>index.html</code> file within your file explorer/finder and double click it. It should open a page on your browser that is BLANK. </p><p id="082fda5e-baa0-4ef9-b2dc-5c72646d577e" class="">💡Note: I will not show the HTML page until we finish all the HTML.</p><p id="c49a42a7-9268-474f-9a4a-88ea4153f8a8" class="">
+</p><p id="98a6a5fe-6ccf-4601-8bee-d3afb934fed9" class="">If you look at the URL, it should be the current directory on your machine in which the page is located. This means that the website is currently running locally. Great, now let’s link our CSS file to our <code>index.html</code> file. Inside of <code>index.html</code> within the <code>&lt;head /&gt;</code> element, create a new <code>&lt;link /&gt;</code> element with the following code inside: <code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;./index.css&quot; media=&quot;screen&quot; /&gt;</code></p><figure id="4ae91403-8586-4ad3-8c57-ab000ea5cb8f" class="image"><a href="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Screenshot_2022-01-23_225751.png"><img style="width:1003px" src="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Screenshot_2022-01-23_225751.png"/></a></figure><p id="91867c4f-5086-4f58-ba81-d63f10890624" class="">
+</p><p id="6af1c3a7-fb53-4376-83e5-566420ecf963" class="">This line of code tells our index page that we will reference a stylesheet (CSS Sheet), with the <code>href </code>attribute, named <code>index.css</code> in the same directory as <code>index.html</code>. Our <code>&lt;body /&gt;</code> will hold all of the content on our page. Let’s begin by creating a <code>&lt;header /&gt;</code> element inside of our body that stores an <code>&lt;h1 /&gt;</code> header. Add <em>Portfolio</em> inside of the <code>&lt;h1 /&gt;</code> element.
+Note 🗒️: h1 is the biggest header in size; h6 is the smallest header</p><pre id="01bf27de-bc1d-4749-83f6-057e3ff28473" class="code code-wrap"><code>&lt;body&gt;
+    &lt;header&gt;
+				&lt;!-- Headers can come in different sizes, all the way from h1 to h6 --&gt;
+        &lt;h1&gt;Portfolio&lt;/h1&gt; 
+    &lt;/header&gt;
+&lt;/body&gt;</code></pre><p id="52e33c1a-0e38-4cd6-a0eb-a844842821c2" class="">
+</p><p id="f969609d-adf3-4288-be3c-2e0f48620316" class="">That’s one element down, more to go. Up next is the navigation element that will house a bunch of links for us. Below the closing tag for the element of <code>&lt;/header&gt;</code> create the element <code>&lt;nav /&gt;</code> . Our Navigation can now house a bunch of links in the form of <code>&lt;a /&gt;</code> anchor elements whose <code>href</code> attribute, creates a hyperlink to web pages, files, email addresses, locations on the same page, or anything else a URL can address. Create <strong>4</strong> new anchor elements with an <code>href=#</code> to a bookmark. We will not cover bookmarks today. </p><p id="edf98b63-f0e3-4789-b227-70dea4a5fc05" class="">
+</p><p id="efcdfb13-4ae2-416f-9824-85a43c0ebf69" class="">Within each respective anchor element, add the following: Blog, About, Projects, Github. At this stage, you should be able to replace the current <code>#</code> pound symbol with <strong>your</strong> Github Profile link. Here is the end result.</p><figure id="1526dffa-1f40-487f-9908-38f083947fd0" class="image"><a href="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Untitled%202.png"><img style="width:948px" src="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Untitled%202.png"/></a></figure><p id="11b25909-350f-4faa-8dc1-4f778acf6438" class="">
+</p><p id="87144320-d8b6-4742-b5a8-d113e902918a" class="">Now with our Navigation out of the way, let’s get to the really meaty part of our webpage. Our main content will be housed 🏠 inside of a <code>&lt;main /&gt;</code> element. Here, we can introduce ourselves by creating a new <code>h2</code> tag that says something like,<em> “Hello, I’m So and So!” </em></p><pre id="f28d1ccd-45da-4f15-ad35-dd3a2a4af755" class="code code-wrap"><code>&lt;main&gt;
+			&lt;h2&gt;Hello, I&#x27;m Me, I guess?&lt;/h2&gt;
+	&lt;/main&gt;</code></pre><p id="727f9432-7962-436c-8425-5ddb5761af13" class="">
+</p><p id="c199df55-2df4-434c-b993-2e661809dc94" class="">With our greetings out of the way, let’s create a container where we can talk a little bit more about ourselves. Create a new element named <code>&lt;pre /&gt;</code> . Pre is a tag that defines preformatted text. Within our new tag, let’s use paragraphs to talk a lit bit about ourselves. Content within the <code>&lt;p /&gt; </code>tags are formatted into paragraphs. </p><pre id="3b56e284-6f03-4bdc-b774-6a404dfbaf9d" class="code code-wrap"><code>&lt;pre&gt;
+	&lt;p&gt;
+	    👋 I am currently pursuing a Bachelor&#x27;s degree in Computer Science
+	&lt;/p&gt;
+	&lt;p&gt;
+	    💻 I&#x27;m a Computer Science major at California State University Stanislaus.
+	&lt;/p&gt;   
+	&lt;p&gt;
+	    💼 In the past I have worked as a Software Engineering Academic Intern at 
+			JPMorgan Chase &amp; Co. - Palo Alto Office
+	&lt;/p&gt;    
+	&lt;p&gt;
+	    💬 Feel free to talk to me about paving the way for students to achieve 
+			success through new opportunities and being as inclusive as possible.
+	&lt;/p&gt;
+&lt;/pre&gt;</code></pre><p id="6e4c6f63-1e2f-40a2-bf39-494b76a4da84" class="">
+</p><p id="9a4cebb8-e445-46da-854b-37895367087b" class="">Great, now, let’s imagine that these paragraphs are in a container that resembles a bit like a terminal window on a computer. A terminal always needs the little symbol <code>&gt;</code> so we know where we are on the terminal. Let’s chuck a <code>div</code> tag at the end of our <code>&lt;/pre&gt;</code> before we close it. </p><pre id="39ef66d5-7f7b-41b6-9688-c588fdefea3c" class="code code-wrap"><code>	&lt;!-- Add the terminal thing --&gt;
+	&lt;div&gt;&lt;/div&gt;
+&lt;/pre&gt;</code></pre><p id="5b1eadc7-16b6-4c25-9bb7-c22417fec71c" class="">
+</p><p id="36df22c4-df6e-420d-9124-67d137c25a0d" class="">We will customize all of our elements in just a second. I threw in one last <strong>paragraph </strong>after the pre-tag mentioning how we will be using Github Pages to host our site.</p><blockquote id="899cee34-bd58-479a-8fbc-2c9938cec313" class="">This website can serve you and your projects. This page is hosted directly from your GitHub repository. Just edit, push, and your changes are live!</blockquote><p id="6569af8b-3460-4bf0-8972-f3efa3f042fa" class="">Our HTML Page so far:</p><figure id="12567c69-a6c0-4090-b4ba-45ef80a7404c" class="image"><a href="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Untitled%203.png"><img style="width:1488px" src="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Untitled%203.png"/></a><figcaption>Rough HTML Page</figcaption></figure><p id="41008372-569f-4e7c-b975-196b8294f127" class="">
+</p><p id="1588a2f2-d00a-4981-9859-06b693533160" class="">As you can see, our page is a little rough around the edges with no styling. <strong>Paste </strong>the following into our <code>index.css</code> file.</p><pre id="ebccf238-89d1-403f-ba8f-d858d6172d13" class="code code-wrap"><code>/* Font for coding */
+@import url(&quot;https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;700;900&amp;display=swap&quot;);
+/* Pretty Font ~~ Headers */
+@import url(&quot;https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;700&amp;display=swap&quot;);
+/* Body Font */
+@import url(&quot;https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&amp;family=Dongle:wght@300;400;700&amp;display=swap&quot;);
+
+/* This is the entirety of our page, and so this styling will persist across the whole page. */
+.container {
+	margin: 0 auto; /* Guarantees that the left and right margins will be set to the same size, top and bottom are set to 0 */
+	font-family: &quot;Chakra Petch&quot;; /* Makes our current font name change to Chakra Petch wherever possible in our body */
+}
+
+/* pre is where we stored all of our paragraphs, teh font  */
+.pre_code_container {
+	font-family: &quot;Inconsolata&quot;; /* Coding Font Style */
+	border: solid black 0.5em; /* Creates a border around our container that is solid, black and has a responsive thickness */
+	border-radius: 0.3em; /* Creates a round edge around our container */
+	background-color: #121212; /* Changes the background color of our container */
+	color: white; /* Changes our text color to white */
+	display: flex; /* Sets whether an element is treated as a block or inline element and the layout used for its children */
+	flex-wrap: wrap; /* Tells our elements to wrap around if they run out of space */
+	flex-direction: column; /* Specifies how items are placed in the flex container x/y-axis */
+}
+
+/* Every single paragraph in our terminal or pre element */
+.code_container {
+	margin: 0.25em; /* Places spacing on the outside all around our element */
+	display: flex; /* Sets whether an element is treated as a block or inline element and the layout used for its children */
+	flex-wrap: wrap; /* Tells our elements to wrap around if they run out of space */
+	flex-direction: column; /* Specifies how items are placed in the flex container x/y-axis */
+	justify-content: center; /* Centers our element horizontally*/
+	word-break: normal; /* Specifies line break opportunities */
+	white-space: normal; /* Shorthand property for the &#x27;white-space-collapsing&#x27; and &#x27;text-wrap&#x27; properties. */
+}
+
+/* Portfolio */
+.header_container {
+	display: flex; /* Sets whether an element is treated as a block or inline element and the layout used for its children */
+	flex-direction: row; /* Specifies how items are placed in the flex container x/y-axis */
+	justify-content: center; /* Centers our element horizontally*/
+	font-family: &quot;Comfortaa&quot;; /* Makes our current font name change to Comfortaa */
+	text-decoration: overline; /* Creates an overline above our portfolio header */
+	text-shadow: 3px 3px gray; /* Creates a translation of a gray shadow of our portfolio header  */
+}
+
+/* Houses the meat of our webpage and limits the size of the content */
+.main_container {
+	padding: 1em 0.5em; /* Adds space to the left and right of our element */
+	max-width: 700px; /* Sets the maximum width among all elements inside of this container */
+	margin: 0 auto; /* Guarantees that the left and right margins will be set to the same size, top and bottom are set to 0 */
+}
+
+/* Our navigation links are centered and made to look pretty */
+.nav_container {
+	display: flex; /* Sets whether an element is treated as a block or inline element and the layout used for its children */
+	flex-direction: row; /* Specifies how items are placed in the flex container x/y-axis */
+	justify-content: center; /* Centers our element horizontally*/
+	padding-top: 0.5em; /* Adds space to the top of our element */
+	padding-bottom: 0.5em; /* Adds space to the bottom of our element */
+}
+
+/* Our individual links */
+.nav_links {
+	text-decoration: none; /* Removes any underlines or overlines from our text */
+	margin-left: 0.5em; /* Places spacing on the outside on the left of the element */
+	margin-right: 0.5em; /* Places spacing on the outside on the right of the element */
+	color: black; /* Makes our text color black */
+	font-family: &quot;Comfortaa&quot;; /* Makes our current font name change to Comfortaa */
+}
+
+/* A small division used to make the green line at the bottom of our pre container */
+.terminal {
+	padding-bottom: 0.3rem; /* Adds space to the bottom of our element */
+	padding-top: 0.3rem; /* Adds space to the top of our element */
+	border-bottom: 1px solid green; /* */
+}
+/* This does some fancy stuff to place the &gt; above the green line at the bottom */
+#input:before {
+	content: &quot;&gt;&quot;; /* Content is like text that could not exist in the HTML */
+	padding-left: 1rem; /* Adds space to the left of our element */
+	color: green; /* Makes the &gt; a green color */
+}</code></pre><p id="37635ef5-648e-444f-ac46-984e9dc9e272" class="">Now, don’t get your hopes up, we are not done just yet. All we need to do is declare the proper ids and class names for our CSS and we are in business. If you look above, each <code>class</code> name or <code>id</code> has the name of HTML tag that precedes it. </p><p id="162b3838-985e-49e2-94ec-3748f36cb934" class="">
+</p><p id="638c0424-8707-432f-b108-51184c29d831" class="">Classes are important as they help us organize and bunch up together anything that we want stylized the same way within that class. To fill in the class name to an element, all we need to do is write <code>class=&quot;name_of_class&quot;</code> or <code>id=&quot;id_name&quot;</code>. Below is the result of filling all of these in.</p><p id="9819bed1-3636-449b-9777-6f6f8945be6a" class="">Below is the completed <code>index.html</code> with my data filled in.</p><pre id="75f3dac4-bf52-405f-9418-c75fae4b6220" class="code code-wrap"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+	&lt;head&gt;
+		&lt;meta charset=&quot;UTF-8&quot; /&gt;
+		&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
+		&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+		&lt;link
+			rel=&quot;stylesheet&quot;
+			type=&quot;text/css&quot;
+			href=&quot;../index.css&quot;
+			media=&quot;screen&quot;
+		/&gt;
+		&lt;title&gt;Document&lt;/title&gt;
+	&lt;/head&gt;
+
+	&lt;body class=&quot;body_container&quot;&gt;
+		&lt;header class=&quot;header_container&quot;&gt;
+			&lt;!-- Headers can come in different sizes, all the way from h1 to h6 --&gt;
+			&lt;h1&gt;Portfolio&lt;/h1&gt;
+		&lt;/header&gt;
+
+		&lt;nav class=&quot;nav_container&quot;&gt;
+			&lt;a class=&quot;nav_links&quot; href=&quot;#&quot;&gt; Blog &lt;/a&gt;
+			&lt;a class=&quot;nav_links&quot; href=&quot;#&quot;&gt; About &lt;/a&gt;
+			&lt;a class=&quot;nav_links&quot; href=&quot;#&quot;&gt; Projects &lt;/a&gt;
+			&lt;a class=&quot;nav_links&quot; href=&quot;https://github.com/username&quot;&gt; Github &lt;/a&gt;
+		&lt;/nav&gt;
+
+		&lt;main class=&quot;main_container&quot;&gt;
+			&lt;h1&gt;Hello, I&#x27;m Gian!&lt;/h1&gt;
+			&lt;pre class=&quot;pre_code_container&quot;&gt;
+                &lt;p class=&quot;code_container&quot;&gt;
+                    👋 I am currently pursuing a Bachelor&#x27;s degree in Computer Science
+                &lt;/p&gt;
+                &lt;p class=&quot;code_container&quot;&gt;
+                    💻 I&#x27;m a Computer Science major at California State University Stanislaus.
+                &lt;/p&gt;   
+                &lt;p class=&quot;code_container&quot;&gt;
+                    💼 In the past I have worked as a Software Engineering Academic Intern at JPMorgan Chase &amp; Co. - Palo Alto Office
+                &lt;/p&gt;    
+                &lt;p class=&quot;code_container&quot;&gt;
+                    💬 Feel free to talk to me about paving the way for students to achieve success through new opportunities and being as inclusive as possible.
+                &lt;/p&gt;
+                
+                &lt;!-- Add the terminal division --&gt;
+                &lt;div id=&quot;input&quot; class=&quot;terminal&quot;&gt;&lt;/div&gt;
+            &lt;/pre&gt;
+			&lt;p&gt;
+				This website can serve you and your projects. This page is
+				hosted directly from your GitHub repository. Just edit, push,
+				and your changes are live!
+			&lt;/p&gt;
+		&lt;/main&gt;
+	&lt;/body&gt;
+&lt;/html&gt;</code></pre><p id="0f259adb-592f-4936-b05c-c470615da17f" class="">End Result</p><figure id="c0f0e8c3-2330-4100-8837-5b77ea282bc0" class="image"><a href="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Untitled%204.png"><img style="width:945px" src="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Untitled%204.png"/></a></figure><p id="bca63f0d-10e9-44bf-9832-81c445c773b9" class="">
+</p><p id="c14673b9-b2c9-46c5-8727-950f538b7eb2" class="">Fantastic! Now that we have completed filling everything out, our page is now complete. The last step which is extremely quick is to push our code to Github and to tell Github to use our <code>index.html</code> and <code>index.css</code> as the basis for our webpage. The page should pop up in less than 2 minutes.</p><h2 id="3023378c-6e7f-45da-adfb-503e13e8793d" class="">Github Pages 🗒️</h2><p id="af33c66d-5507-4726-85dd-d884fd5b8eff" class="">On Github, go to your repositories settings.</p><figure id="3b6f57d9-a524-49fd-9aac-ea9e73d593c0" class="image"><a href="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Untitled%205.png"><img style="width:1370px" src="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Untitled%205.png"/></a></figure><p id="2194fe90-c5f0-465e-8bde-b6d204b44610" class="">Make sure that your repo is set to public. If it is not then click on <code>Change visibility</code> and follow the prompts.</p><figure id="28b8aa1f-f57a-4c1c-811a-f70dc32cdf53" class="image"><a href="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Screenshot_2022-01-24_001316.png"><img style="width:1011px" src="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Screenshot_2022-01-24_001316.png"/></a></figure><p id="7b1c25f7-94bc-4383-b732-5fd8c7361aca" class="">Then, go to Pages</p><figure id="570c3466-3a25-4870-b2d4-1af7efb7fb17" class="image"><a href="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/pages.png"><img style="width:795px" src="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/pages.png"/></a></figure><p id="5804207d-ada7-45dc-bb01-838a3430d2a4" class="">For source, make sure to have <code>main</code> toggled as the branch and your root toggled. After clicking Save, wait for Github to finish. Lastly, enjoy the profits. </p><figure id="fca12352-e287-42cf-b725-8ca7d322974f" class="image"><a href="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Untitled%206.png"><img style="width:694px" src="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Untitled%206.png"/></a></figure><p id="b513a5bd-9e05-438d-a34d-f5c60582635d" class="">Here is a quick look at what we have covered.</p><h2 id="574d0646-5aa9-44f8-b548-5a11ca145522" class="">Completed 🥳</h2><ul id="f9c68838-4075-46f0-a635-104ea7c8593d" class="to-do-list"><li><div class="checkbox checkbox-on"></div> <span class="to-do-children-checked">Hypertext Markup Language (HTML) Semantics for Search Engine Optimization (SEO)</span><ul id="1d984052-88fd-4283-b9af-06f6f0022a5a" class="to-do-list"><li><div class="checkbox checkbox-on"></div> <span class="to-do-children-checked">nav, header, main elements</span></li></ul></li></ul><ul id="1009127a-3871-4c9c-bd0f-efd8df05bd76" class="to-do-list"><li><div class="checkbox checkbox-on"></div> <span class="to-do-children-checked">Google Fonts</span></li></ul><ul id="ad0ffb1e-4471-4585-9250-bcaba470754e" class="to-do-list"><li><div class="checkbox checkbox-on"></div> <span class="to-do-children-checked">Cascading Style Sheets (CSS) styling for different HTML tags</span></li></ul><ul id="78e8af09-6b4d-440c-ad50-0c84ffae6b6b" class="to-do-list"><li><div class="checkbox checkbox-on"></div> <span class="to-do-children-checked">Deploy a basic portfolio site onto <a href="https://pages.github.com/">Github Pages</a></span></li></ul><h2 id="2a83881e-3d51-4f23-85d3-b4c97dbbb70c" class="">Additional Challenges 💸</h2><ul id="6ee77925-e9f4-46d1-83ed-b8c0f19c59c6" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Learn more about CSS? Hover over a line that you would like to learn more about and click on the MDN Reference for documentation. </span></li></ul><figure id="3011647b-9790-4620-8528-4635d3f9e836" class="image"><a href="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Untitled%207.png"><img style="width:775px" src="NextJS%20Workshop%201%20d962ef263ba449f59fbc7db9ac95f191/Untitled%207.png"/></a></figure></div></article></body></html>

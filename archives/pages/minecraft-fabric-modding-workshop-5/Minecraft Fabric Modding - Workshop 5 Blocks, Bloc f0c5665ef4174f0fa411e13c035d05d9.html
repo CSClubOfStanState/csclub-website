@@ -1,0 +1,774 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Minecraft Fabric Modding - Workshop 5: Blocks, Blockstates, &amp; Loot Tables</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5436654a-9502-4302-a956-57f53bddf495" class="page sans"><header><img class="page-cover-image" src="Minecraft%20Fabric%20Modding%20-%20Workshop%205%20Blocks,%20Bloc%20f0c5665ef4174f0fa411e13c035d05d9/1%201.png" style="object-position:center 27.070000000000004%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Minecraft%20Fabric%20Modding%20-%20Workshop%205%20Blocks,%20Bloc%20f0c5665ef4174f0fa411e13c035d05d9/gilded_netherite_block_ne%202.png"/></div><h1 class="page-title">Minecraft Fabric Modding - Workshop 5: Blocks, Blockstates, &amp; Loot Tables</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M7.01356 14.0001C8.8042 14.0001 10.5958 13.3107 11.9575 11.9324C14.681 9.21201 14.6808 4.7603 11.9571 2.04013C9.23336 -0.680043 4.77573 -0.680043 2.05199 2.04013C0.727519 3.36277 0 5.13301 0 6.99553C0 8.8764 0.727811 10.6285 2.05199 11.9509C3.43207 13.3106 5.22243 14.0001 7.01356 14.0001ZM3.72947 7.00914V8.461V8.65543H3.92382H5.34563H8.2794H8.4738V8.461V5.52541V3.37947V3.18502H8.2794H6.82747H6.63307V3.37947V6.81467H3.92382H3.72947V7.00914ZM1.83985 6.99553C1.83985 5.61698 2.38099 4.32597 3.36061 3.3477C5.36746 1.34337 8.64803 1.34062 10.6585 3.33944C10.6613 3.34219 10.6639 3.34494 10.6668 3.3477C12.676 5.3546 12.6763 8.63642 10.6668 10.6434C8.65705 12.6504 5.37031 12.6504 3.36061 10.6434C2.38099 9.66506 1.83985 8.37408 1.83985 6.99553Z"></path></svg></span>Created</th><td><time>@January 27, 2022 7:04 PM</time></td></tr><tr class="property-row property-row-multi_select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>Tags</th><td></td></tr></tbody></table></header><div class="page-body"><p id="c257b855-60a3-4f6e-a8a5-360879af0f18" class="">Estimated Time: </p><h1 id="7bc273fd-6d64-421e-b376-974b3747a842" class="">Overview</h1><p id="2f224d90-26c2-4881-ad0d-68c2cd0874da" class="">The final workshop today will cover one last major topic in Fabric modding: blocks. We will be making a Gilded Netherite Block and adding two new functions to it, which will include stuff we’ve already done and a new functionality involving blockstates. I am hoping that this workshop is an easier one to let our final hour be far less intense than last time, and we can breeze through one last topic. Our tentative list is:</p><ul id="3096440d-a042-4af5-99f9-a4a4aa01c5ef" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Declare &amp; Register a Gilded Netherite Block</span><ul id="0efd257f-df5b-4a18-b113-3aad9e3d0393" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Create a loot table for it</span></li></ul></li></ul><ul id="d0919dcd-a2d5-48b2-a4fe-e5b97de28cf2" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Model &amp; Texture a Block</span></li></ul><ul id="2335c6a9-1277-4010-9546-dc643cf715da" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Add Blockstates to give the block directionality</span></li></ul><ul id="0ede168e-0a65-4c7c-abdf-99e9e530f6f4" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Use tags to require a diamond pickaxe to mine it</span></li></ul><p id="3ee3626f-bc66-4561-a005-eadb9cb14d70" class="">Blocks: <a href="https://fabricmc.net/wiki/tutorial:blocks">https://fabricmc.net/wiki/tutorial:blocks</a></p><p id="188a2a8b-472c-4d22-a7a3-2c9555afd307" class="">Directional Blocks: <a href="https://fabricmc.net/wiki/tutorial:directionalblock">https://fabricmc.net/wiki/tutorial:directionalblock</a></p><h1 id="857f03d9-d680-4abb-8fa6-703c88cd3b20" class="">Declaring Our Block</h1><p id="e540ec4c-335d-4a0d-a368-589b85e229c2" class="">Our special directional blockstates force us to make a superclass for our block. The reason for this is it will be in our superclass that we grab the direction the player was facing, and it will then apply that direction when determining the block’s direction. Fortunately, there isn’t much extra we have to do for the class.
+
+Go to java &gt; net &gt; workshop and make a new package called <code>block</code>. Inside that package, make a new class called <code>BlockGildedNetherite</code>. This class will <code>extend Block</code>, and use the following super:</p><pre id="71d23a64-f36d-4760-ab97-d35e2e349492" class="code"><code>public BlockGildedNetherite(Settings settings) {
+        super(settings);
+        setDefaultState(this.stateManager.getDefaultState().with(Properties.FACING, Direction.NORTH));
+    }</code></pre><p id="7b916ef2-878f-495f-bb3c-4d92c7454b3d" class="">Now we need to grab the directional methods This will require two @Overrides to the appendProperties method and the getPlacementState method. These look like this:</p><pre id="0517f87f-7ff0-40e2-b141-b23fcc11072c" class="code"><code>@Override
+    protected void appendProperties(StateManager.Builder&lt;Block, BlockState&gt; stateManager) {
+        stateManager.add(Properties.FACING);
+    }
+
+    @Override
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        return this.getDefaultState().with(Properties.FACING, ctx.getPlayerFacing().getOpposite());
+    }</code></pre><p id="a268d991-22fd-4bfc-b7e1-5191e439f3c0" class="">The <strong>appendProperties()</strong> adds the FACING property to the block’s metadata, meaning that it it has a hidden value to say what direction the block is facing. This is very important for making directional blocks.
+
+Then,<strong> getPlacementState()</strong> uses the <code>.getPlayerFacing()</code> method to see what way the player was facing when they placed this block, and then gets its opposite value and applies that to this block’s <code>FACING</code> property. The reason for getting the opposite value is because when we place the block, we want it to “face us”, as opposed to facing the same direction as us.
+
+So far, we should have done the following:</p><ul id="fef7631f-0fbb-4e9b-8f16-9540b73973e9" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Made a package under workshop called <code>block</code></span></li></ul><ul id="bb85ff89-b3a8-411f-b973-7d92d7ac686e" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Made the class <code>BlockGildedNetherite</code> inside of package <code>block</code></span><ul id="53320a0f-2b90-4ad2-8093-36e268ddcda0" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">declared its <code>super</code></span></li></ul><ul id="971ae209-56c0-4bd1-ae7d-3016de09a07d" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">set it’s default state to <code>FACING</code> <code>NORTH</code></span></li></ul><ul id="986e72b4-e604-44e6-8edf-a0b9d6df4cf7" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">appended the property of <code>FACING</code></span></li></ul><ul id="85062434-64aa-4396-bee0-69c94706351e" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">used <code>getPlacementState()</code> to get player direction</span></li></ul></li></ul><p id="c60b1ed2-2964-49eb-b8cb-1e6d6d18c58f" class="">With these, there is now directionality that we can apply to our block later, and we can start our declarations and registries.
+
+Our declarations are going to look quite similar, that much has not changed. However, we need to stay organized and keep our format. Go to <code>java &gt; net &gt; workshop &gt; init</code> and make a new class titled <code>BlockInit</code>. We are going to set up this class in the same format we did ItemInit, in that we’ll have declaration first, then our register method, then the init method to run the other methods in the class. You can copy this format:</p><pre id="d45cb63e-5ddd-42ae-9a4c-9eb086039088" class="code"><code>public class BlockInit {
+
+    // Declarations
+
+    public static void registerBlocks() {
+
+		    // Registry
+    }
+
+    public static void init() {
+        BlockInit.registerBlocks();
+    }
+}</code></pre><p id="dc8156cd-f799-4a06-a6cd-02ceb48ce973" class="">A declaration for a basic item goes as follows in Fabric:</p><pre id="26d700ae-7341-403d-9f57-ff5f8554464c" class="code"><code>public static final &lt;superclass&gt; &lt;BLOCK_NAME&gt; = new &lt;superclass&gt;(FabricBlockSettings.of(Material.&lt;MATERIAL&gt;).strength(&lt;float hardness&gt;F, &lt;float resistance&gt;F).requiresTool());</code></pre><p id="68691bcb-e05e-4ad6-a715-35dbb9da43b0" class="">The <code>.requiresTool()</code> at the end is not necessary, but for our purposes we’ll need it. To finish that logic, we’ll use tags later to say what tool is needed for this block. Now Let’s go through these items</p><ul id="d350f11e-83c3-4095-bbee-67819e9ff777" class="bulleted-list"><li style="list-style-type:disc">the <strong>&lt;superclass&gt;</strong> is typically <code>Block</code>, but we just declared our own special superclass, so we’ll use our special one instead</li></ul><ul id="c0ce6cd1-0b06-4d3c-994a-bae0a8266ddf" class="bulleted-list"><li style="list-style-type:disc"><strong>&lt;BLOCK_NAME&gt;</strong> is formatted just like &lt;ITEM_NAME&gt; from before. I went with <code>GILDED_NETHERITE_BLOCK</code></li></ul><ul id="0dac85e6-f500-4337-83b8-7e2755945df2" class="bulleted-list"><li style="list-style-type:disc"><strong>&lt;MATERIAL&gt;</strong> determines the group of blocks this will go in with. Considering the netherite and gold used to make it, I went with <code>METAL</code></li></ul><ul id="36e86716-a291-449a-b79f-bf11ed73edfc" class="bulleted-list"><li style="list-style-type:disc">In <code>.strength()</code>, we have two float values to place. The first is for hardness, which controls how slow the block is to break. The second refers to blast resistance, as in how strong of an explosion do you need to break this block. For both of these, I went with 4.0F, as we can easily change them later to better fit our want</li></ul><p id="29b6bfc6-361f-4543-b1c2-c732d4c4731d" class="">Now we can register our block. Go into the registerBlocks() method and add these two lines:</p><pre id="2d9e1058-e811-44e8-a530-7879af169d9c" class="code"><code>Registry.register(Registry.BLOCK, new Identifier(main.MOD_NAME, &quot;&lt;block_name&gt;&quot;), &lt;BLOCK_NAME&gt;);
+Registry.register(Registry.ITEM, new Identifier(main.MOD_NAME, &quot;&lt;block_name&gt;&quot;), new BlockItem(&lt;BLOCK_NAME&gt;, new FabricItemSettings().group(ItemGroup.&lt;GROUP&gt;)));</code></pre><p id="3442b67e-bf23-479d-926a-5943473fdf03" class="">Notice that we’re actually declaring an item in the second line. That’s because we need to register both the block and its corresponding item. All of the sections that need to be replaced are things that you have more or less seen before, so you can go ahead and finish these statements off. As well, I’ll be adding a <code>.fireproof()</code> and <code>.rarity()</code> tag to the ITEM registry to be consistent with our other gilded items.
+
+Now we should have accomplished these:</p><ul id="80529c34-994d-45df-831b-364c6ced1094" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Made a new class under <code>init</code> called <code>BlockInit</code></span></li></ul><ul id="c7b0efef-89c8-4363-b713-2830c81b7804" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Declared new block <code>GILDED_NETHERITE_BLOCK</code></span><ul id="d526ae44-45a8-40fa-b233-2cb3899625c9" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Added <code>.requiresTool()</code> clause to declaration</span></li></ul></li></ul><ul id="7c01f3bb-6a5c-4836-badb-c60cc6be76a9" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Registered new block <code>GILDED_NETHERITE_BLOCK</code></span></li></ul><ul id="02a66931-f318-4349-a225-5b85979249c0" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Registered new block-item <code>GILDED_NETHERITE_BLOCK</code></span><ul id="efe2f665-29d3-4ec2-a5a5-03fbc4605a89" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Added <code>.fireproof()</code> and <code>.rarity()</code> to the block-item</span></li></ul></li></ul><p id="8e2d52a9-bd21-4263-9e2c-941b7a062aac" class="">When we check in-game, we have our new block! Untextured and unmodeled, but we can fix that right now.</p><h1 id="7fdbe84f-8a1b-4b41-bce1-dfbb1fa8c97d" class="">Modeling Blockstates</h1><p id="4791c9ee-4c12-4332-9834-54648cabca83" class="">We need to tell the game what directions this block will have, and how to orient the block in this situations. To do this, we’ll need an asset file.
+
+Go to <span style="border-bottom:0.05em solid">resources &gt; assets &gt; workshop</span> and make a new directory called <code>blockstates</code>. All blocks have a blockstate, but most just have one, their default. For us, we’ll need to declare each direction the player could be facing.
+
+Make a JSON file in this directory called what we placed in the quotations of the registry, the lowercase &lt;block_name&gt;. In it follow this template:</p><pre id="aaeb0465-8248-4174-be8a-bbfeca9a8042" class="code"><code>{
+  &quot;variants&quot;: {
+    &quot;facing=north&quot;: { &quot;model&quot;: &quot;&lt;namespace&gt;:block/&lt;block_name&gt;&quot; },
+    &quot;facing=east&quot;:  { &quot;model&quot;: &quot;&lt;namespace&gt;:block/&lt;block_name&gt;&quot;, &quot;y&quot;: 90 },
+    &quot;facing=south&quot;: { &quot;model&quot;: &quot;&lt;namespace&gt;:block/&lt;block_name&gt;&quot;, &quot;y&quot;: 180 },
+    &quot;facing=west&quot;:  { &quot;model&quot;: &quot;&lt;namespace&gt;:block/&lt;block_name&gt;&quot;, &quot;y&quot;: 270 }
+  }
+}</code></pre><p id="c8cb0ef0-54bc-48f3-b1b4-1277ddd37bce" class="">We’ll replace the &lt;namespace&gt; and &lt;block_name&gt; with our namespace and block name of course. It will be the same in each of these listings. Very cool, that FACING property we added to the superclass before is the value that’s being passed to this file, and that’s how it determines which way to face the block.
+
+We can also see that we have taken care all all four cardinal directions, and that the “y” value increases by 90 for each face other than north, which is our default. Think of it like the y-axis of the game is on a pole and you turn it 90 degrees to rotate the block. That’s how the math works out. With this file, the game will apply our directional states, but now we need to add the textures.
+
+I actually also want to make a block that has different textures on each face, which will require some extra work in the model file. Go to <span style="border-bottom:0.05em solid">assets &gt; workshop &gt; models</span> and make a new directory called <code>block</code>. In that, make a JSON file titled after our &lt;block_name&gt;. We can copy this format for our multi-textured block:</p><pre id="423f5492-9cbe-43d2-97ad-e6a253844dff" class="code"><code>{
+  &quot;parent&quot;: &quot;block/cube&quot;,
+  &quot;textures&quot;: {
+    &quot;particle&quot;: &quot;workshop:block/&lt;block_name&gt;&quot;,
+    &quot;up&quot;: &quot;workshop:block/&lt;block_name&gt;&quot;,
+    &quot;down&quot;: &quot;workshop:block/&lt;block_name&gt;&quot;,
+    &quot;north&quot;: &quot;workshop:block/&lt;block_name&gt;&quot;,
+    &quot;south&quot;: &quot;workshop:block/&lt;block_name&gt;&quot;,
+    &quot;east&quot;: &quot;workshop:block/&lt;block_name&gt;&quot;,
+    &quot;west&quot;: &quot;workshop:block/&lt;block_name&gt;&quot;
+  }
+}</code></pre><p id="4ff954c3-ee57-449d-bc26-6a6a80abda05" class="">The “particle” texture is what determines the breaking particles appear as we break this block. We’ll use the texture “workshop:block/gilded_netherite_block_nw”. The reason for the nw is because that stands for northwest, the direction that the diagonal line in the texture is facing. More on that later, it’ll make more sense when you see the texture.
+
+Then are the textures for each face of the block. The direction refers to the cardinal direction that face of the block is closest towards. For example, the “north” face is the one that “looks” at the north.
+
+As for textures, we have the two variants: “workshop:block/gilded_netherite_block_nw” and “workshop:block/gilded_netherite_block_ne”. In order to pick the correct one for each, we’ll say that the “top” is ne. From there, if we picture the cube, the diagonal lines should always connect to another. Here’s a helpful visual aid:</p><figure id="f0c5665e-f417-4f0f-a411-e13c035d05d9" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%205%20Blocks,%20Bloc%20f0c5665ef4174f0fa411e13c035d05d9/Untitled.png"><img style="width:1042px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%205%20Blocks,%20Bloc%20f0c5665ef4174f0fa411e13c035d05d9/Untitled.png"/></a></figure><p id="734c38cc-c97d-44ad-8707-96b4f536e227" class="">For each of these textures, rotate this picture so that the text on that side is correctly oriented for you. Then, place the texture into the references as you see it for that side. 
+
+If you textured the block properly, these diagonal lines on the textures will pleasingly connect. The last thing to do is give the item a model, which is easy. Go to models &gt; item and make the file <code>gilded_netherite_block.json</code>. In it, we just need this:</p><pre id="986022f2-3030-430f-a923-01b9a7676fbb" class="code"><code>{
+  &quot;parent&quot;: &quot;workshop:block/gilded_netherite_block&quot;
+}</code></pre><p id="5e5bc0b2-56a1-48c6-b47b-e4754054e248" class="">Now the item will model itself just like the block, but item-sized. So with these three files, we should have done the following:</p><ul id="5d8463e3-680b-46f0-891c-d60a5dffe2eb" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Made a new directory under <span style="border-bottom:0.05em solid">resources &gt; assets &gt; workshop</span> called <code>blockstates</code></span><ul id="a96c256c-9248-496e-bc39-d85045337f17" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Made the file “gilded_netherite_block.json” in that directory</span></li></ul><ul id="22736783-af60-4e95-b8b2-606a195d34d6" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Replaced each “&lt;namespace&gt;:block/&lt;block_name&gt;” with “workshop:block/gilded_netherite_block”</span></li></ul></li></ul><ul id="9cc3b8aa-4748-4152-97c1-f9c3e6f2ac13" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Made a new directory under <span style="border-bottom:0.05em solid">resources &gt; assets &gt;workshop &gt; models</span> called <code>block</code></span><ul id="c9ae0190-df73-470e-ba71-c4192ebff86b" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Referenced one of our two textures for each listing in this model file</span></li></ul></li></ul><ul id="827268f4-c646-49da-a2a6-fbc784c00470" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Added a models/item JSON file called gilded_netherite_block.json and had it reference its parent model file in models/block</span></li></ul><p id="abc3f65b-c6ee-445e-aa47-3e00ce8da605" class="">Lastly, we can add the textures. Go to assets &gt; workshop &gt; textures and make a new directory called ‘block’. In that directory, place these two files:</p><div id="f3fd9975-49a1-483d-8fbc-96643c37dbb2" class="column-list"><div id="358ed2d1-bed4-4e98-8a9b-3e875390ebc7" style="width:50%" class="column"><figure id="1447919c-6067-4e7f-838d-72a634bab4a5"><div class="source"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%205%20Blocks,%20Bloc%20f0c5665ef4174f0fa411e13c035d05d9/gilded_netherite_block_ne.png">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/340726ce-905f-43ba-a2b5-392a3c3c2d29/gilded_netherite_block_ne.png</a></div></figure></div><div id="d08c60d8-3111-4e52-a52c-036a0cc830d9" style="width:50%" class="column"><figure id="f07f4d77-5947-4893-acef-719fb69c85d7" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%205%20Blocks,%20Bloc%20f0c5665ef4174f0fa411e13c035d05d9/gilded_netherite_block_ne%201.png"><img style="width:36px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%205%20Blocks,%20Bloc%20f0c5665ef4174f0fa411e13c035d05d9/gilded_netherite_block_ne%201.png"/></a></figure></div></div><div id="8dcd525c-78f6-4f0c-a217-6980474bc9cc" class="column-list"><div id="0000cfed-775e-4700-80f0-330f4663abc1" style="width:50%" class="column"><figure id="052bda55-f591-461c-9f15-7bd1286ec871"><div class="source"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%205%20Blocks,%20Bloc%20f0c5665ef4174f0fa411e13c035d05d9/gilded_netherite_block_nw.png">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a3b983da-561e-4731-a3cf-f6de0f4dfbce/gilded_netherite_block_nw.png</a></div></figure></div><div id="ca76fda0-df6f-45db-ab3c-2004ce3cefde" style="width:50%" class="column"><figure id="fccf5619-4bc1-4109-95fe-3732509d1304" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%205%20Blocks,%20Bloc%20f0c5665ef4174f0fa411e13c035d05d9/gilded_netherite_block_nw%201.png"><img style="width:36px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%205%20Blocks,%20Bloc%20f0c5665ef4174f0fa411e13c035d05d9/gilded_netherite_block_nw%201.png"/></a></figure></div></div><p id="500f2189-e92e-47ef-94d5-3b7cedf6712f" class="">And we’re done! The block is registered, textured, and has direction!</p><figure id="ca4ed3e1-23e6-4787-b560-f1f467811e68" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%205%20Blocks,%20Bloc%20f0c5665ef4174f0fa411e13c035d05d9/0.png"><img style="width:1140px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%205%20Blocks,%20Bloc%20f0c5665ef4174f0fa411e13c035d05d9/0.png"/></a></figure><figure id="957ca581-ea58-4ce1-acd6-1548122d1854" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%205%20Blocks,%20Bloc%20f0c5665ef4174f0fa411e13c035d05d9/1.png"><img style="width:1596px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%205%20Blocks,%20Bloc%20f0c5665ef4174f0fa411e13c035d05d9/1.png"/></a></figure><h1 id="0e55884f-b0d1-451f-ae76-dc844f5a765c" class="">Data Files</h1><p id="3e6af9d7-f904-4b7a-93f2-c1f35585e5ae" class="">Now we can finish up our block’s functions by adding it to a loot table. A loot table is a file that takes care of any and all drops. When you open a chest in a dungeon, it rolls on its loot table to determine what’s inside the chest.
+
+Every block has a loot table, the most common being that you roll with 100% probability to get 1 of that block. This is what we’ll do here.
+
+Go to resources &gt; data &gt; workshop and make a new directory called <code>loot_tables</code>. In that directory, make another called <code>blocks</code>. Then, inside of that directory, make a JSON file called <code>&lt;block_name&gt;.json</code>. The typical format for this file goes as follows:</p><pre id="51919683-8b64-4e56-a802-c70c534ff7c2" class="code"><code>{
+  &quot;type&quot;: &quot;minecraft:block&quot;,
+  &quot;pools&quot;: [
+    {
+      &quot;rolls&quot;: 1,
+      &quot;entries&quot;: [
+        {
+          &quot;type&quot;: &quot;minecraft:item&quot;,
+          &quot;name&quot;: &quot;&lt;namespace&gt;:&lt;blockitem_name&gt;&quot;
+        }
+      ],
+      &quot;conditions&quot;: [
+        {
+          &quot;condition&quot;: &quot;minecraft:survives_explosion&quot;
+        }
+      ]
+    }
+  ]
+}</code></pre><p id="33ccc0c0-d06a-494d-a84a-e776cd293809" class="">You can see that there is a “conditions” sections that must be met in order to roll on this table. If the block survives an explosion, which is taken care of by the resistance float we declared for it earlier, and it was broken by a valid tool, it will roll on this table. We only roll once, and the only entry is our blockItem. All we have to do is replace the “name” with our namespace and blockItem’s reference name.
+
+Now we need to use tags to complete our <code>.requiresTool()</code> clause in the declaration. Go the data &gt; minecraft &gt; tags, which we made a couple workshops ago, and add a new directory called <code>blocks</code>. Under this directory, we’ll add a file called <code>needs_diamond_tool.json</code>. Following the same format as our tags before, we will add our new block to the tag, as:</p><pre id="2d92dc4c-da4c-4889-a106-949308db4478" class="code"><code>{
+  &quot;replace&quot;: false,
+  &quot;values&quot;: [
+    &quot;&lt;namespace&gt;:&lt;block_name&gt;&quot;
+  ]
+}</code></pre><p id="dab8c4d5-375a-474e-996a-760f2da13a62" class="">Then, still under blocks, make a new directory called <code>mineable</code>. In that directory, make a JSON file titled <code>pickaxe.json</code>. Copy the same contents of the previous tag into here.
+
+Now our new block should be mineable by a pickaxe and require at least a diamond pickaxe to drop its item.</p><h1 id="1cb9d123-3609-488c-8295-c9de9e849e4a" class="">Additional Challenges</h1><p id="10bd24b6-36f8-4e5b-9d84-c103d8428ec6" class="">For this final set of additional challenges, we’ll just be treading familiar ground. I decided to exclude any new challenges because I want you to take these workshop materials and explore Fabric modding on your own from here on. Anything else that you would want to do with this mod is now entirely up to you.</p><h3 id="51ec6de7-b885-4b08-b264-77a829b0e5ef" class="">Language File</h3><p id="cde57e52-292c-4919-a601-566ae33157e0" class="">We can add our new block to the language file, using the reference name to both the block itself and the block_item. This means that we’ll need to add two new lines to our en_us.json.</p><h3 id="a1cda00b-5011-432b-a5d4-ed2ae9fcbf2f" class="">Recipes</h3><p id="1be6483e-7976-4c03-91a4-4a2f44efed2c" class="">We can add recipes for the block. First, we should make one for the block, which would be 9 gilded netherite ingots filling the entire crafting table area. Then, we’ll need a recipe to change the block back, which is a shapeless recipe that uses one block and returns 9 ingots.</p><h3 id="ceba3f83-7a89-4fcb-848c-8c891a7188be" class="">Recipe Advancements</h3><p id="561540f9-99cc-450d-8fa2-b3bf4cb75167" class="">We can add our new block to our recipe advancement for gilded netherite ingots. As well, we can add a new one for when we have one of these blocks. The recipe for the block will go in with the recipe advancement we’ve made already, and then we’ll make a new one that gives us the recipe for turning the block back into ingots. This will work off of the same inventory_change trigger we’ve been using.</p><h3 id="318405c0-a3e7-4b12-8bba-d7e96edce4fb" class="">Tags</h3><p id="4a92d5d3-1d66-4bb6-8661-6cdcf5cd7b2e" class="">We can make a new tag using this block so piglins like it. For this, we’ll need to make a directory under tags called “blocks”, since this is not an item. In it, we’ll make a new JSON file called “piglin_loved.json”, the block mirror of the item tag. In this tag, we’ll format it just like the item tags we’ve made, and it’s only entry will be our gilded netherite block.
+
+We can also add our new block to the list of acceptable blocks to power beacons with. This is another block tag called “beacon_base_blocks.json”, and we just have to add this block to the entry (do NOT set ‘replace’ to TRUE).</p><h3 id="b348f38b-8a74-42e5-bfaa-76acbb307a49" class="">icon.png</h3><p id="3f7072d9-d3e2-4dcd-b4e1-2db336ac175a" class="">Finally, we can replace that old template png for our mod and put into something new. Make a new png file with the same name and replace the old one. For mine, I went with our texture for gilded netherite blocks, so I copied it, renamed the copy “icon”, and replaced the old one.</p><h1 id="d0ee6163-267a-42a9-9f26-9539f0b413dd" class="">Final Thoughts</h1><p id="8ef259a3-93bf-451e-ba46-f7fe823d3f25" class="">Hopefully this series of workshops have helped you understand Java programming in a more object-oriented light, and that you have thus become a more knowledgeable programmer. There’s still lots of stuff to talk about in Java and Fabric, and I now leave it up to you to continue exploring ideas and structures for both.
+
+If you would like to continue working in Fabric modding, please refer to the Discord link that I will post in the Zoom chat. This Discord is dedicated to the development of Fabric mods and to the Fabric API, and there are hundreds of fellow modders that constantly discuss ideas, problems, and solutions. This is a great resource going forward.
+
+With that, I would like to thank all of you for attending these workshops and I hope you found this genuinely helpful in your CS career.</p></div></article></body></html>

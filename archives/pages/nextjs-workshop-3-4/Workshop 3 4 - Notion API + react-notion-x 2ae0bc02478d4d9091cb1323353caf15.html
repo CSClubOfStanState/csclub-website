@@ -1,0 +1,679 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Workshop 3/4 - Notion API + react-notion-x</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c326e86e-1f69-4666-9fa4-66dc0091fdd1" class="page sans"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1583008581453-4330952c66ef?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">✨</span></div><h1 class="page-title">Workshop 3/4 - Notion API + react-notion-x</h1></header><div class="page-body"><h1 id="2ac881ca-87c0-4038-9065-cbf168864144" class="">Workshop should take 1:30 mins</h1><nav id="78fa02ac-f2d3-43ac-b346-b47499f1211e" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#2ac881ca-87c0-4038-9065-cbf168864144">Workshop should take 1:30 mins</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9c26e6f0-fa3a-4f2f-b329-0c4f2c6b4e0d">Description 🗨️</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d961383a-4cf1-4b5e-85c7-815b9d533400">Requirements 📃</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#55a7ba7e-201a-4208-b8d4-304714a0f7ad">Want to Accomplish 🤔</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7f66aeb3-c63b-4b9d-8f29-3c360358881b">Set Up 🔨</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f6bdffe4-d84b-4e25-8560-8f381112a998">Getting Started ⏳</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#bf120842-a5be-4295-85a5-7d92fba2d4fe">Ignoring Files</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c337b76f-b403-49f0-a5cc-7c31096d5b91">Going Private (Optional)</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#58e8104c-ddd8-4b8b-936e-c14076757922">🛑 ✋🏼This was a work in progress, FIXED</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#86571ad9-3ba2-42f1-ae0f-1eddcecef349">Dot Env</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f4ea32f7-acf4-436b-a95b-ae8bd220375d">Let’s breathe for a second. 🧘🏽 Ok, that’s enough</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#46109a7e-5e19-4b49-8e18-3d01068ceb22">Missing Content?</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1c80dc94-eebe-4467-8a25-59837f81a817">Let’s aggregate our work!</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#4cec7929-c79e-47d5-945c-ed625db14d92"> /pages</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#d8774cbb-2ea3-4621-bb7c-ee3487b1a72f">/styles</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2d6dae92-83f2-46ab-9c8c-f77319c98c59">Deployment onto Vercel!</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#edcec134-5d2a-4fc8-b57a-aec44c4ab5fa">Completed 🥳</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f75135c9-cc7a-44fa-abcc-b58c8c45322d">Tips/FAQs 🤔</a></div></nav><h2 id="9c26e6f0-fa3a-4f2f-b329-0c4f2c6b4e0d" class="">Description 🗨️</h2><p id="d8eb904d-143e-4d5f-a78a-adda74dc13b1" class="">This workshop aims to teach you how to use an open-source library for your personal use and to deploy a new NextJS Project with your new blog powered by the Notion API.</p><h2 id="d961383a-4cf1-4b5e-85c7-815b9d533400" class="">Requirements 📃</h2><p id="352d50d7-78b6-4716-b62b-d0908c38977b" class="">This workshop supplements the previous workshop where we created a NextJS web app and deployed our portfolio site onto Vercel. If you have not completed the previous workshop, feel free to <a href="https://github.com/ggiande/NextJSWorkshop">clone my repo</a> and use it as the basis for this workshop.</p><blockquote id="12b3313e-61f7-4067-a6f4-429ec47345d9" class="">There is a TIPS and FAQs Section at the bottom; use it if you get stuck; otherwise, just ask!!!</blockquote><h2 id="55a7ba7e-201a-4208-b8d4-304714a0f7ad" class="">Want to Accomplish 🤔</h2><ul id="75965412-96d2-4101-95a5-876cbb4dafcf" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Learn a bit about open-source</span></li></ul><ul id="0435cf89-e9ca-4329-809c-30c2f9879f60" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Learn to read the documentation from a library</span></li></ul><ul id="46e4ead4-315f-48be-a058-cf70b3e2355c" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Learn to use open source code for personal projects</span></li></ul><ul id="189b06be-f201-4c2d-b281-d7d2b9d73f15" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Dive right into using the Notion API</span></li></ul><ul id="d27aacb4-bc48-4e8c-acdc-93f8849afd30" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Recreate our portfolio with an addition of a blog using the Notion API</span></li></ul><ul id="238c0b39-4325-48f4-842d-ee9274d429e6" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Deploy our portfolio with our blog onto Vercel</span></li></ul><h2 id="7f66aeb3-c63b-4b9d-8f29-3c360358881b" class="">Set Up 🔨</h2><p id="9d51f6f2-19ff-43cb-9de0-53c13f48b63e" class="">Clone the following repository into a local directory: <a href="https://github.com/NotionX/react-notion-x">https://github.com/NotionX/react-notion-x</a> and launch the repository in VSCode.</p><p id="dc4e8358-3862-4f8d-8a2b-459312282274" class=""><code>git clone git@github.com:NotionX/react-notion-x.git</code></p><p id="78576854-dd79-441f-8207-1a30300cc303" class="">Run the following commands inside of <code>react-notion-x/examples/minimal</code></p><pre id="389ef3b9-a104-486b-b832-9f0264d97c4f" class="code"><code>npm install --global yarn
+yarn upgrade next@latest
+yarn upgrade react@latest react-dom@latest
+yarn install
+npm install
+yarn dev</code></pre><blockquote id="76107b9d-35ca-4960-90b0-4c4847b00281" class="">Tread carefully</blockquote><p id="e6d61a9d-b96a-4b02-b239-d1e1c9a1ba08" class="">You should now see the following:</p><figure id="2ae0bc02-478d-4d90-91cb-1323353caf15" class="image"><a href="Workshop%203%204%20-%20Notion%20API%20+%20react-notion-x%202ae0bc02478d4d9091cb1323353caf15/Untitled.png"><img style="width:528px" src="Workshop%203%204%20-%20Notion%20API%20+%20react-notion-x%202ae0bc02478d4d9091cb1323353caf15/Untitled.png"/></a></figure><p id="689d179c-85ff-49fc-afae-688ffdbbdabf" class="">We aim to adopt the source code from this repository into our repo. The reason is that our website had a section for a blog. The Notion API will serve as our Content Management System for our blog.</p><p id="a6aa233b-84bc-4265-b4f3-9137ed072765" class="">We want to change the current Notion Page that it is observing to our workspace. Follow the steps in #getting-started to get our app&#x27;s necessary ids and credentials. This should’ve been completed in the onboarding for notion page.</p><figure id="3c04e520-b099-40ea-a8f6-d711452c3bc9"><a href="https://developers.notion.com/docs/getting-started" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Start building with the Notion API</div><div class="bookmark-description">If you&#x27;re new to the Notion API, you&#x27;ve come to the right place. Join the Notion developer community on Slack. In this guide you&#x27;ll learn how to use the Notion JavaScript client library to add an entry to a database in your Notion workspace.</div></div><div class="bookmark-href"><img src="https://files.readme.io/4029db5-favicon.ico" class="icon bookmark-icon"/>https://developers.notion.com/docs/getting-started</div></div><img src="https://files.readme.io/1ad9981-develeper-portal-meta.png" class="bookmark-image"/></a></figure><h2 id="f6bdffe4-d84b-4e25-8560-8f381112a998" class="">Getting Started ⏳</h2><p id="f93c7343-239e-4df1-a3f0-c40c85597833" class="">The first thing we’ll do to make this source code a little more personal is to set the current page to point to a public notion workspace. Feel free to use the CS Club’s Temporary site as an example.</p><p id="64d4a773-1dc9-4c0f-b898-1b28d42dce23" class="">Page Id: <code>29e1663fd608474b863cef6ee942ab23</code></p><p id="20099af3-83e7-4328-8df8-57985e37d439" class="">We can accomplish this by visiting the <code>config.ts</code> file and changing the constant rootNotionPageId to our desired Page Id.</p><p id="41845218-a6bf-4675-9d6c-86d93b6b6a15" class=""><code>export const rootNotionPageId = &#x27;29e1663fd608474b863cef6ee942ab23&#x27;</code></p><p id="f76fa5f6-75c5-4e34-8f9a-4fc4c385e8aa" class="">For reference, this is how I determined the Page Id:</p><figure id="19eab508-4c6d-4a2e-b75c-8ad1caec26a7" class="image"><a href="Workshop%203%204%20-%20Notion%20API%20+%20react-notion-x%202ae0bc02478d4d9091cb1323353caf15/Untitled%201.png"><img style="width:1388px" src="Workshop%203%204%20-%20Notion%20API%20+%20react-notion-x%202ae0bc02478d4d9091cb1323353caf15/Untitled%201.png"/></a></figure><p id="0fa98bf7-f195-487f-9a86-65a02a8ef9ff" class="">Your page should now look like the following:</p><figure id="dbb89c79-9598-463a-8760-71b6886c9767" class="image"><a href="Workshop%203%204%20-%20Notion%20API%20+%20react-notion-x%202ae0bc02478d4d9091cb1323353caf15/Screen_Shot_2022-04-16_at_9.18.18_PM.png"><img style="width:432px" src="Workshop%203%204%20-%20Notion%20API%20+%20react-notion-x%202ae0bc02478d4d9091cb1323353caf15/Screen_Shot_2022-04-16_at_9.18.18_PM.png"/></a></figure><p id="078a71da-b3c8-4c9c-b61e-73cbf10fc6d7" class="">Light mode is for nerds; let’s change it to 🌘Dark Mode 😎</p><p id="f6bcd891-5cf5-4f6a-abf8-ff48845fa804" class="">Inside of <code>NotionPage.tsx</code> we can change one of NotionRender’s states from false to <code>darkMode={true}</code></p><h2 id="bf120842-a5be-4295-85a5-7d92fba2d4fe" class="">Ignoring Files</h2><p id="e5401766-1c8f-4929-bd08-3713e2171e2b" class="">Add the attached <code>.gitignore</code> file to the root of the <code>minimal</code> project. We want to make sure that we are not committing any unnecessary code!<div class="indented"><figure id="11a30e85-d2f3-4f33-a272-a59fac0eae81"><div class="source"><a href="Workshop%203%204%20-%20Notion%20API%20+%20react-notion-x%202ae0bc02478d4d9091cb1323353caf15.gitignore">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/00c6b783-f23a-49b7-8c7e-240e4a2cb782/.gitignore</a></div></figure></div></p><h2 id="c337b76f-b403-49f0-a5cc-7c31096d5b91" class="">Going Private (Optional)</h2><p id="a6aab2ac-b4d4-40c2-9e6b-9282b342685b" class="">We can use a private Notion workspace if we do not want the world to see our private pages in that workspace. To do so, there are extra steps involved.</p><h3 id="58e8104c-ddd8-4b8b-936e-c14076757922" class="">🛑 ✋🏼This was a work in progress, FIXED</h3><figure id="ad5cd1e0-0696-46e7-a380-ddaa16884587"><a href="https://github.com/NotionX/react-notion-x/issues/267" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">401 Error on accessing the private notion page using Auth token. · Issue #267 · NotionX/react-notion-x</div><div class="bookmark-description">Description 401 Error on accessing the private notion page using Auth token. export const notion = new NotionAPI( {authToken: notionToken}); im using the above code as mentioned in react-notion-x. Please help me with this issue.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/NotionX/react-notion-x/issues/267</div></div><img src="https://opengraph.githubassets.com/209ff4a221b86e5376d6aad43397c4949b65695efc02d5a05a2aa9389997d323/NotionX/react-notion-x/issues/267" class="bookmark-image"/></a></figure><p id="92171d7f-ea49-4577-aa6b-92368f627fbe" class="">⁉️ No longer a WIP, I found the solution after some exploration.</p><p id="4cfd493d-696b-4167-a93f-24aacab8280c" class="">🗒️ Note: There is a 🐞bug that appears where the page Id cannot be found. In this situation, <strong>restart</strong> the localhost.</p><p id="5968b0f0-821f-4383-8eb6-ecfae434a7ef" class="">For accessing private pages, make sure to give your client access to the authToken and activeUser. Both can be retrieved from within your site, as long as it is open. </p><blockquote id="8b240abe-906c-4971-9d19-7f2ecd3e253a" class="">Open your dev tools &gt; Application &gt; Cookie &gt; and copy/paste the token_v2 AND notion_user_id. Respectively, activeUser: notion_user_id, authToken: token_v2.</blockquote><p id="b042eb63-1fc5-4f30-a3be-51c9601ccc05" class="">Here was my code snippet for the client usage:</p><pre id="53e50a36-e45f-484b-acf1-b435259f5c1f" class="code"><code>const notion = new NotionAPI({
+  activeUser: process.env.NOTION_ACTIVE_USER, 
+  authToken: process.env.COOKIE
+  })</code></pre><h2 id="86571ad9-3ba2-42f1-ae0f-1eddcecef349" class="">Dot Env</h2><p id="2d7dbee7-7775-411c-9ab6-e40ae0e14348" class="">As you can see above, we are referencing something like <code>process.env.NOTION_ACTIVE_USER</code> . We are calling for a key-value pair from a <code>.env</code> file. Create a <code>.env</code> file at the root of your directory. Make sure that your <code>.gitignore</code> has <code>.env</code> in it! We do this to make sure that our secrets remain a secret. Restart the local host instance and you should see an info prompt at the bottom from NextJS.</p><p id="927f49ed-6d3c-4464-823a-0948983a4f93" class=""><mark class="highlight-blue"><code>info</code></mark><code> - Loaded env from /Users/UserName/Directory/workshops/minimal/.env</code></p><p id="d10bec3a-2867-453a-8ec7-8943d905197a" class=""><em>With all your credentials and pageIds changed, launch your private page! (If you chose to do the optional stage...)</em></p><hr id="c64820da-d154-4b4f-a5e8-d4e7c3e2cee2"/><h2 id="f4ea32f7-acf4-436b-a95b-ae8bd220375d" class="">Let’s breathe for a second. 🧘🏽 Ok, that’s enough</h2><h2 id="46109a7e-5e19-4b49-8e18-3d01068ceb22" class="">Missing Content?</h2><p id="286159b0-ea71-4c15-a2be-e1baba0ee71c" class="">Reading the documentation from this repo will let you know why!</p><figure id="ef1e905c-da80-4c71-a85a-73878f93756c"><a href="https://github.com/NotionX/react-notion-x#optional-components" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">GitHub - NotionX/react-notion-x: Fast and accurate React renderer for Notion. TS batteries included. ⚡️</div><div class="bookmark-description">Fast and accurate React renderer for Notion. TS batteries included. ⚡️ - GitHub - NotionX/react-notion-x: Fast and accurate React renderer for Notion. TS batteries included. ⚡️</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/NotionX/react-notion-x#optional-components</div></div><img src="https://opengraph.githubassets.com/aa2fa1ffde42fa1b97f44bfebf9a50088a6a470e69fe78e37cecf885f40593d4/NotionX/react-notion-x" class="bookmark-image"/></a></figure><h2 id="1c80dc94-eebe-4467-8a25-59837f81a817" class="">Let’s aggregate our work!</h2><p id="96c4610d-440d-4a92-8fc3-41afde332ed7" class="">Now that we have gone as far as we can with the Notion API and rendered a basic page, we can begin to explore the possibility that we can make this into a blog.</p><hr id="f7b06f6a-315f-439f-8e76-4ead7dc72ee4"/><p id="3ee36dd3-eeeb-4afb-8122-fe132d4f7ffa" class="">I will use the word <code>minimal</code>  and <code>NextJS Project</code> to reference the two different folders. </p><div id="d3fe3f19-ea83-4681-adbb-b09f302a3c1f" class="column-list"><div id="75954ce6-d54b-4ce6-89c5-cdeb2159f954" style="width:50%" class="column"><p id="ad5788a2-494c-4904-895b-dc6690eff716" class=""><strong>minimal</strong></p><ul id="e2fcf69f-9244-4b72-aa0c-6dd045337b9f" class="bulleted-list"><li style="list-style-type:disc">The project we cloned from <code>react-notion-x</code></li></ul></div><div id="20c05739-51d2-48c1-a815-bdfd8fd68726" style="width:50%" class="column"><p id="ecf2d739-26f1-4ca2-97da-5829a67705c3" class=""><strong>NextJS Project</strong></p><ul id="5550f7e6-6051-4436-a5f1-448d92a3f2da" class="bulleted-list"><li style="list-style-type:disc">The project we used to deploy our migrated personal portfolio (previous) </li></ul></div></div><hr id="d8934543-c2a5-40f7-a342-57905f37272c"/><ol type="1" id="b1518f2c-389f-42e6-aef4-ed5de0d811c1" class="numbered-list" start="1"><li>First, let’s separate our minimal project from the rest of the repository. Move the <code>minimal</code> folder next to the directory where your NextJS project exists. <em>We are doing this to make things easier for us!</em></li></ol><ol type="1" id="64f13f9b-7aef-4d28-aa89-02425aa5fd85" class="numbered-list" start="2"><li>Secondly, run your <code>minimal</code> project again to ensure that it works as expected.<ol type="a" id="3abde23e-1c39-44d2-a59a-62cbf0ba851b" class="numbered-list" start="1"><li>Run<code>npm run dev</code> inside of the project.</li></ol><ol type="a" id="903e6e85-a220-4a04-a9a6-16a59583e7b4" class="numbered-list" start="2"><li>Stop the local host once you make sure that it works</li></ol></li></ol><ol type="1" id="8041dee1-c30a-4986-b0e5-723a39c587a5" class="numbered-list" start="3"><li>Thirdly, manually move over your files from one project to the next 😉. Given that the <code>minimal</code> project has the greatest number of files, we will move our <code>NextJS Project</code> files over to the <code>minimal</code> project. This will also save us from the pain of converting our <a href="https://nextjs.org/docs/basic-features/typescript#existing-projects">existing project into a typescript project</a>. <ol type="a" id="bb4c1f5f-c99c-4205-a8be-6d64c0773844" class="numbered-list" start="1"><li>Keep in mind that the <code>minimal</code> project already has a root page and it’s <code>index.tsx</code>. To make sure that we smoothly move things over, we can create a <code>blog.tsx</code> page in the <code>/pages</code> folder and copy and paste everything from the <code>index.tsx</code> file over to the <code>blog.tsx</code> file.</li></ol></li></ol><ol type="1" id="c87e4fc3-b349-4689-bdf2-b0d466c558a8" class="numbered-list" start="4"><li>We rename all file extensions to end in <code>tsx</code> instead of <code>.js</code>, reason being, the <code>minimal</code> project is using typescript and javascript under the hood.</li></ol><ol type="1" id="78d6ad58-53c6-4dc0-9741-270e305aff13" class="numbered-list" start="5"><li>The next part will be tricky. We need to migrate our current code from <code>index.tsx</code> over to a new file named <code>blog.tsx</code></li></ol><p id="1b93d07a-3906-4645-bdeb-ed96fca084d1" class="">
+</p><h3 id="4cec7929-c79e-47d5-945c-ed625db14d92" class=""> /pages</h3><ul id="1dcd6a3a-3b5d-4bc9-a520-8d5a988f3f2a" class="bulleted-list"><li style="list-style-type:disc">about.js (unfinished)</li></ul><ul id="44b67acd-a586-4101-bac6-dec59669016b" class="bulleted-list"><li style="list-style-type:disc">🚨index.js → This can go into a new file</li></ul><ul id="cb03b133-0bf9-464e-a097-30c928036de0" class="bulleted-list"><li style="list-style-type:disc">index.ts → blog.tsx (should now have the <code>index.tsx</code> code)</li></ul><ul id="c7842ea4-234f-4825-af50-1c90eb2224e7" class="bulleted-list"><li style="list-style-type:disc">projects.js (unfinished)</li></ul><ul id="aba7a540-4a85-40ea-9724-76d69e8a9a34" class="bulleted-list"><li style="list-style-type:disc">index.js → index.tsx (Empty after moving code to <code>blog.tsx</code>)</li></ul><h3 id="d8774cbb-2ea3-4621-bb7c-ee3487b1a72f" class="">/styles</h3><ul id="bfb6ef8e-b23d-447a-ae7f-c6ba06947693" class="bulleted-list"><li style="list-style-type:disc">Home.module.css ‼️</li></ul><h2 id="2d6dae92-83f2-46ab-9c8c-f77319c98c59" class="">Deployment onto Vercel!</h2><p id="81f176e0-b6fe-4f77-85a6-09892504081f" class="">As before, we will make a new github repo for the sake of NOT doing <code>git push -f</code> to our other repos 😊</p><figure id="1c770361-06f4-4231-a1f0-4845b88af7ca" class="link-to-page"><a href="Workshop%203%204%20-%20Notion%20API%20+%20react-notion-x%202ae0bc02478d4d9091cb1323353caf15/Deploy%20NextJS%20to%20Vercel%201c77036106f44231a1f04845b88af7ca.html"><span class="icon">🕹️</span>Deploy NextJS to Vercel</a></figure><h2 id="edcec134-5d2a-4fc8-b57a-aec44c4ab5fa" class="">Completed 🥳</h2><ul id="34324a25-d143-4675-ab86-270dedf32d7b" class="to-do-list"><li><div class="checkbox checkbox-on"></div> <span class="to-do-children-checked">Learn a bit about open-source</span></li></ul><ul id="8dc7dd4c-d34c-4b18-bf57-d9518573b1c6" class="to-do-list"><li><div class="checkbox checkbox-on"></div> <span class="to-do-children-checked">Learn to read the documentation from a library</span></li></ul><ul id="5b383cf8-4b2a-4fd8-9f80-54bea523e716" class="to-do-list"><li><div class="checkbox checkbox-on"></div> <span class="to-do-children-checked">Learn to use open source code for personal projects</span></li></ul><ul id="cf4bdc65-8ec8-4b9d-8c12-fcd26ec60082" class="to-do-list"><li><div class="checkbox checkbox-on"></div> <span class="to-do-children-checked">Dive right into using the Notion API</span></li></ul><ul id="cb6de303-7a6a-4189-85b7-e1fd3f0ac61a" class="to-do-list"><li><div class="checkbox checkbox-on"></div> <span class="to-do-children-checked">Recreate our portfolio with an addition of a blog using the Notion API</span></li></ul><ul id="e676bc99-128f-429c-a8b2-1dafc1c0b386" class="to-do-list"><li><div class="checkbox checkbox-on"></div> <span class="to-do-children-checked">Deploy our portfolio with our blog onto Vercel</span></li></ul><h2 id="f75135c9-cc7a-44fa-abcc-b58c8c45322d" class="">Tips/FAQs 🤔</h2><ol type="1" id="9917cde4-b364-448f-b83e-d677745e7c98" class="numbered-list" start="1"><li>If you are on mac and cannot view some files on your finder because they are hidden, hit the following strokes in succession → <strong>⌘</strong> + <strong>⇧</strong> + .</li></ol><ol type="1" id="0cf5bca0-3f12-4e02-b08b-9cee190c2550" class="numbered-list" start="2"><li>If you run into errors when trying to run <code>npm run dev</code> make sure to have the expected <code>nodejs</code> version. If you are unsure of it, check the documentation for the Github repository and NextJS.</li></ol><ol type="1" id="97dbd7e4-b1a8-4284-86e1-a909965f1472" class="numbered-list" start="3"><li>🗒️ Note: There is a 🐞bug that appears where the page Id cannot be found. In this situation, <strong>restart</strong> the local host.</li></ol><ol type="1" id="8c1c1b23-d824-4e0d-98ec-8b54cb0ebcfd" class="numbered-list" start="4"><li>Q: Can I run <code>yarn run</code> instead of <code>npm run dev</code>? A: Yes, but just know that we are using <code>npm</code> because it is easier to debug. 🐛</li></ol><ol type="1" id="59c64a75-6e60-48b5-9e90-277b679be189" class="numbered-list" start="5"><li>Q: What if I get a <strong>pageId</strong> error? A: It depends on what step you are at; there’s a chance your URLs at some point are a bit messed up.</li></ol><ol type="1" id="00fbbe1c-fd92-4a89-bfae-1f432efe4c29" class="numbered-list" start="6"><li>Q: I see the error: Cannot find module, <code>@next/bundle-analyzer</code> , what do I do? A: Install the bundler: <code>npm install @next/bundle-analyzer</code></li></ol><ol type="1" id="202f0460-9bc8-4786-9ced-6d3e85702e39" class="numbered-list" start="7"><li>Q: What do I do if add yarn types issue arose during deployment? A: Make sure to install Yarn using npm: <code>npm install --global yarn</code>. Push your changes again</li></ol><ol type="1" id="d16894b4-9ad6-4f5a-823c-3e856cdd689c" class="numbered-list" start="8"><li>Q: Do I need to do the optional step? A: No, if you do not want to, you do not have to, but to demonstrate authorization for APIs, I will cover this.</li></ol><ol type="1" id="391f3072-eca7-4f6f-a4ec-1c3964c405b2" class="numbered-list" start="9"><li>Q: Do I need to be familiar with Notion and have an account to attend this workshop? A: Yes and No. Check out Notion real quick; make an account if you’d like. If you are an AVID user, then this workshop is for you. ❤️</li></ol><ol type="1" id="e6c73501-b5dc-48cd-8d2d-6b3af5710897" class="numbered-list" start="10"><li>If you get stuck, ask questions!!!!</li></ol><p id="26f91312-c30a-40bb-925c-d517c2b38c13" class="">
+</p></div></article></body></html>

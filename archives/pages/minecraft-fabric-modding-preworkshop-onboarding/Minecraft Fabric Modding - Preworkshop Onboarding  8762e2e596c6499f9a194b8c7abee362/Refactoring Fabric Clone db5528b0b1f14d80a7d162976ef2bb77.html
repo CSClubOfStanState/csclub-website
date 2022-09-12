@@ -1,0 +1,690 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Refactoring Fabric Clone</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="db5528b0-b1f1-4d80-a7d1-62976ef2bb77" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">⏱️</span></div><h1 class="page-title">Refactoring Fabric Clone</h1></header><div class="page-body"><p id="7d0d81d8-8e2c-4417-ad46-f63b5eb97dd8" class="">To get modding, we’ll download the example fabric project the developers made for us, which is a very handy template. In all honesty, any time you want to create a new fabric project, it’s probably easiest to download this template fresh and then rename folders to best suit your project. This is exactly what we’ll do. To start, we’ll go to this link:</p><p id="fbcd85a9-6028-499b-a89e-fb5ec323e53d" class=""><a href="https://fabricmc.net/develop/">https://fabricmc.net/develop/</a></p><p id="88ac35c6-1d96-4d98-a430-522ea0119581" class="">The top has a link to the Fabric wiki for lots of helpful information on basic and advanced modding instructions, and a link to the Github repository for the example mod. It also includes documentation on the Fabric API for loading mods, Yarn, and the Fabric Loader for those more technically interested in Fabric’s development. 
+
+It also includes a snippet of code used in an important Gradle file in the project that tells Gradle what version of Yarn and the Loader to use, what version of Minecraft this mod is for, and what version of Fabric to use. All of this comes with the example project, so we don’t need to worry about it, but if you plan on modding for a different version than 1.18.1, you can select your version and then paste that code into your project.</p><h1 id="e0636d67-8727-4068-b7c0-ec629f8f87a7" class="">Organization</h1><p id="4345d483-71a9-4d16-817e-5bb5827c1a61" class="">We should first organize ourselves. I renamed many of my packages and files to something that I prefer, and should you do the same. You will have to be mindful of what changes you made when comparing your code to mine. This is highly recommended so you can get a feel of how to move files and packages around in IntelliJ, though feel free to rename things to something you prefer. Here’s what I did:</p><ol type="1" id="baf93667-877d-4ca6-9ed0-6433572d90b4" class="numbered-list" start="1"><li><strong>Switched format to “Project Files.”</strong> Towards the top left, right above your main folder for fabric-example-mod (or whatever you renamed it), there should be a smaller icon that says “Package” by default. This condenses a bunch of folders together for you if they’re empty, which we don’t want. We want to see every folder, so click on that and instead select “Project Files.” Now we will see the entire project’s structure, no shorthanding.</li></ol><ol type="1" id="f3a506be-6d2f-4dcb-a483-d12cec358c71" class="numbered-list" start="2"><li><strong>Renamed fabricmc package to ‘workshop’ and removed the example package.</strong> The base template has the following structure for our java classes and main file: java/net/fabricmc/example/... which I do not like. I instead moved the mixin package (another name for a java folder) and ExampleMod into fabricmc. You can do this by highlighting and dragging the package and file to the icon for fabricmc. Then I deleted the example package. Make sure to move mixins and the main file BEFORE deleting the example package, else you’ll delete your important files. I then renamed ‘fabricmc’ to ‘workshop’ (right click on the package, select Refactor, then Rename is the first option). IntelliJ may prompt you on if you want to just rename the package or redo other instances where it’s referenced. Say you want it to refactor other instances too.  <strong><em>Do Refactor</em></strong><figure id="b9ca696a-66d3-43cf-a1b5-35107cebb9b2" class="image"><a href="Refactoring%20Fabric%20Clone%20db5528b0b1f14d80a7d162976ef2bb77/one_rename_remove.gif"><img style="width:1571px" src="Refactoring%20Fabric%20Clone%20db5528b0b1f14d80a7d162976ef2bb77/one_rename_remove.gif"/></a></figure><p id="c0661811-4e3f-4cad-b418-4c5ba538f012" class="">
+</p></li></ol><ol type="1" id="e4c007d5-c34f-4c97-9224-20c26d3bdf1e" class="numbered-list" start="3"><li><strong>Renamed ExampleMod main class file to just ‘main’.</strong> This is because we will reference the main file multiple times, so having a short name is nice. Plus, main should not show up again in any class or file name, so it’s easy to avoid close-looking names. <strong><em>Do Refactor</em></strong></li></ol><ol type="1" id="ebf36a83-b263-4cab-9828-d73b68d6c2a5" class="numbered-list" start="4"><li><strong>Deleted ExampleMixin file.</strong> Mixins are a pretty dense concept we will not be using for awhile, so we don’t need to worry about them for now. Hold onto the mixin package, however, as we will eventually use it. Just not now. <strong><em>Delete Anyway</em></strong></li></ol><ol type="1" id="b2a15a2a-c4cc-4588-99bb-09e97eee5240" class="numbered-list" start="5"><li><strong>Created a new package in ‘workshop’ called ‘init’.</strong> This stands for initialization, as in the place where we’ll declare and register all of our new items. Right-click on the parent package of main (mine is ‘workshop’) and select New, then select Package. Name this folder ‘init’ or something that tells you that this is where we declare and register all our modded stuff.</li></ol><ol type="1" id="8057d568-2231-4e51-b597-c3acaeb6f632" class="numbered-list" start="6"><li><strong>Renamed ‘modid’ directory in resources to ‘workshop’.</strong> This is to be consistent with the changes made both in the java folder and what we’ll do later in the main class. Under resources &gt; assets, there should be a directory (a resource folder) called modid. I renamed that to ‘workshop’, so you should rename it to whatever you renamed fabricmc before, as per step 1 above.<ol type="a" id="8d29cc1f-6dc0-4d1b-b58d-723dffc6a62c" class="numbered-list" start="1"><li><strong><em>Pro Tip:</em></strong> any time a path is mentioned in the java folder, it uses periods ( . ), and any time a path goes to resources, it uses forward slashes ( / ).</li></ol><figure id="2a728704-9946-42bc-968b-3e3a48d91a9d" class="image"><a href="Refactoring%20Fabric%20Clone%20db5528b0b1f14d80a7d162976ef2bb77/renamed_modid.gif"><img style="width:1481px" src="Refactoring%20Fabric%20Clone%20db5528b0b1f14d80a7d162976ef2bb77/renamed_modid.gif"/></a></figure></li></ol><ol type="1" id="a88259a1-5b79-42f4-a2a1-82d8a3d9f665" class="numbered-list" start="7"><li><strong>Renamed ‘modid.mixins.json’ to ‘workshop.mixins.json’, and cleaned up its contents.</strong> This file lists off all the mixins the mod uses and where to find them. First, I renamed it so the first part was ‘workshop’ instead of the generic ‘modid’. Then, I opened the file and checked its contents. The “package” should point to the directory for the mixin package (mine is net.workshop.mixin). Then, it has an array listing all mixins. That should now be empty since we deleted the one example mixin, so if there’s anything in it, delete it so it just looks like [], like this:<pre id="ec5a093d-f6bd-4dc7-bb06-a3990999540f" class="code"><code>{
+  &quot;required&quot;: true,
+  &quot;minVersion&quot;: &quot;0.8&quot;,
+  &quot;package&quot;: &quot;net.workshop.mixin&quot;,
+  &quot;compatibilityLevel&quot;: &quot;JAVA_16&quot;,
+  &quot;mixins&quot;: [],
+  &quot;client&quot;: [],
+  &quot;injectors&quot;: {
+    &quot;defaultRequire&quot;: 1
+  }
+}</code></pre><p id="b299f118-5a28-4340-9d15-7d14a03d012c" class="">If you’ve followed the previous steps, everything else should be the same.</p></li></ol><ol type="1" id="70d067f5-a866-478c-a10a-addbfe0ec2a6" class="numbered-list" start="8"><li><strong>Double-checked fabric.mod.json file. </strong>This file is very important. It tells the mod where to find the mixins.json file, our mod icon png, and our main file. We should not need to touch anything else in here, so we will change these three things with caution. <ol type="a" id="3055c040-f456-4adf-a9df-9681edc03d33" class="numbered-list" start="1"><li>First, find the “icon” listing and ensure its path is the same as the icon.png (mine is assets/workshop/icon.png) in quotation marks.</li></ol><ol type="a" id="dd082bf9-e96e-416c-b12a-5221cf24f94c" class="numbered-list" start="2"><li>Next, find the “main” listing under “entrypoints” and ensure its path is the same as the main class (mine is net.workshop.main) in quotation marks.</li></ol><ol type="a" id="d6ce988b-5b61-4ec4-ac57-c129afab2923" class="numbered-list" start="3"><li>Last, find the “mixins” listing just under that and double check its name (mine is workshop.mixins.json). This is NOT a path, it looks for this .json file directly in the resources folder.</li></ol><pre id="c98abe1e-c4b6-436b-83f4-0b4db9832800" class="code"><code>&quot;license&quot;: &quot;CC0-1.0&quot;,
+  &quot;icon&quot;: &quot;assets/workshop/icon.png&quot;,
+
+  &quot;environment&quot;: &quot;*&quot;,
+  &quot;entrypoints&quot;: {
+    &quot;main&quot;: [&quot;net.workshop.main&quot;]
+  },
+  &quot;mixins&quot;: [&quot;workshop.mixins.json&quot;],</code></pre></li></ol><p id="6021e7f4-9c95-42ba-a283-58a00763e8b1" class="">Now that we’ve organized all of this, we can set up our <strong>main </strong>class. Open up your main class and take a look at some of the comments left by the developers. Their warning about using this class directly will be noted, which is why we separated our init’s. First, check our imports at the top. You can delete all of them, as we’ll only need two for now:</p><pre id="11791853-bdf3-4b3a-9b41-1511f6f80c92" class="code"><code>import net.fabricmc.api.ModInitializer;
+import net.workshop.init.*;</code></pre><p id="cb342a9e-56c2-4de7-8d7a-685186983b4d" class="">Then, under the ‘<strong>public class’</strong> line, we’ll make a global variable that will be the namespace for our mod. The namespace basically is a label for all the items, entities, and anything else we make so we can separate it from Minecraft’s base stuff. The global variable will be:</p><pre id="1449c299-1cd2-4cbc-a7de-19331d87694f" class="code"><code>public static final String MOD_NAME = &quot;workshop&quot;;</code></pre><p id="a962b227-c33d-4576-8c76-c45aaf8f7106" class="">You MUST put in whatever you renamed the modid directory under resources. This namespace tells the registry where to find every resource of each item we make, so we need to point it to the right place, or else none of our resources will work.</p><p id="faee197d-e171-4c08-a806-d2fc4a0dfa58" class="">Lastly, you can see the onInitialize() method, which is the main method. This method will run automatically when the mod starts up every time, so anything else we want to run, we’ll put it in here so the main class will boot it up for us. More on this later.</p></div></article></body></html>

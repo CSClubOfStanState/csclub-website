@@ -1,0 +1,784 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Minecraft Fabric Modding - Workshop 2: Weapons &amp; More Recipes</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="57809104-2df8-4c70-aff7-b2cb9744aabb" class="page sans"><header><img class="page-cover-image" src="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/1%201.png" style="object-position:center 32.089999999999996%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/gilded_netherite_sword%202.png"/></div><h1 class="page-title">Minecraft Fabric Modding - Workshop 2: Weapons &amp; More Recipes</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M7.01356 14.0001C8.8042 14.0001 10.5958 13.3107 11.9575 11.9324C14.681 9.21201 14.6808 4.7603 11.9571 2.04013C9.23336 -0.680043 4.77573 -0.680043 2.05199 2.04013C0.727519 3.36277 0 5.13301 0 6.99553C0 8.8764 0.727811 10.6285 2.05199 11.9509C3.43207 13.3106 5.22243 14.0001 7.01356 14.0001ZM3.72947 7.00914V8.461V8.65543H3.92382H5.34563H8.2794H8.4738V8.461V5.52541V3.37947V3.18502H8.2794H6.82747H6.63307V3.37947V6.81467H3.92382H3.72947V7.00914ZM1.83985 6.99553C1.83985 5.61698 2.38099 4.32597 3.36061 3.3477C5.36746 1.34337 8.64803 1.34062 10.6585 3.33944C10.6613 3.34219 10.6639 3.34494 10.6668 3.3477C12.676 5.3546 12.6763 8.63642 10.6668 10.6434C8.65705 12.6504 5.37031 12.6504 3.36061 10.6434C2.38099 9.66506 1.83985 8.37408 1.83985 6.99553Z"></path></svg></span>Created</th><td><time>@January 27, 2022 7:04 PM</time></td></tr><tr class="property-row property-row-multi_select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>Tags</th><td></td></tr></tbody></table></header><div class="page-body"><p id="2bc7f47e-626e-4418-a764-c91a01159a4b" class="">Estimated Time: ~44:00</p><h1 id="eaf452d0-3747-46b0-b263-50486f410911" class="">Overview</h1><p id="9a220564-b241-4f47-9455-2bf1680fcef1" class="">This workshop will begin to delve into more complex concepts in Java and Fabric coding, including things like discussing superclasses and attributes. We will check off these items:</p><ul id="d30aabef-be57-46db-8655-c9fc80339a66" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Declaring tool &amp; weapon items</span></li></ul><ul id="95b73a29-57c0-4b21-895b-79d9a7f08055" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">How to create &amp; implement a superclass</span></li></ul><ul id="ab9bc252-3062-4a09-b072-e3ea65f87abb" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">How to declare object attributes w/ source references</span></li></ul><ul id="45722587-734d-4bfd-b608-c24520008115" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">How to declare attributes w/ modded attributes</span></li></ul><p id="b80eed2c-5861-4a5c-b585-160cc18d2999" class="">Like before, there are several pages on the Wiki that can assist in this exploration, many of which will be linked so you can refer back to them at any time. Feel free to explore the Wiki in more depth during and after this workshop to see what else you can do with items. I’ll also include some of the fabric wiki pages from the last workshop in case you need a reminder on some of them:</p><ul id="126d7179-ecfc-49e0-a808-ee06b6efe547" class="bulleted-list"><li style="list-style-type:disc">Tools: <a href="https://fabricmc.net/wiki/tutorial:tools">https://fabricmc.net/wiki/tutorial:tools</a></li></ul><ul id="9ec00a8e-7d8c-4e6f-b04d-12cc279092e2" class="bulleted-list"><li style="list-style-type:disc">Adding an Item: <a href="https://fabricmc.net/wiki/tutorial:items">https://fabricmc.net/wiki/tutorial:items</a></li></ul><ul id="2e372ee7-c5c3-431e-8928-ad2e939d5638" class="bulleted-list"><li style="list-style-type:disc">Recipes: <a href="https://fabricmc.net/wiki/tutorial:recipes">https://fabricmc.net/wiki/tutorial:recipes</a></li></ul><ul id="15524337-41e7-4e1a-849c-512844e4bf06" class="bulleted-list"><li style="list-style-type:disc">Minecraft Tool Tiers: <a href="https://minecraft.fandom.com/wiki/Tiers">https://minecraft.fandom.com/wiki/Tiers</a></li></ul><p id="e2274be8-ef35-422e-8a3b-5d9c56811c4a" class="">I will be going rather quickly over the material we did in the last workshop to focus on the new stuff, so use your own source code from the last workshop when figuring out how to declare some of these new items. The goal is to make two items: A <span style="border-bottom:0.05em solid">Gilded Netherite Sword</span>, and an <span style="border-bottom:0.05em solid">Emerald Sword</span>. The point again is to compare these items as we make them and see how they are similar and how they differ. As well, compare them to the first two basic items we made and what complications arise from making items with functions.</p><h2 id="2fddcd10-7aca-4b7d-9568-4582d9ceea4f" class="">Tool Tiers</h2><p id="435af451-c3a5-409c-913d-bed42c239bf3" class="">Tool tiers are what determine many of the attributes of tools and weapons in the game, such as damage, mining speed, durability, and enchantability. They exist in a <strong>superclass</strong>, a Java class “above” others that use it to determine functions and details about themselves. You can think of it as a superclass being an “outline” for objects and other classes that use it, which then fill out the details.
+
+<strong>Emerald Tier</strong>
+To start, we’ll place our new tiers in a new package, for the organization. Go to java &gt; net &gt; workshop and make a new package called ‘item’. I like to name item classes with their type in front, then their material. I will make a class called <code>TierEmeraldItem</code>, so alphabetically all the tiers we make are together. There’s a lot that goes inside of this class, so best we just get into it. Here’s the outline, once again replacing anything with &lt;&gt; symbols, <span style="border-bottom:0.05em solid">including the &lt;&gt;</span>:</p><pre id="9ddb68dd-bad6-4253-aa5e-7a75de7e9fed" class="code code-wrap"><code>package net.workshop.item;
+
+public class TierEmeraldItem implements ToolMaterial {
+
+    public static final TierEmeraldItem INSTANCE = new TierEmeraldItem();
+
+    @Override
+    public int getDurability() {
+        return &lt;int&gt;;
+    }
+
+    @Override
+    public float getMiningSpeedMultiplier() {
+        return &lt;float&gt;F;
+    }
+
+    @Override
+    public float getAttackDamage() {
+        return &lt;float&gt;F;
+    }
+
+    @Override
+    public int getMiningLevel() {
+        return &lt;int&gt;;
+    }
+
+    @Override
+    public int getEnchantability() {
+        return &lt;int&gt;;
+    }
+
+    @Override
+    public Ingredient getRepairIngredient() {
+        return Ingredient.ofItems(&lt;item&gt;);
+    }
+}</code></pre><p id="5f42ce31-9183-48db-b758-17eebab35e05" class="">Be sure to import libraries as we go to get rid of those red errors. To discuss all of this, follow <a href="https://minecraft.fandom.com/wiki/Tiers">this link</a> to get an idea of how the base game&#x27;s tiers are structured so you can play around with the numbers as we go through each of these.
+
+The beginning class declaration says that we are creating a new tool class that can then be easily reused for when we make our actual tools later, hence “implements ToolMaterial”. The second line lets us apply those attributes to an item we declare as a TierEmeraldItem. This, unfortunately, needs to be the same as the class name, so we can’t shorten it. Kinda wordy, but it’s a good organization, which makes up for it in my opinion. 
+
+Here’s a chart explaining the different between simply initializing a superclass vs. implementing a superclass (and also extending a superclass, which we’ll do next workshop).</p><p id="cfac988d-6556-41d1-b54b-366b4133fadd" class="">Next are all the attributes of those tools. I would like emerald items to be “glass cannons”, in that they’re very effective, but have very low durability, so I’ll put my numbers for each attribute. Feel free to play around with the numbers and see how they differ from mine, though.</p><ul id="d778b7ec-c6f0-480e-b1e9-94bceb89045c" class="bulleted-list"><li style="list-style-type:disc">getDurability sets the tool durability. The number correlated directly to the number of uses the tool has. I went with 35</li></ul><ul id="55dfb7fc-f393-47bd-be21-c5abf2db6fa3" class="bulleted-list"><li style="list-style-type:disc">getMiningSpeedMultiplier sets the mining speed for breaking valid blocks with such a tool. This multiplier is based on your hand&#x27;s mining speed. I went with 15.0F<ul id="0b43f50d-ad09-4489-a550-660d1ac9d760" class="bulleted-list"><li style="list-style-type:circle">DO NOT delete the F symbol on these numbers, they declare those numbers to be float-point numbers. If you remove them, the code will bug out, since it thinks it’s an integer but tries to apply them to floats</li></ul></li></ul><ul id="5f5693cb-50fe-4e7a-b991-1067b86e7038" class="bulleted-list"><li style="list-style-type:disc">getAttackDamage sets the damage bonus that all tools in this class receive. This is separate from attack bonuses from tools (like how swords and axes have higher base damage). I went with 5.0F</li></ul><ul id="891e73b3-7321-45c1-9cb1-e122b99cb7b0" class="bulleted-list"><li style="list-style-type:disc">getMiningLevel sets how tough of blocks tools in this class can break. This is mainly for pickaxes; a higher level (up to 4) means the tool can break tougher blocks like obsidian and ancient debris. I went with 3</li></ul><ul id="29ff9f99-07ff-4cde-94fd-e8a4df700f20" class="bulleted-list"><li style="list-style-type:disc">getEnchantability sets the probabilities for getting stronger enchantments on tools of this class. Higher numbers mean better chances for stronger enchantments. I went with 30</li></ul><ul id="65c8e9a4-066f-412e-b403-09913ad07fe2" class="bulleted-list"><li style="list-style-type:disc">getRepairIngredient sets the item type needed to repair this tool class at an anvil. This requires you to know the item ID and registry location used by the code, not what appears in-game. For instance, a diamond is <code>Items.DIAMOND</code>, so we just select <span style="border-bottom:0.05em solid"><strong>emerald</strong></span> instead.
+
+<strong>Gilded Netherite Tier
+</strong>We’ll also need to make a tier for gilded netherite tools. This format will look very similar, but I’ll be sure to include the important changes. Make a new class inside of the ‘item’ package called <code>TierGildedNetheriteItem</code>. The body will look identical, change numbers however we see fit, of course, except the <code>public static final</code> variable will swap the name out for this class:</li></ul><p id="b3ce48a0-3bf6-4a80-bcc0-25568260ee0a" class=""><code>public static final TierGildedNetheriteItem INSTANCE = new TierGildedNetheriteItem();</code></p><p id="4e19863b-d227-461a-8640-f9acb269f29c" class="">and the ingredient for getRepairIngredient will have to reference our own modded item. To do this, we will preface the reference with the class we declared it in (ItemInit) and then its all-caps ITEM_NAME. So together, it is <code>ItemInit.GILDED_NETHERITE_INGOT</code>. This means that, rather than import Minecraft’s items, we’ll import our own <code>net.workshop.init.ItemInit;</code>.
+
+Change up numbers however you like for all other attributes. I’d like these tools to be slightly stronger than Netherite ones, so my numbers were, in order: 2048, 10.0F, 4.5F, 4, 20. Again, you can play with these however you’d like.</p><ul id="8917d445-3f12-4247-87c6-162643394978" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Made superclass <code>TierEmeraldItem</code> and completed each attribute</span><ul id="3609f5bb-4ec4-4a0d-b32c-42b0ca50a2f6" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Float values have F next to number</span></li></ul><ul id="072e7378-d359-4cd1-9d1d-e1301d4b2f32" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">repair ingredient is <code>Item.EMERALD</code></span></li></ul></li></ul><ul id="b0e14f93-7385-4094-b2c7-3db6175ea3ff" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Made superclass <code>TierGildedNetheriteItem</code> and completed each attribute</span><ul id="79aed8c5-58bd-4427-a422-bc90931ab688" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Float values have F next to them</span></li></ul><ul id="c215dce9-c736-44c9-a152-99b65e6d4857" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">repair ingredient is <code>ItemInit.GILDED_NETHERITE_INGOT</code></span></li></ul></li></ul><p id="f6349e3c-1af1-4fd5-873c-75a1b51bf9c8" class="">Again, be sure to clear those imports. You can see that it references some of the stuff we just declared, like attackDamage and material. When we actually declare the Gilded Netherite Pickaxe, it will use this superclass to place the numbers we give it and use them to build the item in the game. 
+
+With all classes completed, now we can declare our new tools!</p><h2 id="e97f66ab-59b3-4eb5-925f-3f9d7bd8b9bb" class="">Declaring Tools &amp; Weapons</h2><p id="59341822-3e95-4dfd-9645-f26f1380fa66" class="">Now we need to move back to our ‘ItemInit’ class and add the lines to first declare then register our new weapons, like what we did last time. Of course, these are not basic items, so their declarations will include more detail. 
+
+Firstly, it’s good practice to separate our items with some indents and commas so we can better organize our different declarations. I put the items we made last time first, then broke off for the tools, then weapons. Something like this:</p><pre id="b7eb883c-b406-475c-b6a7-c948eaef1f44" class="code code-wrap"><code>// Items
+public static final Item BRILLIANT_ALLOY= 
+	new Item(new FabricItem Settings().group(ItemGroup.MISC));
+public static final Item GILDED_NETHERITE_INGOT= 
+	new Item(new FabricItemSettings().group(ItemGroup.MISC).rarity(Rarity.RARE));
+
+// Weapons
+&lt;sword declarations&gt;
+
+public void registerItems() {</code></pre><p id="b44eb7c5-100b-42b9-88cf-6e7653ddb61c" class="">Of course we’ll fill in those declarations with actual code. Tools and weapons both follow this format:</p><pre id="31ca8604-f7a4-437a-a525-eecf547f674d" class="code code-wrap"><code>public static &lt;superclass&gt; &lt;ITEM_NAME&gt; = 
+	new &lt;superclass&gt;(&lt;tier&gt;, &lt;int baseDamage&gt;, &lt;float swingSpeed&gt;, new Item.Settings().group(ItemGroup.COMBAT));</code></pre><p id="3354e057-bbb6-472c-a42f-a76e209e5542" class="">This is lengthy and annoying to navigate through, so it may serve you well to ENTER around the commas to make a more readable list of attributes. You can use this structure just fine:</p><pre id="88fe7bdc-79fa-4233-be2d-1e8b2bf28d4d" class="code"><code>public static &lt;superclass&gt; &lt;ITEM_NAME&gt; = 
+	new &lt;superclass&gt;(
+		&lt;tier&gt;, 
+		&lt;int baseDamage&gt;, 
+		&lt;float swingSpeed&gt;, 
+		new Item.Settings().group(ItemGroup.&lt;group&gt;));</code></pre><p id="50cc3855-60a1-476f-906c-cee5efc7317b" class="">Much more readable. Now let’s discuss each piece. </p><ul id="26ba7fbb-5066-44ae-aa3b-174f15752510" class="bulleted-list"><li style="list-style-type:disc">The <strong>&lt;superclass&gt;</strong> will call the tool class we want to use for it. In this case, the superclass is <code>SwordItem</code></li></ul><ul id="aadf5235-1415-4ccd-8f55-419bae0c0ba3" class="bulleted-list"><li style="list-style-type:disc">Then we give it an <strong>&lt;ITEM_NAME&gt;</strong>, just like last time. I went for <code>GILDED_NETHERITE_SWORD</code>, and will use similar formatting for the other item</li></ul><ul id="41344897-68da-4c2f-9ac9-a1ce88e78f62" class="bulleted-list"><li style="list-style-type:disc">The <strong>&lt;tier&gt;</strong> will call an instance (like a single-use) of the tiers we made before. To do this, the first attribute in the parentheses for a gilded netherite item will be <code>TierGildedNetheriteItem.INSTANCE</code>. Use this same format for the emerald item</li></ul><ul id="34909cbd-8463-452d-bc5a-6bcc8b582ec7" class="bulleted-list"><li style="list-style-type:disc">For <strong>&lt;int baseDamage&gt;</strong>, we’ll put in an integer. Sword have a base damage of 3, so we’ll follow precedent on this<ul id="790ae5df-4870-4888-854e-35dc14cc1d87" class="bulleted-list"><li style="list-style-type:circle">How this damage works is that Minecraft will take the base damage here and add the damage bonus from the material class we made. Those two together will give us the total damage of the item</li></ul></li></ul><ul id="d24501fb-bdd8-4bf4-91ad-c6f4c6e3fbc3" class="bulleted-list"><li style="list-style-type:disc">The same goes for <strong>&lt;float swingSpeed&gt;</strong>. Sword’s use -2.4F<ul id="36152755-c41c-4811-90c3-9d08ce00d17b" class="bulleted-list"><li style="list-style-type:circle">The value we are determining here will be measured in full-powered swings per second. What Minecraft does is take the float value here and do 4.0 - &lt;swingSpeed&gt;, and that result is the swings per second</li></ul></li></ul><ul id="3b4148d4-5c4a-45c1-8bbb-a354c20b69e4" class="bulleted-list"><li style="list-style-type:disc">Lastly, for <strong>&lt;group&gt;</strong>, weapons are placed into COMBAT</li></ul><p id="ba366648-fa7a-4cf6-b6e2-e2adb138c4c9" class="">We should now have <span style="border-bottom:0.05em solid"><strong>2 declarations</strong></span>: one for Gilded Netherite Sword, and one for Emerald Sword.</p><ul id="d3488dba-35f0-4369-b290-429c4a881ece" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Separated Items from Weapons with line breaks and comments</span></li></ul><ul id="c6c48994-efed-419f-951f-e3b71af3debb" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Declared <code>GILDED_NETHERITE_SWORD</code></span><ul id="bdbbb713-f299-45ee-bab9-094342aeb592" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Uses <code>TierGildedNetheriteItem.INSTANCE</code></span></li></ul></li></ul><ul id="3d2f3d6b-b824-4573-a4da-f0a2160a3f40" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Declared <code>EMERALD_SWORD</code></span><ul id="d9e760f1-ca72-4396-866a-c20a9e6ad39e" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Uses <code>TierEmeraldItem.INSTANCE</code></span></li></ul></li></ul><p id="a079d97c-1ee3-41c3-a703-548e2705248f" class="">Lastly, we need to register our items. I will separate them just like how I did for the declarations. The registry goes similarly as before:</p><pre id="b0a6ec4f-5f84-498d-a752-26f2b165d6fd" class="code"><code>Registry.register(Registry.ITEM, new Identifier(main.MOD_NAME, &quot;&lt;item_name&gt;&quot;), &lt;ITEM_NAME&gt;);</code></pre><p id="3eca981f-4529-40be-b7d0-e2203b1f7809" class="">Remember, this points it to the JSON file we’ll put in resources so that it can properly texture and render the item. 
+
+And at last, you&#x27;ve added a brand new sword to the game! Hit runClient and go into Creative Mode and check the Tools and Combat tabs, and you should see all of our items. Unlike last time, we can see their combat attributes, and when we use them as tools or weapons, they function accordingly.</p><figure id="28958cae-fcda-47f7-8fe2-0c10a00d7a93" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/2.png"><img style="width:928px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/2.png"/></a></figure><h1 id="f8be0bb6-481b-45e2-9197-31922197926f" class="">Setting Up Resources</h1><p id="e8c7ea3e-a6c7-4289-9e8d-9fe5b4d1a356" class="">Similar to what you did in the last workshop, we can create resources for each of our weapons to use. This includes a .json file and a .png file for each item.</p><p id="f9e03abe-aba6-4f7f-86b7-4ed6652b1c3a" class="">Firstly, navigate back to resources &gt; assets &gt; workshop &gt;models &gt; item, and let’s make <span style="border-bottom:0.05em solid"><strong>two</strong></span> new JSON files, named exactly what you placed into the quotations of the registry listing for each item.</p><ul id="257e0ff9-5188-43be-856b-3634fd2c4157" class="bulleted-list"><li style="list-style-type:disc">ex. “emerald_sword” will have a JSON file named emerald_sword.json</li></ul><ul id="0bd6c23d-11fc-43a6-b99b-144135895ff2" class="bulleted-list"><li style="list-style-type:disc">when you make each file, add .json to the end of each name, so they automatically become JSON files</li></ul><p id="761f993b-e96e-452e-826d-2c34eb3168db" class="">For the .json files, you can use the following template:</p><pre id="63a3ae3b-74e1-4ad1-8ff5-790a2a9ff1ea" class="code code-wrap"><code>{
+  &quot;parent&quot;: &quot;item/handheld&quot;,
+  &quot;textures&quot;: {
+    &quot;layer0&quot;: &quot;workshop:item/&lt;item_name&gt;&quot;
+  }
+}</code></pre><p id="bff4e981-1bd8-4028-b0fe-6dfb7d8211c8" class="">Last time, the parent tag was “item/generated”, which made a tiny item held like a random item. However, this time it is “item/handheld”, meaning that the game will scale them up and place them in your hand to look like a tool or weapon.</p><p id="ad70a3f3-16d2-4593-b222-1f4144be74a7" class="">We’ll replace &lt;item_name&gt; with the same name as the file because the png files that the JSON file points to will be named exactly the same. Again, I have provided textures for these three items:</p><figure id="90bbcf2d-f615-40e8-b086-d300afc06b26"><div class="source"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/gilded_netherite_sword.png">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8809d1d3-d157-461f-85da-c73f929729aa/gilded_netherite_sword.png</a></div></figure><figure id="0c6de2af-c89b-4fcb-b5d7-fbeec43647b0" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/gilded_netherite_sword%201.png"><img style="width:36px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/gilded_netherite_sword%201.png"/></a></figure><figure id="b5b63e3d-899b-4294-8141-38db5f959945"><div class="source"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/emerald_sword.png">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/323f133d-5150-4454-8b92-15b14020def1/emerald_sword.png</a></div></figure><figure id="c02e6300-aea6-4170-86fa-235f4e5c6ee1" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/emerald_sword%201.png"><img style="width:36px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/emerald_sword%201.png"/></a></figure><p id="1a83b2ee-c371-4f4d-a450-ab0d50f95761" class="">Do a runClient to make sure their textures actually applied. If not, double-check the names and contents of your JSON files.</p><h1 id="ef38c922-201f-4a9a-818f-21b047896475" class="">Smithing Recipes</h1><p id="e8bda5df-8374-425a-9aa6-0d06864059c5" class="">For these items, we are going to make recipes involving the smithing table, like how you make Netherite gear. To start, we’ll navigate back to resources &gt; data &gt; workshop &gt; recipes and make a new JSON file for <span style="border-bottom:0.05em solid"><strong>EACH</strong></span> item, named after them again, like how we named their model files. 
+
+A smithing recipe has the following format:
+</p><pre id="25f4e843-7510-4f72-86ab-f4311c66fecf" class="code"><code>{
+  &quot;type&quot;: &quot;minecraft:smithing&quot;,
+  &quot;base&quot;: {
+    &quot;item&quot;: &quot;&lt;namespace&gt;:&lt;item_name&gt;&quot;
+  },
+  &quot;addition&quot;: {
+    &quot;item&quot;: &quot;&lt;namespace&gt;:&lt;item_name&gt;&quot;
+  },
+  &quot;result&quot;: {
+    &quot;item&quot;: &quot;&lt;namespace&gt;:&lt;item_name&gt;&quot;
+  }
+}</code></pre><p id="4eeef309-7c50-425b-8465-d6ed10ce5e7d" class="">First, for the base, that’s the item we first start with. In this case, I want to use a diamond sword as the base, so there I will put <code>minecraft:diamond_sword</code>. Then, for the addition, I want to use an emerald, so it’ll be <code>minecraft:emerald</code>. Lastly, the result is what we make with this recipe, in this case, our emerald sword, so it will be <code>workshop:emerald_sword</code>.
+
+For the other recipe, I want to use their regular netherite tool variant as the base, then have the addition be our gilded netherite ingot. See if you can figure out its recipe on your own.</p><figure id="4119ae95-9491-43f3-b89b-13b88ce49b44" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/1.png"><img style="width:1034px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/1.png"/></a></figure><h1 id="96ed70ef-d1e6-41b8-9e45-1fb4384cc0cb" class="">Additional Challenges</h1><p id="2d3ae863-0b77-4451-84cb-17c169469d34" class="">Here are some more things you can do to improve on this mod further.</p><h3 id="e0ef7af3-c682-461c-9266-9464e7a84e02" class="">Language File</h3><p id="d2848ea5-95c4-4e2b-9571-bedbe66eda02" class="">Like the additional challenge in the last workshop, you can add these items into the language file to give them a more proper in-game name. The process will be the same, so you can refer back to the previous workshop’s instructions.</p><h3 id="04910076-734e-433b-95c7-4092a8a2cf04" class="">Recipe Advancements</h3><p id="35652cd1-bc05-41f1-ba29-b2c0f799d995" class="">You can once again make recipe advancements for these items, which will be slightly different than last time. We will need two files, one for our gilded netherite weapon and one for our emerald weapon. Therefore, you can list both of their recipes in the same JSON file. The instructions for recipe advancements is in the previous workshop.</p><h3 id="3e73067b-8b84-4c7a-8e3d-c40ce571aeff" class="">Adding Fireproof &amp; Rarity</h3><p id="fa4ffe1c-e872-4fcc-b7fe-6701f6bdf7e8" class="">You can make these items rare by adding the rarity clause to their declarations, like what we did to Gilded Netherite Ingots last time. There is a similar clause for adding the fireproof feature to weapons, which is what netherite items have so lava does not destroy them.
+
+What you can do is go to the <code>.group()</code> clause of any of those declarations and add a single . to the end of it, after it’s closing ) symbol. It should pull up a list of auto-complete suggestions you can add to items, and you can explore some of them and see other things you can add. A fireproof one is among them and is a bit obvious as to which one it is. You do not need to add anything inside the parentheses for this clause to work.</p><figure id="2a08afca-d5b4-46f8-b24d-e739c38fc2e4" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/3.png"><img style="width:1920px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/3.png"/></a></figure><h3 id="b76e5cee-310e-4a57-98fb-2746275b6333" class="">Tags</h3><p id="f87a6a7e-6b62-4640-82a7-3341522beca6" class="">A tag is essentially a list, or a set, of things in the game. Tags are divided by the thing-type, like an item, a block, a sound, or a game event. What tags are useful for is when you want to apply some function or attribute to multiple things at once, so rather than having to list every single item every time you want to use them, you can throw them once into a tag and then reference the tag instead.
+
+This applies today because tags are used for determining what can be used for beacon payment to apply status effects and what piglins are attracted to and will pick up. We will add some of our items to the tag “piglin_loved.json”, and our gilded netherite ingot to “beacon_payment_items.json”.
+
+Make new directory under resources &gt; data called “minecraft”, then another in that called “tags”, then another called “items”. Make a file called “piglin_loved.json”, which is the same as the real source file Mojang wrote. In this, we first next to say that we are not replacing the original file, only adding to it. Then we’ll list our two new items. It should look something like:</p><pre id="767cb4e6-c41e-4565-9249-210918387feb" class="code"><code>{
+  &quot;replace&quot;: false,
+  &quot;values&quot;: [
+    &quot;&lt;namespace&gt;:&lt;item_name&gt;&quot;,
+		&quot;&lt;namespace&gt;:&lt;item_name&gt;&quot;,
+		...
+  ]
+}</code></pre><p id="94c49b60-c444-4ba9-a369-4e1e03fff178" class="">With the ... meaning it goes on for however many items we will add. We can add one item, or two, or ten, or a hundred. So long as we format it properly. Our namespace for each of our new items will be “workshop”, since we’re adding items that we made. Let’s add brilliant alloy and all of our gilded netherite items to the tag. Notice that we use the lowercase &lt;item_name&gt; to reference it, so be careful about how you input the names of the items.
+
+Now make another file called “beacon_payment_items.json”. For this tag, I only want to add one new item, Gilded Netherite Ingot, into the tag. Now our gilded netherite ingots can be used to power beacons. 
+
+Do a runClient and test to see if both of our tag additions worked.</p><figure id="9b56e897-1bc2-404a-954a-43bef45abdcd" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/Untitled.png"><img style="width:1920px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/Untitled.png"/></a></figure><figure id="99394571-768c-4f26-85a3-33696e926cf8" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/Untitled1.png"><img style="width:944px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%202%20Weapons%20&amp;%20Mo%2028958caefcda47f78fe20c10a00d7a93/Untitled1.png"/></a></figure><p id="8836cfea-5ff1-4f47-8764-5a85a1724111" class="">Despite being able to use Gilded Netherite Ingots in beacons, its texture does not show up on the GUI. That’s because those textures are added to the GUI itself, so if we want Gilded Netherite on there, we need to edit the GUI png file and replace the old one. This workshop is long enough, however, so I will leave that to be a challenge for you to solve yourself:
+<a href="https://gaming.stackexchange.com/questions/298090/how-can-i-edit-the-inventory-gui">https://gaming.stackexchange.com/questions/298090/how-can-i-edit-the-inventory-gui</a></p><h1 id="115d4962-13d5-4292-ae76-2a49001e5a77" class="">Conclusion &amp; Looking Forward</h1><p id="7e38a8f8-ab3c-4770-b2fe-a70e65d3641d" class="">With all of this, you have now used and declared your own superclasses to create objects. This is some very fundamental Java stuff, and manipulating object is a big part of being a solid Java developer. 
+
+Moving forward, our next topic will be creating armor using our gilded netherite ingots, and we will begin to use mixins as a way of adding further complexity and functionality to our equipment. With the structure of our code getting more and more complex, it is very important that you are familiar with your own structure and organization, so be sure to take a bit of time to review your code and follow the path of how an item is called, how textures are placed, and how all the pieces line up. Being able to make sense of this web of files and classes is a major step towards being a more efficient and elegant design.
+
+Thank you, and we hope to see you next week!
+
+<strong>Other Note</strong>
+If you look at the Workshop 2 source code on the workshop’s repository, you will notice that there is a third item, a Gilded Netherite Pickaxe. This originally was supposed to be included in this workshop, but during the trial phase when we were gauging how long these workshops would take, we decided to cut it to save time for other things.</p><h1 id="bfb2ccf6-e4f1-48ed-823a-384577b1c7b5" class="">Link to Workshop 3 Notion Page:</h1><p id="fa9dc20e-5c8e-48fe-933d-d0a6b7cdb967" class=""><a href="https://www.notion.so/Minecraft-Fabric-Modding-Workshop-3-Armor-Tags-Mixins-b6233e2501bf4b8b8f0404feeaad7638">https://ggiande.notion.site/Minecraft-Fabric-Modding-Workshop-3-Armor-Tags-Mixins-b6233e2501bf4b8b8f0404feeaad7638</a></p><p id="d6fb2348-0ae3-4f8f-ad68-5da924d7ab55" class="">
+</p></div></article></body></html>
