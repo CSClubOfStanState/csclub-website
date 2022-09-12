@@ -11,3 +11,11 @@ window.onscroll = function () {
     header.classList.remove("bg-light");
   }
 };
+
+// Tool Tips Init Objects
+const tooltipTriggerList = document.querySelectorAll(
+  '[data-bs-toggle="tooltip"]'
+);
+const tooltipList = [...tooltipTriggerList].map(
+  (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+);
