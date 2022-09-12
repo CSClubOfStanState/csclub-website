@@ -1,7 +1,7 @@
 .selector-for-some-widget {
-  box-sizing: content-box;
+	box-sizing: content-box;
 }
 .blurry-text {
-  color: transparent;
-  text-shadow: 0 0 8px #000;
+	color: transparent;
+	text-shadow: 0 0 8px #000;
 }

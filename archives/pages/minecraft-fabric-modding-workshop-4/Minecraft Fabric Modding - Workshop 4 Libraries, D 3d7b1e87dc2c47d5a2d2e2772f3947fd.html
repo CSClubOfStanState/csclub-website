@@ -1,0 +1,839 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Minecraft Fabric Modding - Workshop 4: Libraries, Dependencies, &amp; Spears</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="ee7b16b5-726b-4eac-94c8-8b4d2e69f32d" class="page sans"><header><img class="page-cover-image" src="Minecraft%20Fabric%20Modding%20-%20Workshop%204%20Libraries,%20D%203d7b1e87dc2c47d5a2d2e2772f3947fd/2%201.png" style="object-position:center 31.130000000000003%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Minecraft%20Fabric%20Modding%20-%20Workshop%204%20Libraries,%20D%203d7b1e87dc2c47d5a2d2e2772f3947fd/flint_spear_big.png"/></div><h1 class="page-title">Minecraft Fabric Modding - Workshop 4: Libraries, Dependencies, &amp; Spears</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M7.01356 14.0001C8.8042 14.0001 10.5958 13.3107 11.9575 11.9324C14.681 9.21201 14.6808 4.7603 11.9571 2.04013C9.23336 -0.680043 4.77573 -0.680043 2.05199 2.04013C0.727519 3.36277 0 5.13301 0 6.99553C0 8.8764 0.727811 10.6285 2.05199 11.9509C3.43207 13.3106 5.22243 14.0001 7.01356 14.0001ZM3.72947 7.00914V8.461V8.65543H3.92382H5.34563H8.2794H8.4738V8.461V5.52541V3.37947V3.18502H8.2794H6.82747H6.63307V3.37947V6.81467H3.92382H3.72947V7.00914ZM1.83985 6.99553C1.83985 5.61698 2.38099 4.32597 3.36061 3.3477C5.36746 1.34337 8.64803 1.34062 10.6585 3.33944C10.6613 3.34219 10.6639 3.34494 10.6668 3.3477C12.676 5.3546 12.6763 8.63642 10.6668 10.6434C8.65705 12.6504 5.37031 12.6504 3.36061 10.6434C2.38099 9.66506 1.83985 8.37408 1.83985 6.99553Z"></path></svg></span>Created</th><td><time>@January 27, 2022 7:04 PM</time></td></tr><tr class="property-row property-row-multi_select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>Tags</th><td></td></tr></tbody></table></header><div class="page-body"><p id="8ea48bca-8360-4496-b193-9578a2a78802" class="">Estimated time: ~45:23</p><h1 id="4d2c27b5-0b0f-46fc-98e0-81e0ee6bf0df" class="">Overview</h1><p id="695eb700-c890-4fd4-855e-1be0c1e11c01" class="">In the previous workshop, we went over armor and the superclass involved in declaring a new armor type. Today, we’re going to take a different approach to our new item. Before, the object classes were defined for us, and then we ‘implemented’ them, making superclasses to determine the attributes after. This time, we’re going to make our own entirely new superclass for a weapon and ‘extend’ the class, rather than ‘implement’, to create new functions.</p><p id="4acd5fa0-8826-4dd8-b2fb-151f361e8516" class="">We will do this through a spear weapon-type. On top of this, I also want to add new features not seen in the base game’s items, which means I’ll need some extra tools to help me. Fortunately, Fabric modding is a huge community with lots of toolkits and libraries available for us, so if we just bring in one or two helpful ones, we’ll be ready to go.</p><p id="aa549367-443a-4f5b-8f98-ea321bcc823c" class="">Today’s checklist is:</p><ul id="cf748f19-e395-4ef0-9f34-475dd6853eb4" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Create dependencies for a new library</span><ul id="82df0479-f608-43f8-82cd-c0056dbc175c" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Jamie’s White Shirt - Reach modifiers</span></li></ul></li></ul><ul id="aeae5ad7-0b2d-4f29-b6dd-ad239f9bad24" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Make the spear superclass</span><ul id="f712eafe-8418-478b-be06-381e51b6f41f" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Extend its reach</span></li></ul></li></ul><ul id="ed60994f-4832-45c5-a266-03763890f624" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Make a flint spear item</span><ul id="7dd6468f-5524-4bd4-a072-4ca801360b5f" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Declare &amp; register it</span></li></ul><ul id="a1cfb2ef-1cf0-4933-bc75-1932f9b8535a" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Model &amp; texture it</span></li></ul></li></ul><p id="a5fafb36-26e5-41a2-b461-31bc174deb3f" class="">Like always, additional challenges will be available at the end of the workshop to further improve the design of our item. This will already be a complex workshop, so I decided to cut a lot more ideas I had for this item and move it to that section. I want you to get an idea of how much we can do with this one item when we build it’s own superclass.</p><p id="11ea0936-ef0a-40d1-a912-a3fc1f5e4fb1" class="">There’s a lot to cover, so let’s get started!</p><h1 id="0dce4fcd-1e7f-414c-a7cd-88358bdd6ec0" class="">New Libraries &amp; Dependencies</h1><p id="e784e9a6-b35d-4873-a939-1f1d065a9494" class="">This will require we mess with two VERY important files in our mod, so we need to be extra cautious to delete or change <span style="border-bottom:0.05em solid">anything</span>. We can add to our first one and not have much trouble, however, since we can just undo what we added. The second file, though, is going to need a lot of caution.</p><p id="e8ec4232-fbb8-4290-9524-340c5e00e604" class="">Outside of your main package, the very first package inside of our biggest folder, should be a folder that looks like a computer directory. Inside of that is a bunch of important git and gradle files. Navigate to one called “build.gradle”. This file is what brings in all of our minecraft and fabric tools when we mod. We can also use this file to bring in new libraries and tools we want for our mod. This is also how you create dependencies on other mods, like if yours is an extension or a patch of another.</p><figure id="3d7b1e87-dc2c-47d5-a2d2-e2772f3947fd" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%204%20Libraries,%20D%203d7b1e87dc2c47d5a2d2e2772f3947fd/1.png"><img style="width:550px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%204%20Libraries,%20D%203d7b1e87dc2c47d5a2d2e2772f3947fd/1.png"/></a></figure><p id="7f9b4754-094c-4cb8-b666-c607d7101c4c" class="">There are two sections we need to mess with in order to achieve this. First, go to the section labeled “dependencies”. This will tell the mod that we require whatever resource we place in this section, and it will then load in that resource for us to use. It is here that we will place our wanted library.</p><p id="0915ab1e-2bc7-43c9-b9d3-6936a075931b" class="">
+</p><p id="ec646df2-6e8d-4f33-a018-0afb9d28d0b1" class="">There are already some dependencies here, so we’ll ENTER a couple of times after them and make a comment called <code>// Reach Modifiers</code>. That way, we know exactly what this dependency is bringing in for us, in case we forget later or add a lot more dependencies. Then, under that comment, copy this code:</p><pre id="376cdc20-8641-452c-beb7-c6ae8270aa7e" class="code"><code>modImplementation include(&quot;com.jamieswhiteshirt:reach-entity-attributes:${project.reach_attributes_version}&quot;){
+exclude(group: &quot;net.fabricmc.fabric-api&quot;)
+}</code></pre><p id="68edbed5-e744-48fa-bf1b-6fbf53563893" class="">The “include” tells the mod to bring in this library, and it is then smart enough to check that library’s dependencies and bring in whatever <span style="border-bottom:0.05em solid">it</span> needs. That’s why we also have the “exclude” clause because we’re already bringing in the fabric-api, so we’re saving the mod some work by not having to bring it in again. 
+
+Lastly, notice the <code>project.reach_attributes_version</code> piece. This is actually a variable we’ll declare later. The reason we do this is so that we can place our dependencies’ versions in one convenient spot. Probably a little overboard for one dependency, but it’s good practice, and when you make a much bigger mod than this with six or seven dependencies, it’s really nice to have their versions together in one list, rather than scattered around.
+
+Normally, we could be done with this file if this were a mod that we wanted to use the items and normal resources from, but if we stopped here, we wouldn’t get access to the important superclasses and extra tools we want. If we want all of that fancier stuff, we need to add to the “repositories” section that’s right above “dependencies”. That way, we get the whole library.
+
+Go to that section. You’ll see some comments from the Fabric devs about when you should and should not place repositories in here. In our case, this is one of those times we should. I’d suggest leaving their comments to remind us of when is and isn’t a good time to place repositories here. Under those comments, place this single line:</p><p id="da99f099-8995-401a-bca3-578f9cb31584" class=""><code>maven </code><code><strong>{ </strong></code><code>url &quot;https://maven.jamieswhiteshirt.com/libs-release/&quot; </code><code><strong>}</strong></code></p><p id="d4207a13-db2e-4d85-b026-d31b22ae9669" class="">Almost done. We now need to go to another file that’s usually right under ‘build.gradle’. Go to ‘gradle.properties’. This file is very, very important. It tells the mod what minecraft version to use, when yarn and loader versions for fabric to use, and what version of fabric itself to use. We’re not messing with ANY of this, fortunately.
+
+At the bottom is the “dependencies” section, with one line on it so far. Make a new line under it and copy this:</p><p id="45e105d8-1639-485a-8ddf-91f87186eeb4" class=""><code>reach_attributes_version=2.1.1</code></p><p id="032b9545-6a75-4447-a080-a3f8af6a0997" class="">This is the version of the dependency we want. In my opinion, this is the most stable version for 1.18.1, so it’s the best pick.
+
+And we’re done! We’ve imported a library, now we just have to load it in. Somewhere close to the top-right of the screen, usually, a bit left and down from the small Gradle tab, is that little elephant icon with a blue cycle. Click on that to reload your project, and Gradle will then notice that there’s a new dependency and load it in for us. It’s been a little while since we’ve touched this, so it may take a little bit.</p><h2 id="23432979-2ef4-4df7-8bca-f69ca7d69e54" class="">The Spear Superclass</h2><p id="aecc23d2-86b0-4501-ab30-f94cc173de62" class="">The superclass is going to require quite a bit of work to achieve all the things we want for it. We need to extend the reach of the weapon and to do that we need to break down its constructor and fiddle with its functions. The constructor is like a function on top of our superclass that puts its pieces together and makes a coherent object for us. By messing with its system, we can make it do extra things for us and consider extra attributes. Here’s how.
+
+Go to <span style="border-bottom:0.05em solid">java &gt; net &gt; workshop &gt; item</span> and make a new <code>SpearItem</code> class. As part of the top public class line, add <code>extends SwordItem</code> after the class name (don’t forget your imports). This will do kind of what we did before when we implemented a class, except by “extending” it, we are saying that we will be adding to and modifying the superclass, rather than just using it. This also means that we now have access to the details of the constructor, so we can mess with it.
+
+Inside of the body of our class, add this next section of variables to use:</p><pre id="39d084be-e8e7-40b8-bc9a-a99d01a83be8" class="code"><code>private final ToolMaterial spearMaterial;
+private final float spearAttackDamage;
+public final Multimap&lt;EntityAttribute, EntityAttributeModifier&gt; attributeModifiers;</code></pre><p id="0030ec9d-b426-4f7b-b407-46ef4b18e9f5" class="">The reason we add these is that these are variables from <code>SwordItem</code> that are private, so we don’t have access. Therefore, we need to declare them ourselves so we can use them. IntelliJ will also probably red-underline them for a while because it’s complaining that we haven’t used them yet. We’ll clear that up later. For now, make a public method called <code>SpearItem</code> and add these parameters:</p><pre id="e532bb6c-1059-4f4b-a1b0-3d8d6fd307db" class="code"><code>public SpearItem(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {}</code></pre><p id="93d73682-9f05-4d48-ae0b-7e1f263f657d" class="">So now we have all of our necessary variables to make the super constructor. Make a new line inside our method called <code>super()</code>, and place in each of our variables, separated by commas:
+<code>super(material, attackDamage, attackSpeed, settings);</code>
+This will start the constructor by pulling in attributes it finds on the item from other places, like the base attack damage, speed, and material-type we’ll give it in its declaration. Now we need to help the constructor place these attributes in the right spot.
+
+After our super line, add two more blank lines under it. The first will refer to its own class, then the <code>spearMaterial</code> variable we made before. We will set this variable to be the material value in the super. It looks like:
+<code>this.spearMaterial = material;
+</code>Next, we’ll construct the part where it takes its base damage and adds the bonus from the material type. Use a <code>this.</code> again and then the name of the second final variable we made. Set this to be the <code>attackDamage</code> from the super <strong><span style="border-bottom:0.05em solid">plus</span></strong> the attack damage from the material. We get this by calling the <code>getAttackDamage()</code> method in material. This is exactly how other tool superclasses grab that attribute. In total, this line looks like
+<code>this.spearAttackDamage = attackDamage + material.getAttackDamage();</code>
+
+Now comes the fun part. It’s time to actually build this item, using these things we’ve declared. Hit ENTER a couple of times to separate this next part from what we did before. We need to declare an ImmutableMultimap.Builder, which is a complex object that builds multimaps for other objects to use. The declaration looks like this:
+<code>ImmutableMultimap.Builder&lt;EntityAttribute, EntityAttributeModifier&gt; builder = ImmutableMultimap.builder();</code>
+I just named this builder “builder”, since it’s entirely contained in this one class. We won’t see it anywhere else and it’s the only one here, so a very simple name is okay.
+
+Let’s check-in. So far, you should have the following code (plus imports):</p><pre id="41c88109-dbc1-4607-af54-e572eaf8413a" class="code"><code>public class SpearItem extends SwordItem {
+
+    private final ToolMaterial spearMaterial;
+    private final float spearAttackDamage;
+    public final Multimap&lt;EntityAttribute, EntityAttributeModifier&gt; attributeModifiers;
+
+    public SpearItem(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
+        super(material, attackDamage, attackSpeed, settings);
+        this.spearMaterial = material;
+        this.spearAttackDamage = attackDamage + material.getAttackDamage();
+		
+        ImmutableMultimap.Builder&lt;EntityAttribute, EntityAttributeModifier&gt; builder = ImmutableMultimap.builder();
+		}
+}</code></pre><p id="f2be0475-347f-46e6-bc5c-afccf41bf3ae" class="">Now we put the builder to use. Hit ENTER a couple of times after our builder declaration and start the line with <code>builder.put(EntityAttributes);</code>. Inside the parentheses, put a . after EntityAttributes. Auto-complete should pull up a bunch of options. These are all the attributes we can apply to an item. Many are irrelevant here but are cool to look at and note that they’re options for future projects. For now, we’re interested in GENERIC_ATTACK_DAMAGE, so you can highlight and enter that to complete the line. This is the EntityAttribute parameter of our builder, and is currently 0. We will add a value to it soon.
+
+Add a comma after and hit ENTER. Type in 
+<code>new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID)</code>, which starts our second parameter. Make sure to select the space right after ATTACK_DAMAGE_MODIFIER_ID and before the closing ‘)’ symbol. We need to be inside this second set of parentheses.
+
+Add a comma after and hit ENTER. The next part is to name our attribute, surround the string in quotation marks. I just went with “Tool modifier”, as this part isn’t really important.
+
+Add a comma after and hit ENTER. Now is the actual variable we’re bringing in, which is our <code>this.spearAttackDamage</code>. This is our EntityAttributeModifier parameter that we are adding to our GENERIC_ATTACK_DAMAGE.
+
+Add a comma after and hit ENTER. Now we tell the builder what kind of operation this is, which is addition. Type <code>EntityAttributeModifier.Operation</code>, then add a period. Again, a bunch of option will come up, one of which we’ll use in the additional challenges section. We simply want <code>ADDITION</code> out of all of these, so highlight that and complete the line.
+
+And our first attribute is done! In total, you should have</p><pre id="6677f1a6-1a75-4d1b-8dfb-b02610c0ba25" class="code"><code>builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE,
+		new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID,
+				&quot;Tool modifier&quot;,
+				this.spearAttackDamage,
+				EntityAttributeModifier.Operation.ADDITION));</code></pre><p id="6a68375c-d605-4e59-9285-1089f559dd95" class="">We have 3 other attributes to build, though. Fortunately, we have the format for one, so the others should be real quick.
+
+Copy your first builder.put and paste it under itself. This one will be for attack speed, so we just need to make these changes:</p><ul id="e166cb36-5cb7-4afa-a2e8-3d5692a1ca4e" class="bulleted-list"><li style="list-style-type:disc">Swap <code>GENERIC_ATTACK_DAMAGE</code> out for <code>GENERIC_ATTACK_SPEED</code></li></ul><ul id="89a8137c-59dc-48dc-ab25-d6b5a25f9f27" class="bulleted-list"><li style="list-style-type:disc">Swap <code>ATTACK_DAMAGE_MODIFIER_ID</code> out for <code>ATTACK_SPEED_MODIFIER_ID</code></li></ul><ul id="76ee7762-ccf4-4940-a845-dcc28aa2f4fc" class="bulleted-list"><li style="list-style-type:disc">Swap <code>this.spearAttackDamage</code> out for <code>attackSpeed</code>, including the <code>this.</code></li></ul><p id="3b5ec744-ba71-4646-9a54-04048863d5e3" class="">The next two are formatted slightly differently. These are how we’re modifying the reach of the weapon. Copy one of the builder.put statements above and paste it again. Swap out the first part in parentheses for <code>ReachEntityAttributes.REACH</code>, rather than <code>EntityAttributes.GENERIC_</code>. 
+
+Next, delete the all-caps ID variable, as we don’t need it for a new attribute we’re inserting ourselves. Then, for the name, we’ll switch the name in quotations to “Attack reach”, which will appear in-game in the weapon’s description. Now we’ll know if this builder works once we test it.
+
+Then, the place where we declared the values will be switched out for our own hard-coded here. This is a double value, so something like <code>1.0D</code> would be valid. I went with <code>1.0D</code> because that’s a whole block extra of reach, so it’s easy to test.
+
+In total, this new attribute should look like:</p><pre id="134a455b-9d74-48e6-bee7-3a0151f18927" class="code"><code>builder.put(ReachEntityAttributes.REACH,
+		new EntityAttributeModifier(&quot;Attack reach&quot;,
+				1.0D,
+				EntityAttributeModifier.Operation.ADDITION));</code></pre><p id="81ed1bd4-a4f9-4dfb-bfd1-7549f781c477" class="">To finish off, we need to extend the ATTACK_RANGE last, so copy and paste this builder.put statement after itself and swap <code>REACH</code> out for <code>ATTACK_RANGE</code>.
+
+To solidify these attributes, we finish this section off with one last statement:
+<code>this.attributeModifiers = builder.build();</code>
+
+The very last thing to finish this class is to create a space at the bottom <span style="border-bottom:0.05em solid"><strong>outside</strong></span><strong> </strong>of our <code>SpearItem</code> method and create two <code>@Override</code>&#x27;s. To be absolutely sure our attributes work, we will override it with a direct search. We just need to add this:</p><pre id="b48e0825-36fb-4ba0-933c-655663595f0e" class="code"><code>@Override
+    public Multimap&lt;EntityAttribute, EntityAttributeModifier&gt; getAttributeModifiers(EquipmentSlot equipmentSlot) {
+        return equipmentSlot == EquipmentSlot.MAINHAND ? attributeModifiers : super.getAttributeModifiers(equipmentSlot);
+    }
+
+@Override
+public ToolMaterial getMaterial() {
+    return this.spearMaterial;
+}</code></pre><p id="bc082568-b5c6-4ab8-8243-94e49fa11cc3" class="">And the superclass is finally done. Now we can declare a spear.</p><h1 id="0babad25-7655-4064-bd3e-e185eb4ffd0a" class="">Declarations &amp; Registry</h1><p id="39a77c59-c85b-47bd-85c3-0b7c944011c4" class="">We’ve done this lots of times by now, so this will be quick. Go back to ItemInit and add a new part in our weapons section of the declarations. Swap <code>SwordItem</code> out for <code>SpearItem</code> in both spots and change the name to <code>FLINT_SPEAR</code>. The new material is wood, so switch our class out for the base class <code>ToolMaterials.WOOD</code>, and then we can change the base attack damage and speed however. I went with 2 and -2.6F personally, but feel free to experiment.
+
+For the registry, it’s the same as ever, copying over the &lt;ITEM_NAME&gt; and typing in the &lt;item_name&gt; in the quotations.
+
+Our new spear is now in the game! Untextured, but it’s there! And we can see that the reach modifiers applied too.</p><figure id="084b4943-3160-40eb-b797-59df1e479736" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%204%20Libraries,%20D%203d7b1e87dc2c47d5a2d2e2772f3947fd/1%201.png"><img style="width:896px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%204%20Libraries,%20D%203d7b1e87dc2c47d5a2d2e2772f3947fd/1%201.png"/></a></figure><h1 id="01378bc9-14da-43c9-a5c4-46ef378f8071" class="">Modeling Via Blockbench</h1><p id="79f9c838-b4b5-486f-89ac-015883101b2c" class="">Fabric hands us a very neat tool for modeling items in a more complex way. It’s called Blockbench, and gives us lots of new modifiers to add to our model JSON file like scale and positioning. It’s really helpful for textures that are bigger than 16x16, like the one we’re going to insert today, which is 32x32.
+
+Go to <span style="border-bottom:0.05em solid">resources &gt; assets &gt; workshop &gt; models &gt; item</span> and make a new JSON file title “flint_spear.json”. In it, we’re going to copy the following format into it. I already placed values into all the slots that make the in-game model look good, or else it would be a lot of trial and error to make it look right.</p><pre id="d40da634-c186-4e94-838f-5637125275bc" class="code"><code>{
+  &quot;credit&quot;: &quot;Made with Blockbench&quot;,
+  &quot;parent&quot;: &quot;minecraft:item/handheld&quot;,
+  &quot;textures&quot;: {
+    &quot;layer0&quot;: &quot;workshop:item/flint_spear&quot;
+  },
+  &quot;display&quot;: {
+    &quot;thirdperson_righthand&quot;: {
+      &quot;rotation&quot;: [0, 90, 45],
+      &quot;translation&quot;: [0, 3.5, 2.5],
+      &quot;scale&quot;: [2, 2, 1]
+    },
+    &quot;thirdperson_lefthand&quot;: {
+      &quot;rotation&quot;: [0, 90, -45],
+      &quot;translation&quot;: [0, 3.5, 2.5],
+      &quot;scale&quot;: [2, 2, 1]
+    },
+    &quot;firstperson_righthand&quot;: {
+      &quot;rotation&quot;: [7.5, 75, 32],
+      &quot;translation&quot;: [8.75, 2.25, -3.5],
+      &quot;scale&quot;: [2, 2, 1]
+    },
+    &quot;firstperson_lefthand&quot;: {
+      &quot;rotation&quot;: [7.5, -75, -32],
+      &quot;translation&quot;: [8.75, 2.25, -3.5],
+      &quot;scale&quot;: [2, 2, 1]
+    },
+    &quot;ground&quot;: {
+      &quot;translation&quot;: [0, 4.25, 0],
+      &quot;scale&quot;: [1, 1, 0.5]
+    },
+    &quot;gui&quot;: {
+      &quot;translation&quot;: [0.5, 0.5, 0],
+      &quot;scale&quot;: [1.066, 1.066, 1.066]
+    },
+    &quot;head&quot;: {
+      &quot;rotation&quot;: [0, -180, 0],
+      &quot;translation&quot;: [-6.5, 16, 6.5],
+      &quot;scale&quot;: [2, 2, 1]
+    },
+    &quot;fixed&quot;: {
+      &quot;rotation&quot;: [0, -180, 0],
+      &quot;translation&quot;: [-4.25, 4.25, -0.25],
+      &quot;scale&quot;: [1.5, 1.5, 1]
+    }
+  }
+}</code></pre><p id="b7ce56bc-e58a-4c70-8d0a-3ce91e8c1b17" class="">The first “credit” line is just to say where credit is due for this tool. After that, it first looks like the JSON files we made before. Then come all of the new values, each of them broken up by how the model looks in each scenario, like in the GUI as an item, on the ground, first-person in each hand, and third-person. It could be fun to mess with each of these numbers and see how they individually change the model for each perspective, but if you copy these values into your model file, it should look good from all perspectives.
+
+Lastly, we need to texture the spear. Place this png file in with the rest of our item textures under workshop and we’ll be good</p><div id="a34ab3af-043f-4b93-b6db-5f1462208ecb" class="column-list"><div id="7562cb8a-eb88-4e1d-a226-7bf7743f3ba2" style="width:50%" class="column"><figure id="499dafb8-96b1-4987-84c0-bbca80d5c604"><div class="source"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%204%20Libraries,%20D%203d7b1e87dc2c47d5a2d2e2772f3947fd/flint_spear.png">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8b67d52b-cc06-4466-a8d9-dac8108f19b7/flint_spear.png</a></div><figcaption>~Flint Spear~</figcaption></figure></div><div id="f5992c49-b202-4d5c-bef5-753dfb4c1707" style="width:50%" class="column"><figure id="4e8405a1-858f-4a79-b392-b17aa16ee7e2" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%204%20Libraries,%20D%203d7b1e87dc2c47d5a2d2e2772f3947fd/flint_spear%201.png"><img style="width:60px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%204%20Libraries,%20D%203d7b1e87dc2c47d5a2d2e2772f3947fd/flint_spear%201.png"/></a></figure></div></div><figure id="4f1a7d5e-040d-4638-ac8a-7fd15238fe16" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%204%20Libraries,%20D%203d7b1e87dc2c47d5a2d2e2772f3947fd/2.png"><img style="width:1042px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%204%20Libraries,%20D%203d7b1e87dc2c47d5a2d2e2772f3947fd/2.png"/></a><figcaption>Steve Holding Flint Spear</figcaption></figure><h1 id="91203700-d382-46b5-b809-c6e18521c1c2" class="">Additional Challenges</h1><p id="d341afcd-4e8a-41a3-b03b-a6ab9915e528" class="">There is a lot more we can do with this item outside of the normal additional stuff. We can make this item have no sweeping attack, play a different sound on hit, and apply status effects to enemies when it hits them. All of this will involve mixins to accomplish, and none of it is easy.</p><h3 id="3577c348-51ac-44f9-80da-d75c7d3618c8" class="">Old Stuff</h3><p id="011e178a-6709-4ce3-89f5-aab0aa3a364f" class="">We can start by doing all the things we know how to do.</p><ul id="db65cd29-6802-4f2c-a631-a5e51a1bc16d" class="bulleted-list"><li style="list-style-type:disc">Add our spear to the language file</li></ul><ul id="28f2a5cf-4682-4a78-80dd-64593fa83d91" class="bulleted-list"><li style="list-style-type:disc">Give our spear a recipe. I went with two sticks and a flint lined up diagonally so as not to conflict with shovels</li></ul><ul id="2499758a-5b84-4d39-96b2-af8d3078ce9e" class="bulleted-list"><li style="list-style-type:disc">Add our spear to a recipe advancement for flint</li></ul><h3 id="5929cc72-9370-44d3-9c27-00df7f68fac9" class="">Removing Sweeping</h3><p id="199e70c3-b6a3-4022-a274-6e9eabe591ba" class="">Since this is technically a sword in its framework, it has the natural sweeping a sword does. We can make this weapon feel more like a pointy spear by removing that via a mixin.
+
+Go to java &gt; net &gt; &gt;workshop &gt; mixin and make a new Java Class titled EnchantmentHelperMixin (remember it’s traditional to name your mixin class after the class you’re mixing into). <strong>Don’t forget to add it to the workshop.mixins.json file!</strong> To start our mixin, set up the following format in the class. We’ll then add the logic of our new method ourselves:</p><pre id="765c5235-578c-496e-99bd-e5fc3bc749bb" class="code"><code>@Mixin(EnchantmentHelper.class)
+public class EnchantmentHelperMixin {
+
+    @Inject(method = &quot;getSweepingMultiplier(Lnet/minecraft/entity/LivingEntity;)F&quot;, at = @At(value = &quot;HEAD&quot;), cancellable = false)
+    private static void getSweepingMultiplierMixin(LivingEntity entity, CallbackInfoReturnable&lt;Float&gt; info) {
+        
+        }
+    }
+}</code></pre><p id="193e1135-8be6-406a-8015-771be14ab0d7" class="">Take note of the method we are injecting into. You’ll see that we set <code>cancellable</code> to false this time. This is because we want this Inject to run no matter what, or else the source method will just overwrite it every time. As well, note the two parameters for our mixin method, being a LivingEntity ‘entity’ and the returnable-float value ‘info’.
+
+Inside the body of our new method, we’ll declare an <code>ItemStack</code> called itemStack (a simple name is fine again, since it’s only in this class and is only used once). I will then set that variable to a call to  <code>entity</code>’s <code>getStackInHand()</code> method, which has the parameter <code>Hand.MAIN_HAND</code>. In total, this looks like:</p><pre id="11849cda-b027-4e2d-9d55-bf6c055f0927" class="code"><code>ItemStack itemStack = entity.getStackInHand(Hand.MAIN_HAND);</code></pre><p id="c483243c-1e85-4519-802c-d4ee3140b997" class="">This will grab all the info it can on whatever item is in our main hand. Now we will do an <code>if</code> statement. We need to check if our itemStack is an instance of a spear. To do that, we can first get the superclass of the item via the method <code>itemStack.getItem()</code>. Then, we just need to use an <code>instanceof</code> and compare it to our <code>SpearItem</code> superclass.
+
+Lastly, once the if is complete, inside of it, type <code>info.setReturnValue(0F)</code> so that our method returns a sweeping value of 0 for all spears. Now they don’t have sweeping! However, when we run this, spears no make no sound on a hit, which is pretty lame. We can use one last mixin to manually add a hit sound ourselves, and maybe some other cool effects.</p><h3 id="37f7afb4-a0cf-4720-a30a-ccb94dfca7c2" class="">PlayerEntityMixin</h3><p id="30e47e2c-5b5a-46ba-868a-0207ca10efb8" class="">Make a new class in the mixin folder, named PlayerEntityMixin (Add it to the JSON file!). Add our usual @Mixin line above the pubic class. Then, we’re gonna do some weird stuff. Change the public class line to <code>public abstract class PlayerEntityMixin extends LivingEntity</code>. This means that we need to redo the super, since we’re extending the superclass. To do this, we just need to copy in this section into the body of the class:</p><pre id="6830b1bb-8d04-4ddf-9af5-c1fa2c4e6b08" class="code"><code>public PlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile profile) {
+    super(EntityType.PLAYER, world);
+}</code></pre><p id="b2a8da69-2d54-40d9-822b-3038dc43b339" class="">You&#x27;ll notice that we don&#x27;t use all this information, but we keep it because the class needs it to recognize that this is a LivingEntity. 
+
+Now we&#x27;ll do our @Inject. Make a method called <code>public void getSpearHitEffects</code>, or some other similarly descriptive name. This is a method that deals with adding an effect on a hit, so something related to that is good, like attackEffectMixin. We will pass in these parameters and place them in the parentheses: <code>Entity target, CallbackInfo info</code>. </p><ul id="2846eb5a-da94-4278-adbe-069494995542" class="bulleted-list"><li style="list-style-type:disc"><strong>Note:</strong> Entity has multiple import options. Go with the one with Minecraft in the path</li></ul><p id="81f03431-6303-4c32-a57e-29ad28dd1130" class="">Now we can add the Inject statement right above it. Just like how we formatted them before, place the @Inject one line above our method statement:</p><pre id="ac9b6e1c-1692-4d3d-a511-451d8f2af39b" class="code"><code>@Inject(method = &quot;attack&quot;, at = @At(value = &quot;INVOKE&quot;, target = &quot;Lnet/minecraft/enchantment/EnchantmentHelper;getSweepingMultiplier(Lnet/minecraft/entity/LivingEntity;)F&quot;))</code></pre><p id="995df27a-87a5-4aa8-b435-203e63d03717" class="">The INVOKE means that before the parent method does its work, we’ll call another method first. That method is the getSweepingMultiplier from EnchantmentHelper. 
+
+Now we’ll add to the body of the method. We first need to find the information on the item in our main hand, just like how we did it in EnchantmentHelperMixin with the <code>getStackInHand()</code> method. In fact, it’s exactly the same, so you can copy that code and paste it right in.
+
+Now we&#x27;ll do an <code>if</code> statement to check the following statements</p><ol type="1" id="335e56da-290a-42e0-a74c-0c480ad6fdaa" class="numbered-list" start="1"><li>Ensure the current world is <span style="border-bottom:0.05em solid"><strong>not</strong></span> client-side (<code>!this.world.isClient</code>)</li></ol><ol type="1" id="4fbd8e72-bac8-456a-889e-005723d026b9" class="numbered-list" start="2"><li>Check that our itemStack is an instance of SpearItem (just like before in EnchantmentHelperMixin, except instead of using <code>entity</code>, use <code>this</code>)</li></ol><ol type="1" id="de5cff27-88da-4c6e-a2c7-a3a2d9e012a7" class="numbered-list" start="3"><li>Ensure that our target is an <code>instanceof</code> a <code>LivingEntity</code><ol type="a" id="5f38ab82-edf0-4bfa-84de-52a0a9105b98" class="numbered-list" start="1"><li>For this, we’ll use the <code>target</code> parameter we passed in and the rest I actually kind of spelled out in the description</li></ol></li></ol><p id="72538e75-676e-4ef2-9eca-3413a46888cb" class="">Once that statement is set up, we can start to add the fun stuff.  I want to add three things: two on-hit sounds to make swinging spears a little more exciting, and I want to inflict the Slowness effect on enemies hit with a spear for a couple seconds.
+
+We’ll do the slowness one first, because that statement is quite complicated. It looks like this:</p><pre id="af67662b-7b7f-4316-80ba-67137a59d741" class="code"><code>((LivingEntity) target).addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20, 0, false, true, true));</code></pre><p id="923e03ca-c55c-45aa-862d-4a3a45bfdd21" class="">You can see a few key things. We declare our target at the beginning as an object (like the name implies, this is the target of this addStatusEffect), because we want to currently treat our target as an object with dynamic attributes. We add the SLOWNESS effect to them, and then there are some numbers and boolean statements to detail this effect. The first integer is the duration, measured in tenths of a seconds. Then it&#x27;s the amplifier, telling us what level of slowness is applied (0 is actually Slowness 1, up to Slowness 10). The first boolean is for &quot;ambient effects&quot;, which controls FOV and other visual effects on a player inflicted by this effect. Next is the &quot;showParticles&quot; boolean, which does exactly as it says. Last is the &quot;showIcon&quot; boolean, which determines whether or not the player will see the effect icon on their HUD.
+
+Now for the sounds. We will use the method <code>world.playSound()</code> to play them on a hit. Add one call of this method below our SLOWNESS effect. There are 6 parameters to this method that we need to fill out (separated by commas):</p><ol type="1" id="79fbaa23-a914-4fe9-ba18-832a286a0947" class="numbered-list" start="1"><li>player: who’s playing the sound? For this, we can say <code>attackingPlayer</code>, so the game will register that we’re the source of the sound</li></ol><ol type="1" id="c543fc8c-0e81-4d5b-a986-aad57a697c7b" class="numbered-list" start="2"><li>position: where is the sound? We can reference ourselves (<code>this</code>) and then use the method <code>.getBlockPos()</code> to grab our coordinates so the sound has a location</li></ol><ol type="1" id="309fecb6-5436-4aa3-b56f-b8d240fd85a5" class="numbered-list" start="3"><li>sound: what sound do we play? There’s lots of options, but for the first one I when with <code>SoundEvents.ITEM_TRIDENT_THROW</code>, as I think that’s a good sound for a spear swing</li></ol><ol type="1" id="a89d59f6-645e-4137-a0db-1a3b7500ab08" class="numbered-list" start="4"><li>category: what category do we place this instance of a sound? This is for subtitle purposes. Since the player is making the sound, I went with <code>SoundCategory.PLAYERS</code></li></ol><ol type="1" id="868934f9-ee94-4160-a26e-9c59db8fad2a" class="numbered-list" start="5"><li>volume: how loud is it? Considering the sound will be right on top of us, I lowered its volume to 85%, which is written as a float value (<code>0.85F</code>)</li></ol><ol type="1" id="6e3f4803-0b1d-41cb-b662-c205eb02249e" class="numbered-list" start="6"><li>pitch: what “tuning” is the sound? This controls how high or low the sound is. The default is 1.0F, and I thought it’d be right for the sound to be higher than normal, so I set pitch to <code>1.5F</code></li></ol><p id="cbaa1fc6-bc35-447a-bf1e-c37a22e7eb56" class="">All parameters are done! The first sound is good, now I want to add a hit sound. I copied the sound event we just made and pasted it under, changing the sound to <code>ITEM_TRIDENT_HIT</code> and lowering the volume to <code>0.5F</code> so it doesn’t stick out since it’s a very sharp sound.
+
+And at last we are done! The spear has been given far more complex functionality than a normal sword and now feels like an entirely different weapon.</p><h1 id="50b5d9b5-e55a-47fb-9784-85c566356c08" class="">Conclusions &amp; Looking Forward</h1><p id="8952e631-f0db-4afd-a0f8-5da68cc648d5" class="">In my opinion, this was the most intense workshop. There was a lot of big-picture stuff happening and a lot of Java technique thrown at you. As always, I highly encourage you review the instructions and your code on your own time to let it absorb and chew on the things we actually did. The more time you give yourself to break down this code and follow though its details, the more you will understand it, and by extension the more you will understand Java.
+
+In the next and final workshop, we will cover how to make a block. There’s quite a lot to consider in it, so there will be lots of additional challenges for this workshop, but I think this will be an excellent capstone to our work, and will give you an overall fundamental view of Fabric and Java. 
+
+Thank you, and I hope to see you next week for one last round!</p></div></article></body></html>

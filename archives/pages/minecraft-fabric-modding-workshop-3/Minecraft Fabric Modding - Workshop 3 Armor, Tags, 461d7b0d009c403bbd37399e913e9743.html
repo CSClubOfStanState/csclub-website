@@ -1,0 +1,915 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Minecraft Fabric Modding - Workshop 3: Armor, Tags, &amp; Mixins</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b6233e25-01bf-4b8b-8f04-04feeaad7638" class="page sans"><header><img class="page-cover-image" src="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/3%201.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_helmet%202.png"/></div><h1 class="page-title">Minecraft Fabric Modding - Workshop 3: Armor, Tags, &amp; Mixins</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M7.01356 14.0001C8.8042 14.0001 10.5958 13.3107 11.9575 11.9324C14.681 9.21201 14.6808 4.7603 11.9571 2.04013C9.23336 -0.680043 4.77573 -0.680043 2.05199 2.04013C0.727519 3.36277 0 5.13301 0 6.99553C0 8.8764 0.727811 10.6285 2.05199 11.9509C3.43207 13.3106 5.22243 14.0001 7.01356 14.0001ZM3.72947 7.00914V8.461V8.65543H3.92382H5.34563H8.2794H8.4738V8.461V5.52541V3.37947V3.18502H8.2794H6.82747H6.63307V3.37947V6.81467H3.92382H3.72947V7.00914ZM1.83985 6.99553C1.83985 5.61698 2.38099 4.32597 3.36061 3.3477C5.36746 1.34337 8.64803 1.34062 10.6585 3.33944C10.6613 3.34219 10.6639 3.34494 10.6668 3.3477C12.676 5.3546 12.6763 8.63642 10.6668 10.6434C8.65705 12.6504 5.37031 12.6504 3.36061 10.6434C2.38099 9.66506 1.83985 8.37408 1.83985 6.99553Z"></path></svg></span>Created</th><td><time>@January 27, 2022 7:04 PM</time></td></tr><tr class="property-row property-row-multi_select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>Tags</th><td></td></tr></tbody></table></header><div class="page-body"><p id="1c3f5be1-ec1c-4d66-9bad-b21502f24571" class="">Estimated Time: ~1hr</p><h1 id="bad5222a-232e-4b36-889d-e05323b8e77c" class="">Overview</h1><p id="746a1dbf-8327-4129-a8ca-1b74576db31f" class="">In the last workshop, we covered creating tools and weapons. This time, we’re going to get more complicated in our design, because we are no longer going to simply render a 16x16 texture. Rather, we’re modeling a fully 3D object, by making armor. We will be making Gilded Netherite Armor, which will have special properties that we will give it through tags mixins (more on this later).
+
+You may have done tags earlier as part of the additional challenge of Workshop 2. If you have, you’ll be slightly ahead of the curve today. If not, don’t worry! We’ll cover the full instruction of what tags are and how to use them today.
+
+The challenge today is that we need to make potentially 4 items (helmet, chestplate, leggings, boots), and give each of them complex functionality. For this reason, I have decided that the main workshop will instead only do one of these pieces, and if we have time afterward, we can go back and add the other three.
+
+So, our tentative list for today is:</p><ul id="371dfe83-603b-43a9-8e35-ac672a59ab2d" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Create a Gilded Netherite Armor superclass</span><ul id="1b1cb344-4d7d-4034-ae57-0f0f252e4772" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Design and determine all attributes for it</span></li></ul></li></ul><ul id="5d04f13d-7c51-4f96-9027-2bc605368a72" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Declare &amp; register a Gilded Netherite Helmet</span><ul id="bea6d569-e079-48a6-827b-910c532e43e9" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Make it rare and fireproof</span></li></ul><ul id="046e24f6-5108-417a-b1e8-54b1757b536a" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Model &amp; Texture both the helmet’s item and wearable model</span></li></ul></li></ul><ul id="03069180-6be2-45ea-8b1a-6277a08ac4d4" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Use mixins to improve the functionality of our armor</span><ul id="007ec9c4-6f8b-4c8e-a76e-33cccd593cd3" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Make piglins calm while you wear Gilded Netherite Armor</span></li></ul></li></ul><ul id="ce9059c1-b0ef-40b7-9e37-64f760db3349" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Use tags to make piglins want and use Gilded Netherite items</span></li></ul><p id="b66c54ca-bf06-4207-9367-419f46586229" class="">This is definitely a lot, which is why we’re only doing one item for now. Let’s get started right away so we have the most time possible to work through this list.</p><h1 id="3939f150-5174-4362-baa0-ea8d2e21ce8a" class="">Armor Superclass</h1><p id="89cd0047-f1fa-46a0-9486-527ea6c56aa8" class="">We’ll need a superclass for our gilded netherite armor that will store all of its attributes. Go to the java &gt; net &gt; workshop &gt; item package and make a new java class titled <code>ArmorGildedNetherite</code>. As part of the public class declaration, we will add “ implements ArmorMaterial” before the { symbol. Then, we will use the following template:</p><pre id="5fe03833-3022-43da-bab2-fcc5973722c5" class="code"><code>public class ArmorGildedNetherite implements ArmorMaterial {
+    private static final int[] BASE_DURABILITY = new int[] {13, 15, 16, 11};
+    private static final int[] PROTECTION_VALUES = new int[] {3, 6, 8, 3};
+
+    @Override
+    public int getDurability(EquipmentSlot slot) {
+        return BASE_DURABILITY[slot.getEntitySlotId()] * &lt;int&gt;;
+    }
+
+    @Override
+    public int getProtectionAmount(EquipmentSlot slot) {
+        return PROTECTION_VALUES[slot.getEntitySlotId()];
+    }
+
+    @Override
+    public int getEnchantability() {
+        return &lt;int&gt;;
+    }
+
+    @Override
+    public SoundEvent getEquipSound() {
+        return SoundEvents.&lt;SOUND&gt;;
+    }
+
+    @Override
+    public Ingredient getRepairIngredient() {
+        return Ingredient.ofItems(&lt;ITEM&gt;);
+    }
+
+    @Override
+    public String getName() { return &quot;&lt;armor_namespace&gt;&quot;; }
+
+    @Override
+    public float getToughness() {
+        return &lt;float&gt;F;
+    }
+
+    @Override
+    public float getKnockbackResistance() {
+        return &lt;float&gt;F;
+    }
+}</code></pre><p id="016edc0f-7a56-4548-8e95-3e32adc61f45" class="">The <strong>BASE_DURABILITY</strong> tells us the durability of each armor piece, starting with the boots. This will be multiplied by a number we determine later to get the actual durability value. These numbers are also precedented by all armor sets, so we will follow said precedent.
+
+<strong>PROTECTION_VALUES</strong> is the amount of armor each piece gives you, starting with the boots. These values are the same for diamond armor and netherite armor, so we will be consistent. Notice that they add up to 20, or 10 full armor pieces on your HUD.
+
+Next are the Overrides, the attributes we will be setting. <strong>getDurability</strong> is the second half of that equation I mentioned before. Each armor piece will take its BASE_DURABILITY, multiply it by this number, and get its actual durability. Netherite uses 37, so I went with 37 as well.
+
+<strong>getProtectionAmount</strong> formalizes the PROTECTION_VALUES into a function that can be easily called. We do not need to change anything here.
+
+<strong>getEnchantability</strong> takes an integer value to determine how likely it is you get better and stronger enchantments. Netherite has 15 and gold has 25, so I went with 20.
+
+<strong>getEquipSound</strong> will play a sound whenever we equip some of this armor. Given that this is a Netherite set as its base, I imported the SoundEvents library and used <code>SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE</code>. There’s lots of other sounds that you could use, so feel free to scroll through and see what other sounds there are.
+
+<strong>getRepairIngredient</strong> determines what item we need to repair this armor. It is gilded netherite, so naturally we’ll want a Gilded Netherite Ingot. For this, we use <code>ItemInit.GILDED_NETHERITE_INGOT</code>.
+
+<strong>getName</strong> gives this armor its own namespace, like a subset. The armor will later use this to find texture files for the model. Traditionally, we just list off the material type, so I went with “gilded_netherite”.
+
+<strong>getToughness</strong> determines the armor toughness of the armor. Toughness is a complicated thing to discuss, there’s a big formula for it here, but we’ll just follow precedent and make it easy for us. Netherite has 3.0 per armor piece, so we’ll insert 3.0F
+
+Lastly, <strong>getKnockbackResistance</strong> tells us the knockback resistance of the armor. What’s very fun is that this doesn’t work. This attribute does nothing. But we can do a workaround later with mixins to make it work in the additional challenges section. Also, for some reason, the code multiplies this value by 10 somewhere, so we need to put 1/10 of whatever value we want here. Netherite has 1.0 per armor piece, so we’ll put 0.1F.
+
+Okay, so that was a LOT. But with that, we can declare our armor now.</p><h1 id="ee9cde4d-2ac6-4272-8a25-ecfe873afdc9" class="">Declarations &amp; Registry</h1><p id="49b29bc8-227c-4cb5-9f9a-bfb0e0b5b560" class="">Return to <code>ItemInit</code> and add a new sections for // Armor in our declarations. First, we need to declare our new armor material. Use this template:</p><pre id="91ffdc93-8387-4398-9278-dc6dfafce31f" class="code"><code>public static final ArmorMaterial &lt;MATERIAL_NAME&gt; = new &lt;armorSuperclass&gt;;</code></pre><p id="6e15380a-126d-43a0-a044-3aa65e826ff3" class="">The <strong>&lt;armorSuperclass&gt;</strong> will be replaced by a call of the superclass we jsut made, in this case <code>ArmorGildedNetherite()</code>. The <strong>&lt;MATERIAL_NAME&gt;</strong> can be anything we like, so I followed precedent and went with <code>GILDED_NETHERITE_ARMOR</code>.
+
+Now we declare our armor piece, using:</p><pre id="3d38cac2-ba2a-467e-9e64-879f5b286341" class="code"><code>public static final Item &lt;ITEM_NAME&gt; =
+            new ArmorItem(&lt;MATERIAL_NAME&gt;, EquipmentSlot.&lt;SLOT&gt;, new Item.Settings().group(ItemGroup.COMBAT));</code></pre><p id="444504b1-437c-4bd4-a7d9-3817ef5897d0" class="">Replace <strong>&lt;MATERIAL_NAME&gt;</strong> with the one we just wrote in for before, and the <strong>&lt;SLOT&gt;</strong> can be HEAD, CHEST, LEGS, or FEET. Lastly is our <strong>&lt;ITEM_NAME&gt;</strong>, to which I wrote <code>GILDED_NETHERITE_HELMET</code>. 
+
+You can also add a <strong>.fireproof()</strong> clause to this so it doesn’t burn in lava, since it’s netherite. As well, we can add a <strong>.rarity(Rarity.RARE)</strong> clause to make its name fancier.
+
+Lastly, we need to register our item. We DON’T need to register our armor material, as it’s just a variable that our new items use for their attributes. This new registry looks just like the ones we did before, swapping out the old <strong>&lt;ITEM_NAME&gt;</strong> and <strong>&lt;item_name&gt;</strong> for our new ones:</p><pre id="6c3e1c28-9c0b-4ab7-9304-42c69b9124a8" class="code"><code>Registry.register(Registry.ITEM, new Identifier(main.MOD_NAME, &quot;&lt;item_name&gt;&quot;), &lt;ITEM_NAME&gt;);</code></pre><p id="98f92bd0-73f8-4b9a-9cd1-328e6a68367d" class="">We have successfully declared and registered our helmet! However, It has no item texture, and when you wear it, it has no model. Let’s change that.</p><h1 id="b52b235b-44bb-4720-b65e-25ec5bcc0f30" class="">Models &amp; Textures</h1><p id="ca5c4167-d56a-49f1-8357-9af91b145bf2" class="">The item part of this is something we’d know how to do. Go to resources &gt; assets &gt; workshop &gt; models &gt; item and make a new file titled <code>&lt;item_name&gt;.json</code>. Be sure that you replace &lt;item_name&gt; with exactly what you wrote inside the quotations of the registry line and that you keep the .json part of the name. Inside of it, use the same format for texturing items that we’ve used before:</p><pre id="d36eeff2-1157-4a04-941f-d0bf7abf609f" class="code"><code>{
+  &quot;parent&quot;: &quot;item/generated&quot;,
+  &quot;textures&quot;: {
+    &quot;layer0&quot;: &quot;&lt;namespace&gt;:item/&lt;item_name&gt;&quot;
+  }
+}</code></pre><p id="755d22a9-c1af-43d8-842f-2a2aac875bd3" class="">Where our &lt;namespace&gt; is <code>workshop</code> and our &lt;item_name&gt; is consistent with what we named the file. We’re also back to using “generated” in the parent since when you hold armor, it just looks like a general item. Now, like before, we add the texture to the resources &gt; assets &gt; workshop &gt; textures &gt; item directory. Here’s the texture:</p><div id="e2a8028d-554e-453b-84b2-bb1bc8955da9" class="column-list"><div id="88281ff1-1f96-41d3-a388-fe8e33ca17aa" style="width:50%" class="column"><figure id="461d7b0d-009c-403b-bd37-399e913e9743"><div class="source"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_helmet.png">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f2f1b553-ca7f-4ca4-bf9e-d99ab57d7d1c/gilded_netherite_helmet.png</a></div></figure></div><div id="548f8fd2-a5f6-43a7-9ed8-410fef265b53" style="width:50%" class="column"><figure id="dcfac9e0-565c-4562-b5c9-2f3fcb0e70ab" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_helmet%201.png"><img style="width:36px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_helmet%201.png"/></a></figure></div></div><p id="e469da6e-c295-4fc9-8958-01024642fa9c" class="">However, this only modeled and textured the ITEM while it is in our inventory. When we wear it, it’s black and purple squares. We need to add the model textures. This is, fortunately, not very hard. Make a new directory under assets called “minecraft”, then a new one in that called “textures”, then a new one in that called “models”, and a new one in that called “armor”. </p><p id="e6597d5f-3646-49f6-b0e9-0b6c07c06537" class=""><code>minecraft &gt; textures &gt; models &gt; armor</code></p><p id="90f94d6e-51f7-449a-b9f9-bcf996db48b7" class="">By using the namespace “minecraft”, we are directly adding anything we place here into the base game’s files We will add two png files for the two layers of Gilded Netherite Armor. Notice that the front of the name is the same as what we put into <strong>getName()</strong> when we made the <code>ArmorGildedNetherite</code> superclass. That’s how it’s finding this texture. The entirety of the armor is textured, actually, and the game is then smart enough to pick the section of the armor needed for each armor piece. Add these two files into the <code>armor</code> directory:</p><div id="458007ff-7e19-473c-82e7-b7c04f87639e" class="column-list"><div id="de81ad2d-7a96-4dd6-9d6e-fc6c5b84fe3c" style="width:50%" class="column"><figure id="91600187-fd6f-4bff-8db8-402cbdf876a6"><div class="source"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_layer_1.png">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4b4240fc-19a7-469f-a870-0aca329e4807/gilded_netherite_layer_1.png</a></div></figure></div><div id="34cb6cc8-6c66-4e69-a3bd-f106ca805eea" style="width:50%" class="column"><figure id="069db911-523e-463b-ae93-88c3724b1bae" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_layer_1%201.png"><img style="width:108px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_layer_1%201.png"/></a></figure></div></div><div id="f2a4fcc0-8154-4e07-86d1-a621de320752" class="column-list"><div id="a2c7484b-023a-4c5a-904e-db6aaf99dcb0" style="width:50%" class="column"><figure id="f590502f-4efa-4377-a651-1bcedf830427"><div class="source"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_layer_2.png">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/34a12b69-162f-4cfb-81c0-7450373a5b3d/gilded_netherite_layer_2.png</a></div></figure></div><div id="e92c702c-e7f0-45d7-adc0-14a74ff2b52c" style="width:50%" class="column"><figure id="f4f8e461-1d35-4cc0-a9cd-e903310613bf" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_layer_2%201.png"><img style="width:108px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_layer_2%201.png"/></a></figure></div></div><p id="98013d6b-1a15-4f87-a588-bad1828e4b2c" class="">Congratulations! You’ve made a successful armor piece.</p><figure id="c31a20aa-4da2-4774-982c-d69c32a47a16" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/1.png"><img style="width:1092px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/1.png"/></a></figure><p id="af026b81-1d45-40ab-9594-cd5c8bf9ef27" class="">Now we can get into the really cool stuff where we mess with even <strong>MORE </strong>functionality.</p><h1 id="b513dd97-7fa5-4f01-9898-4db1e14c6bf4" class="">Tags</h1><p id="9196cdda-4d9b-46c7-9f30-fc6027b75c0d" class="">A tag is essentially a list, or a set, of things in the game. Tags are divided by items, blocks, sounds, and game events. What tags are useful for is when you want to apply some function or attribute to multiple things at once, so rather than having to list every single item every time you want to use them, you can throw them once into a tag and then reference the tag instead.
+
+Let’s make it so Piglins are attracted to and will pick up Gilded Netherite equipment. If you did the additional challenge in the previous workshop, this will be very easy. You just have to add our new item to the list. If not, let’s make the tag JSON file fresh.
+
+Go to resources &gt; data and make a directory called “minecraft”, then a directory called “tags”, then a directory in that called “items”. <code>resources &gt; data &gt; minecraft &gt; tags &gt; items</code> Make a new file titled “piglin_loved.json”. This is the exact name and directory of the tag used by Mojang when determining what Piglins like and will pick up. Use this format for the tag:</p><pre id="e71f3623-6af6-4b6c-9f48-339038a857f6" class="code"><code>{
+  &quot;replace&quot;: false,
+  &quot;values&quot;: [
+    &quot;&lt;namespace&gt;:&lt;item_name&gt;&quot;,
+		&quot;&lt;namespace&gt;:&lt;item_name&gt;&quot;,
+		...
+  ]
+}</code></pre><p id="e8169259-7bbe-4ff4-bd55-b14a42d7f301" class="">The “replace” clause tells us whether or not we are replacing the contents of the tag if there is one with this name already, and the ... means that we can keep adding as many items as we like. Be sure to delete that after you’re done editing the file. Keep “replace” to false, and then add our brilliant alloy and all of our gilded netherite items to the list. Their namespace is ‘workshop’, and their &lt;item_name&gt; will be exactly what you wrote in their registry listings in the quotations. After this, there should be 5 items in the tag.
+
+Now piglins will get distracted by Gilded Netherite items!</p><figure id="f40fe07b-7afc-4ca3-92eb-796b8be2d69f" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/2.png"><img style="width:746px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/2.png"/></a></figure><h1 id="c479b6cb-5370-430e-b241-94b71f33bc34" class="">Mixins</h1><p id="5ae1e920-bd3b-4495-8d26-df21423cd453" class="">A mixin is complicated. You target a source class and then make changes to it based on the methods already in it. Think of it like tricking Minecraft into running some of your code inside its own files, and it thinks it belongs there and runs it like normal.
+
+There is a class file that determines what items the player can be wearing so that Piglins are not aggressive towards them. Currently, that is just gold armor, but we can add our Gilded Netherite armor to that list. Here’s how.
+
+Firstly, go to our workshop.mixins.json file under ‘resources’ and add “PiglinBrainMixin” to the “mixins” array (Include the quotation marks around it). Now, this file is trying to implement a mixin called exactly that, but there’s no file yet. Let’s make it.
+
+Go to java &gt; net &gt; workshop and first make a new package called <code>mixin</code>. Inside of that package, make a new class called <code>PiglinBrainMixin</code>. It is traditional to name your mixin class after the source class you are mixing into.
+
+The format of mixins is very complex and variable depending on the source class, so I think it’s best to show you the outline of our specific mixin, rather than a generic template:</p><pre id="d628afc9-2d18-4af0-9cd0-c2fe8bb658d8" class="code"><code>@Mixin(PiglinBrain.class)
+public class PiglinBrainMixin {
+    @Inject(method = &quot;wearsGoldArmor(Lnet/minecraft/entity/LivingEntity;)Z&quot;, at = @At(value = &quot;INVOKE_ASSIGN&quot;, target = &quot;Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;&quot;), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
+    private static void wearsGoldArmor(LivingEntity entity, CallbackInfoReturnable&lt;Boolean&gt; cir, Iterable iterable, Iterator var2, ItemStack itemStack) {
+        
+        }
+    }
+}</code></pre><p id="a4a9cf75-ca61-4bea-b2c0-a4cf406bdc28" class="">Let’s break this down. First, @Mixin tells us this is a mixin, and the <code>PiglinBrain.class</code> inside the parentheses is the class we are mixing into. After which is our own public class declaration, and then the body of it.
+
+We are going to do an @Inject, which means we are injecting new code into a pre-existing method. That method is <code>wearsGoldArmor</code>, which is the method behind determining if Piglins are aggressive towards players based on if they’re wearing gold armor or not. The next piece in parentheses is the path and return value of the call made to that method.
+
+The @At section tells us what kind of Inject we are doing with the value, in this case it’s an INVOKE_ASSIGN, which means our mixin allows the source class to call another method before it runs. That method is <code>ItemStack.getItem()</code>, referenced in the target section.
+
+Cancellable means that if something goes wrong, we can ignore this piece of code, we don’t have to run it. Lastly, locals will capture any error made while trying to run this code and send it to the terminal for us. This is good for debugging.
+
+The <code>public static void WearsGoldArmor()</code> piece is the setup for the actual method, and the parameters inside are exactly what the source method uses for its body. We do not need to change anything here.
+
+Now let’s add to the body of the method. First, we need to grab the ID of whatever we have equipped. We can do that by making an <code>Item</code> and declaring it to be a call to the <code>itemStack.getItem()</code> method. It looks like this:</p><pre id="e07a292d-38d6-4557-94ef-114b69118100" class="code"><code>Item item = itemStack.getItem();</code></pre><p id="5a647035-2155-400a-a555-cd4571acb831" class="">I just called it item because that’s short and easy, but it’s probably not a great name. Not very descriptive. something like <code>gildedItem</code> would be better.
+
+Now let’s do the logic. Below our item/gildedItem, make an <code>if</code> statement. Inside the parentheses, we need to check two things:</p><ol type="1" id="28b7324b-7839-468d-8a21-b8fbf48bd1d5" class="numbered-list" start="1"><li>Is an item we have equipped armor?<ol type="a" id="8f2a2c5a-bbef-41a8-b0e6-9ed4faca22b4" class="numbered-list" start="1"><li>first, place <code>item</code> in the parentheses.  we will use a special comparison called <code>instanceof</code>, which checks the object type of the item. To finish this comparison, we will use the object type we want, which is ArmorItem. The first part of the comparison is:
+<code>item instanceof ArmorItem</code></li></ol></li></ol><ol type="1" id="5b823521-8785-47b6-bed1-ee89f71dfa55" class="numbered-list" start="2"><li>Is that armor piece Gilded Netherite?<ol type="a" id="1d2ff1f5-2184-407c-bc63-7242cd71107d" class="numbered-list" start="1"><li>Put a <code>&amp;&amp;</code> after the first section so we have to check both pieces of our <code>if</code> statement for it to work. Start some parentheses with a ( symbol. Next, we need to bring in our armor object. The way you do this in Java is you put the object type in parentheses, then the name of the object. Then, close the parentheses. Next, now that we’re using an ArmorItem, we can make a call to its <code>.getMaterial()</code> method. You should have this:
+<code>((ArmorItem) item)</code>
+Now we can compare. Add a <code>==</code> symbol after to compare values. We are going to compare it to our armor variable that we made in ItemInit, the one with &lt;MATERIAL_NAME&gt;. So, the second clause of the statement is:
+<code>((ArmorItem) item).getMaterial() == ItemInit.GILDED_NETHERITE_ARMOR</code></li></ol></li></ol><p id="06eafc95-375c-4b0a-a02e-b06d4e23028d" class="">Inside the body of the <code>if</code> statement, we only need to return a <strong>true</strong>, as in the player is wearing “gold” and so Piglins will not attack them. The body only needs this line:
+<code>cir.setReturnValue(true);</code>
+
+In total, it looks like:
+</p><pre id="a5d36093-3287-4fc6-a996-c72aff941d20" class="code"><code>@Mixin(PiglinBrain.class)
+public class PiglinBrainMixin {
+    @Inject(method = &quot;wearsGoldArmor(Lnet/minecraft/entity/LivingEntity;)Z&quot;, at = @At(value = &quot;INVOKE_ASSIGN&quot;, target = &quot;Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;&quot;), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
+    private static void wearsGoldArmor(LivingEntity entity, CallbackInfoReturnable&lt;Boolean&gt; cir, Iterable iterable, Iterator var2, ItemStack itemStack) {
+        Item item = itemStack.getItem();
+        if (item instanceof ArmorItem &amp;&amp; ((ArmorItem) item).getMaterial() == ItemInit.GILDED_NETHERITE_ARMOR) {
+            cir.setReturnValue(true);
+        }
+    }
+}</code></pre><p id="4ffb85c9-56f0-4652-ae7a-89ea664299d7" class="">And we’re done! Piglins will no longer attack players wearing gilded netherite armor.</p><figure id="310b91ea-e1f0-44df-9331-0b9aa4a322ab" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/3.png"><img style="width:1246px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/3.png"/></a></figure><h1 id="4681d1c2-3318-423e-8ea7-1f894669c7c8" class="">Additional Challenges</h1><p id="c25b5ee5-9dca-4301-ae49-76eb1239eaba" class="">There’s lots more that you can do with this. Truly, we’ve only scratched the surface of what you can do with these items.</p><h3 id="0faaaf7d-2fd5-4226-bf60-8b23b725a43e" class="">Full Gilded Set</h3><p id="4bb1514d-6d10-49fa-92c7-1238cc0abbaa" class="">The most obvious thing we can do is expand our armor into a full set. The textures for the armor are already made, so we just have to add item model files and textures and declare and register them. The rest should be taken care of.</p><div id="a3768a73-2009-4b5a-b841-ed999aa96878" class="column-list"><div id="9a29b785-7dc5-4974-b963-6e2c7ed04a23" style="width:50%" class="column"><figure id="bb84b41f-6337-4dda-a8de-e33116bd1925"><div class="source"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_chestplate.png">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ea96a9d0-b538-4c1c-92ed-287861361b70/gilded_netherite_chestplate.png</a></div></figure></div><div id="51f77398-e935-428a-99e1-a0d2d3095b0d" style="width:50%" class="column"><figure id="83a4a843-e1fc-4470-acaa-4d3b8de80c7b" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_chestplate%201.png"><img style="width:36px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_chestplate%201.png"/></a></figure></div></div><div id="2c9d3258-f148-4335-bea6-408d75aa875b" class="column-list"><div id="8c9d91ae-deb9-4f62-b50a-fc249495af22" style="width:50%" class="column"><figure id="7e39b7f5-7dd2-4571-8bb0-f37a3c3057cc"><div class="source"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_leggings.png">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bb1b0395-212f-4e89-b9a4-4dd994e9236f/gilded_netherite_leggings.png</a></div></figure></div><div id="6cab9efa-3d79-4a0e-979d-ebb52f4ea4ce" style="width:50%" class="column"><figure id="bc7a30c7-c369-4907-9685-ac9ecff6dbc0" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_leggings%201.png"><img style="width:36px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_leggings%201.png"/></a></figure></div></div><div id="99a454e5-e19a-46c2-adae-185b6833947e" class="column-list"><div id="1b2965c9-b7bf-4640-84c1-4408acb0de1b" style="width:50%" class="column"><figure id="8924ba3a-230c-4923-80c5-14b43243633b"><div class="source"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_boots.png">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2db3083e-5c00-4ed0-83a5-b6e030a6abf8/gilded_netherite_boots.png</a></div></figure></div><div id="667724a9-8be4-4899-8ed0-f2b59677d42f" style="width:50.000000000000014%" class="column"><figure id="f3180615-cfbe-49ea-ad25-26c0710b91ac" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_boots%201.png"><img style="width:36px" src="Minecraft%20Fabric%20Modding%20-%20Workshop%203%20Armor,%20Tags,%20461d7b0d009c403bbd37399e913e9743/gilded_netherite_boots%201.png"/></a></figure></div></div><h3 id="1e1452b5-845b-4c75-a16f-2f28f61f368b" class="">Recipes &amp; Recipe Advancements</h3><p id="ea001c74-b2f4-4150-8938-7a156bfd6c16" class="">We can also add recipes to our new armor so we can actually obtain it in-game. For these, I want to follow the format of our gilded netherite sword, in that you use a gilded netherite ingot at a smithing table to gild our armor. Considering that you already have the code for this, this should hopefully be an easy exercise.
+
+This also extends to our recipe advancement files. We should be able to add these new recipes to the advancement JSON file for gilded netherite equipment.</p><h3 id="f3ae97f2-57ca-48d5-be67-308238304385" class="">Language File</h3><p id="8a55a87b-03af-4b15-a5cd-f47a1d8f31cd" class="">We can also add all of our new armor pieces to our language file. Hopefully, by now these files and additional challenges have become easier since you’ve had more practice adding to them</p><h3 id="82725a6d-6492-42d0-a814-f3488427716c" class="">All New Advancement</h3><p id="7cb9ed80-af53-4427-9351-db885f7cf729" class="">Let’s make an all-new advancement! This advancement will trigger once we wear a full set of Gilded Netherite Armor. There are actually a couple of parts to this, so let’s break it down.
+
+<strong>Language File</strong>
+It’s good practice to place the title and description of the advancement in the language file. Enter a couple of times after all the other lines and make a new section. Since these are our own inventions, we’ll use our own namespace and path:
+<code>”workshop.advancements.&lt;name&gt;” : “&lt;title&gt;”</code></p><p id="4fb3b0d1-02d0-44ab-8268-95e725598433" class="">The reference name I’d like is <code>get_full_gilded_set</code>. It’s simple and descriptive. Then, for the title, I’ll go with something a little silly, like how the in-game advancements are named. So I’ll call this advancement “High Fashion”. This line is then:
+<code>&quot;workshop.advancements.get_full_gilded_set&quot;: &quot;High Fashion&quot;</code>
+Now for the description. Typically, we place the description under the title line as:
+<code>“workshop.advancements.get_full_gilded_set.desc”: “&lt;desc&gt;”</code>
+The description should be short but clear in its requirement. Something like “Obtain a full set of Gilded Netherite Armor” should suffice.
+
+<strong>Advancement File</strong>
+Now we make the advancement file. Go to resources &gt; data &gt; workshop &gt; advancements and make a file titled after our entry in the language file (get_full_gilded_set.json). Use this format to build it:</p><pre id="f4dda4e9-645d-4683-81b1-77cb5981dfa3" class="code"><code>{
+  &quot;parent&quot;: &quot;minecraft:nether/netherite_armor&quot;,
+  &quot;display&quot;: {
+    &quot;title&quot;: {
+      &quot;translate&quot;: &quot;&lt;namespace&gt;.&lt;advancement&gt;&quot;
+    },
+    &quot;description&quot;: {
+      &quot;translate&quot;: &quot;&lt;namespace&gt;.&lt;advancement&gt;.desc&quot;
+    },
+    &quot;icon&quot;: {
+      &quot;item&quot;: &quot;&lt;namespace&gt;.&lt;item_name&gt;&quot;
+    },
+    &quot;frame&quot;: &quot;challenge&quot;,
+    &quot;show_toast&quot;: true,
+    &quot;announce_to_chat&quot;: true,
+    &quot;hidden&quot;: false
+  },
+  &quot;criteria&quot;: {
+    &quot;criteria1&quot;: {
+      &quot;trigger&quot;: &quot;minecraft:inventory_changed&quot;,
+      &quot;conditions&quot;: {
+        &quot;items&quot;: [
+          {
+            &quot;items&quot;: [&quot;&lt;namespace&gt;.&lt;item_name&gt;&quot;]
+          }
+        ]
+      }
+    },
+    &quot;criteria2&quot;: {
+      &quot;trigger&quot;: &quot;minecraft:inventory_changed&quot;,
+      &quot;conditions&quot;: {
+        &quot;items&quot;: [
+          {
+            &quot;items&quot;: [&quot;&lt;namespace&gt;.&lt;item_name&gt;&quot;]
+          }
+        ]
+      }
+    },
+    ...
+  },
+  &quot;rewards&quot;: {
+    &quot;experience&quot;: &lt;int&gt;
+  }
+}</code></pre><p id="c8c872a6-44ea-4322-bcd0-6e66af5f50fe" class="">The parent is the advancement that this one will branch off of in the menu, which is the one to acquire full netherite armor. The title and description are references to the lines we wrote in the language file, so we can copy them into here. The icon is the picture that displays for the advancement in the menu, and on the popout when you get it. I think the gilded netherite helmet has the best item texture, so I put in <code>workshop.gilded_netherite_helmet</code>.
+
+The frame tells what kind of advancement this is. The one I entered, “challenge,” is the coolest one, and is what the parent advancement uses. It has the big logo with he music cue that plays. “show_toast” means whether or not to display the popout when you get the advancement. The next two are a bit self-explanatory.
+
+The criteria are actually how we unlock this advancement. The names, “criteria1” and “criteria2” are placeholders and can be swapped out for anything. The trigger, “inventory_changed”, looks for changes in your inventory and tries to spot certain items or changes that happened. Therefore, we should have four criteria, each of them “inventory_changed”, and should look for each one of our gilded netherite armor pieces. You can copy and paste the block for one of the criteria to make two more. The ... is a placeholder to mean that we can have more criteria after these two. Delete that before you make new criteria.
+
+Lastly, the “reward” is what we get for this. The “experience” argument is a precedent from other high-level advancements, and I thought 500 xp was a fair amount for such a high-level advancement.
+
+There’s lots of alterations and different forms advancements can take, so I suggest reading up on it more if you’re interested:
+Advancements: <a href="https://minecraft.fandom.com/wiki/Advancement#Cover_Me_in_Debris">https://minecraft.fandom.com/wiki/Advancement#Cover_Me_in_Debris</a>
+JSON Format: <a href="https://minecraft.fandom.com/wiki/Advancement/JSON_format#List_of_triggers">https://minecraft.fandom.com/wiki/Advancement/JSON_format#List_of_triggers</a></p><h3 id="e383299f-41f7-492f-a829-10b4569f4528" class="">Knockback Resistance Mixin</h3><p id="82f5bea6-3f97-4266-9d40-3fb427eb0176" class="">We can actually make our value for knockback resistance work with a mixin. For some odd reason, that attribute and ONLY that attribute is hard-coded by Mojang, specifically so that only netherite is the only armor that gets it. Our work-around will be to use a mixin to force the game to give our new armor the attribute.
+
+Go to java &gt; net &gt; workshop &gt; mixin and make a new class called <code>ArmorItemMixin</code>. Make sure to add this name to our workshop.mixins.json file in resources. This is a mixin, so add
+<code>@Mixin(ArmorItem.class)</code>
+Before our public class declaration. Then, in our public class, add the word “abstract” between the words so that is now reads
+<code>public abstract class ArmorItemMixin {
+</code>Now here’s a very fun part. There is a LOT of complicated Java stuff happening in this mixin, stuff that even I’m not fully sure on the details of, but I will do my best to explain what is happening.
+
+The first section @Shadows some variables from the superclass, as these three lines:
+</p><pre id="24b9dd29-67a0-4be9-bb47-409ebf19725c" class="code"><code>@Shadow @Final private static UUID[]MODIFIERS;
+@Shadow @Final @Mutable private Multimap&lt;EntityAttribute, EntityAttributeModifier&gt; attributeModifiers;
+@Shadow @Final protected float knockbackResistance;</code></pre><p id="00d7245c-e421-488b-ae6d-0a6e9df76a0e" class="">The MODIFIERS array is the array of the values we placed into our ArmorGildedNetherite class. The Multimap is like a graph of those modifiers, so the system can keep track of them. The protected float knockbackResistance is that value that controls that attribute, and the fact that it’s protected is the reason we have to do this in the first place.
+
+The next part is the @Inject. It goes like this:</p><pre id="f1cbdacf-9678-44b5-ab96-382c42805083" class="code"><code>@Inject(method = &quot;&lt;init&gt;&quot;, at = @At(value = &quot;RETURN&quot;))
+private void constructor(ArmorMaterial material, EquipmentSlot slot, Item.Settings settings, CallbackInfo ci) {
+    UUID uUID = MODIFIERS[slot.getEntitySlotId()];
+    if (material == ItemInit.GILDED_NETHERITE_ARMOR) {
+        ImmutableMultimap.Builder&lt;EntityAttribute, EntityAttributeModifier&gt; builder = ImmutableMultimap.builder();
+
+        this.attributeModifiers.forEach(builder::put);
+
+        builder.put(
+                EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE,
+                new EntityAttributeModifier(uUID,
+                        &quot;Armor knockback resistance&quot;,
+                        this.knockbackResistance,
+                        EntityAttributeModifier.Operation.ADDITION
+)
+        );
+
+        this.attributeModifiers = builder.build();
+    }
+}</code></pre><p id="b2478033-0394-49f7-abe1-3b1ef173c4bc" class="">Firstly, the @Inject’s method target the “init”, meaning it runs this code on startup, and value RETURN adds this code to the return section of the superclass. This means that this mixin will first run when the class is loaded, and immediately return whatever values it gets.
+
+We then declare a universally unique identifier (UUID) for each set of MODIFIER values found on startup. As in, for each armor material we find.
+
+If the material superclass of that modifier is ArmorGildedNetherite (ItemInit.GILDED_NETHERITE_ARMOR), then it builds a new Multimap for every piece of armor it finds with that superclass (all four armor pieces we made).
+
+It then does a <code>forEach</code> loop, where it will run <code>builder.put</code> for each piece of armor in the Multimap.
+
+Inside of <code>builder.put</code>, it grabs the value for GENERIC_KNOCKBACK_RESISTANCE (currently 0), and then it grabs a new attribute, the value for knockback resistance that we put into ArmorGildedNetherite, and gives it a name (which is what’s in the quotations). It finally adds those two values together, and then the constructor builds the armor piece’s new attributes, which means it now has knockback resistance.</p><h1 id="57cd6877-a65c-4f1f-8ff8-3866cee3b33a" class="">Conclusions &amp; Looking Forward</h1><p id="cc711f55-7338-442b-8823-e17bdcb54d5a" class="">This was a very dense and technical workshop. There was a lot of fundamental and complex Java stuff happening, and it was definitely a lot to absorb. The best thing about all of it in this context is that you have it all completed in front of you, and now you can take your time to analyze it and break it down to see how it connects and works. Studying the code you wrote and thinking critically about it is one of the best ways to improve your programming skills and algorithm writing, since you’re breaking down how working algorithms work and where they can go wrong.
+
+In the next workshop, we will introduce more important Java skills like importing libraries and creating dependencies by making an all new weapon type: spears. This will include adding new functions to the spear that other weapons do not have, modifying reach properties, and dynamically changing damage based on inventory. This will also be a fairly dense workshop, so don’t be afraid to read ahead and start to think about the concepts at play.
+
+Thank you, and we hope to see you next week!</p></div></article></body></html>
