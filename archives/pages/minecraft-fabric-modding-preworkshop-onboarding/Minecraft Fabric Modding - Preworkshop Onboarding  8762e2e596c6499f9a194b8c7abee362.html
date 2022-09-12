@@ -1,0 +1,692 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Minecraft Fabric Modding - Preworkshop Onboarding: JDK, IntelliJ, Fabric, and Gradle</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="72079737-750f-4768-90e4-8666e30587ce" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="Minecraft%20Fabric%20Modding%20-%20Preworkshop%20Onboarding%20%208762e2e596c6499f9a194b8c7abee362/21025855.png"/></div><h1 class="page-title">Minecraft Fabric Modding - Preworkshop Onboarding: JDK, IntelliJ, Fabric, and Gradle</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M7.01356 14.0001C8.8042 14.0001 10.5958 13.3107 11.9575 11.9324C14.681 9.21201 14.6808 4.7603 11.9571 2.04013C9.23336 -0.680043 4.77573 -0.680043 2.05199 2.04013C0.727519 3.36277 0 5.13301 0 6.99553C0 8.8764 0.727811 10.6285 2.05199 11.9509C3.43207 13.3106 5.22243 14.0001 7.01356 14.0001ZM3.72947 7.00914V8.461V8.65543H3.92382H5.34563H8.2794H8.4738V8.461V5.52541V3.37947V3.18502H8.2794H6.82747H6.63307V3.37947V6.81467H3.92382H3.72947V7.00914ZM1.83985 6.99553C1.83985 5.61698 2.38099 4.32597 3.36061 3.3477C5.36746 1.34337 8.64803 1.34062 10.6585 3.33944C10.6613 3.34219 10.6639 3.34494 10.6668 3.3477C12.676 5.3546 12.6763 8.63642 10.6668 10.6434C8.65705 12.6504 5.37031 12.6504 3.36061 10.6434C2.38099 9.66506 1.83985 8.37408 1.83985 6.99553Z"></path></svg></span>Created</th><td><time>@January 27, 2022 7:04 PM</time></td></tr><tr class="property-row property-row-multi_select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>Tags</th><td></td></tr></tbody></table></header><div class="page-body"><p id="22e8b09b-d747-4900-9776-ab0c747dddb2" class="">Estimated Time: ~42:53 Mins</p><h1 id="f70e4f68-44cc-4691-896d-bab1a72272a2" class="">Setup and Installations</h1><p id="346bf91a-4250-44c0-a90a-ee0a78a4aa37" class="">Before we can start modding, we’ll need to set up a few things so we can mod in the correct environment. I’ve included some explanation on what each of these things is and how to install them below. </p><p id="326b84ed-9116-47fd-90f6-24f7250981ad" class="">These are: JDK 17, IntelliJ, WinRAR (or equivalent), Fabric Example Mod Template</p><h2 id="3689b84a-95dd-411f-baa1-8d484a6c0deb" class="">JDK</h2><p id="3e5c68e9-64c0-4b29-b60a-480baecf7b25" class="">This is the Java Development Kit, a set of tools and classes that Oracle provides for developers such as us we will use to make our mods. This allows us to do all sorts of cool tricks like creating and modifying registries, building mixins, calling on and modifying superclasses, and more. All of the aforementioned and more will be future activities in these workshops. Hopefully, in the end, you will understand what these concepts are and how to execute them.</p><p id="2f5bfc4b-319a-48cd-bded-c53feda1cf82" class="">Previous versions of Minecraft use older versions of the JDK, and while most are backward-compatible (as in you can use a newer JDK to make a mod for an old Minecraft version) some may not be. If you plan on modding for older versions of the game, keep in mind what version of the JDK they need and whether or not yours is compatible.</p><p id="9b4ab20d-2dcc-4253-a885-2b09cd81f8db" class="">For these workshops, we will be modding in version 1.18.1, the most recent as of writing this. As such, we will use Java SE Development Kit 17.0.1, the most recent addition.</p><h3 id="8e4fab27-db05-42d1-8f15-14ff884a17fd" class=""><strong>Installation</strong></h3><ul id="19c4a2bc-18da-401b-af3b-f8e78cb0fcb3" class="bulleted-list"><li style="list-style-type:disc">Go to this link: <a href="https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html">https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html</a> (If outdated, you may need to look this up)</li></ul><ul id="86f791d7-f3b3-4f35-b735-df17f6c27df3" class="bulleted-list"><li style="list-style-type:disc">Find the version that is right for your OS and download. You can manually install the JDK if you’d like, but I recommend downloading the installer. For Windows, that is the .exe file, and for Mac, it is the DMG</li></ul><ul id="ae7cfb55-0789-4470-bf01-6570bf296bb9" class="bulleted-list"><li style="list-style-type:disc">The installation should be rather straightforward. Follow the instructions of the installer and let it do its thing</li></ul><ul id="d9a8bae2-895b-4309-b441-0c8d4963695e" class="bulleted-list"><li style="list-style-type:disc">After a successful installation, we’ll need to do something a bit risky to make sure your computer is pointing to the right place. You may have an older version of the JDK from programming classes or that was first installed with your computer, so we need to check the JAVA_HOME system variable so it knows where to find JDK 17<ul id="8ebcf455-a29e-4ff2-915c-3e3685f473f2" class="bulleted-list"><li style="list-style-type:circle"><strong>Info:</strong> the JAVA_HOME variable is the path your computer uses to find your JDK installation. Essentially, you’re just pointing it in the right direction. It may be hard-coded to look at a specific JDK you installed, so we’ll change it to look at JDK 17</li></ul><p id="ca66f998-72fc-4fbb-b2a1-4d4d41b07f8e" class=""><strong>Windows:</strong> In your system search bar, look up ‘Environment Variables’ and click on the first system result. This will pull up a menu called System Properties. Go to the Advanced tab and click on Environment Variables at the bottom<div class="indented"><figure id="8762e2e5-96c6-499f-9a19-4b8c7abee362" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Preworkshop%20Onboarding%20%208762e2e596c6499f9a194b8c7abee362/Capture.png"><img style="width:1031px" src="Minecraft%20Fabric%20Modding%20-%20Preworkshop%20Onboarding%20%208762e2e596c6499f9a194b8c7abee362/Capture.png"/></a></figure></div></p><ol type="1" id="c523925b-1653-467f-87e2-c92a3d518aea" class="numbered-list" start="1"><li>Go to system variables (the second box) and check to see if there’s a JAVA_HOME variable. If not, click New the box. If it is there, you may need to still edit the path. The name of the variable will be JAVA_HOME and the path is the installation path for JDK 17. Mine is:
+<strong>C:\Program Files\Java\jdk-17.0.1</strong>
+Though yours may be a bit different. Be VERY sure that the path you put in is exactly where your installation is. <em>Hint:</em>  if you go to the folder JDK 17 is in and right-click on the path bar, you can ‘Copy address as text’ and paste it in for 100% accuracy.</li></ol><figure id="fc0ccea7-2eff-4fd4-8379-bd0e716244c0" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Preworkshop%20Onboarding%20%208762e2e596c6499f9a194b8c7abee362/Untitled.png"><img style="width:1134px" src="Minecraft%20Fabric%20Modding%20-%20Preworkshop%20Onboarding%20%208762e2e596c6499f9a194b8c7abee362/Untitled.png"/></a></figure><ol type="1" id="a232414f-425d-4f41-bbe1-ce10b59707c9" class="numbered-list" start="2"><li>Go to system variables (the second box) and find the Path variable. Double-click on it to edit. If you did not have to create the JAVA_HOME variable, check to see if JAVA_HOME appears in any of the system variables. If not, you’ll need to add it. On the right side, click ‘New’ and type 
+<strong>%JAVA_HOME%\bin</strong>
+and then use the Move Up button on the right to move it all the way to the top of the list so the JDK loads faster when you start your computer.</li></ol><ol type="1" id="3557c773-4e0d-4176-9c89-f669d5e8824d" class="numbered-list" start="3"><li>To check if the path worked, open Command Prompt and type (without quotations)
+<code>”echo %JAVA_HOME%”</code>
+and it should print the path to JDK 17</li></ol></li></ul><p id="e54f3990-fcc1-46c0-9b43-5a28f45ec6eb" class=""><strong>Mac: </strong>Admittedly, I am far less familiar with how to set up the JDK on a Mac. I found a tutorial that seems to explain it far better than I could, but if there is trouble or concern you can always reach out and we can help you as best as we can. I can also reach out to people more familiar with Macs than me and redirect them to you.
+<a href="http://www.sajeconsultants.com/how-to-set-java_home-on-mac-os-x/">http://www.sajeconsultants.com/how-to-set-java_home-on-mac-os-x/</a>
+
+With all of this done, your JDK should hopefully be ready to go! This was the longest and most cautious part, so from here it should be much easier.</p><h2 id="1744ca05-4968-4f28-b5a0-132f255e713a" class="">IntelliJ</h2><p id="ae6605eb-1c9c-4372-9fc2-96d8075b0a0b" class="">IntelliJ is an Integrated Development Environment (IDE) for Java. For those of you who took Programming I and II and worked with Eclipse, that too is an IDE. It simply means that we have created a workspace for our code so that we can more easily work with it. IntelliJ offers auto-complete suggestions for code, real-time corrections to code, and a dark mode that looks very nice. Eclipse works as well, but in my opinion, IntelliJ works better and looks cleaner. For this workshop, I will be working in IntelliJ and will base a lot of my IDE instructions on IntelliJ, but if you are more comfortable with another like Eclipse or Visual Studio Code, I can assist there as well.</p><h3 id="d6859f08-115d-4ec0-a38b-7453c0126cfc" class="">Installation</h3><ol type="1" id="7008c6b2-27f5-4dd8-a2b7-bba06b946e58" class="numbered-list" start="1"><li>Go to this link: <a href="https://www.jetbrains.com/idea/download/#section=windows">https://www.jetbrains.com/idea/download/#section=windows</a></li></ol><ol type="1" id="d3964865-60ff-498e-94fb-daac68b67053" class="numbered-list" start="2"><li>Select your OS and download the Community version (the free one)</li></ol><ol type="1" id="a97b5609-a74f-4b15-bb90-dd4dff1b4aca" class="numbered-list" start="3"><li>Follow its instructions to install IntelliJ</li></ol><ol type="1" id="e3c877eb-fa84-4ca3-998e-466ff7c6e243" class="numbered-list" start="4"><li>You should be ready to go, but there’s a couple of extensions we can download to make modding nicer. Pull up IntelliJ and on the right side click on Plugins<ol type="a" id="6d155171-6e3c-4d13-a0f2-8e6b681eb79e" class="numbered-list" start="1"><li>In the Marketplace tab, search up Kotlin and install the first result (should just be called Kotlin)</li></ol><ol type="a" id="ed1438c8-b163-4383-a637-90a4f4570b88" class="numbered-list" start="2"><li>Next, look up Minecraft and install Minecraft Development (this will add auto-complete and importing support for Minecraft-related files and code)</li></ol></li></ol><p id="8ae6e9b1-3312-4f18-bbda-d9d25b7463f3" class="">Your IntelliJ is ready to go! Now we’ll need is a fabric project to start working in, and so we’ll need a way to open them.</p><h2 id="fd4025f7-a7f3-46ee-91dd-f307413776bb" class="">ZIP Files &amp; WinRAR</h2><p id="39797cbb-8e72-453c-9eff-1db30453aa06" class="">Most projects you will download directly will come in ZIP folders, compressed folders that save space and create added security (when wanted). The template we’ll download after this is in a ZIP folder, so we need a way to extract it. If you’re familiar and comfortable with Git and Github, you can extract it through that. However, I also want to cover the manual way as well. Your computer may already have a way to do this, such as WinZip, 7-Zip, jZip, and WinRAR (Mac’s come with an application for this, I believe). If you don’t have a way to open zip files, you can download WinRAR for “free.” Technically, it’s only a 30-day trial before you have to purchase a license, but so long as you keep closing their reminders that your trial is expired, you can keep using it. The full version includes some neat features, so if you feel like supporting the developers, you can purchase it if you’d like.
+
+<a href="https://www.win-rar.com/download.html?&amp;L=0">https://www.win-rar.com/download.html?&amp;L=0</a>
+
+From here, download the most recent version of WinRAR for your OS and install it. With that, you can now work with ZIP folders, and finally, we can load in the project.</p><h2 id="72ba8a6d-5a04-4100-9a02-6686c31430c8" class="">Fabric &amp; Gradle</h2><div id="f24a8098-1298-4126-ac1e-2cf5ffe962da" class="column-list"><div id="2025cf6e-5361-490a-881b-17c7e4674041" style="width:50%" class="column"><p id="292b33c6-2643-43c1-ab55-906208333f0e" class="">Using the original Source Code:</p></div><div id="49fef04b-3a8e-49c4-9e26-616e39265460" style="width:50%" class="column"><figure id="db5528b0-b1f1-4d80-a7d1-62976ef2bb77" class="link-to-page"><a href="Minecraft%20Fabric%20Modding%20-%20Preworkshop%20Onboarding%20%208762e2e596c6499f9a194b8c7abee362/Refactoring%20Fabric%20Clone%20db5528b0b1f14d80a7d162976ef2bb77.html"><span class="icon">⏱️</span>Refactoring Fabric Clone</a></figure></div></div><p id="d63521b9-810c-402b-b5ac-1540a61f2c7a" class="">Fabric is a toolkit that uses the JDK as a foundation to create more intricate tools specifically for Minecraft mods. It does a LOT of legwork behind the scenes to make modding as easy as possible for us. It also loads in the source code for Minecraft and allows us to work with it directly in our environment of choice (more on that later). </p><p id="c2586a60-755d-4fda-ad16-77c4cecf927a" class="">This combines with the Gradle wrapper, which is an extra specialized toolkit for version control and publishing. Fabric uses Gradle so that any mod made with Fabric is in the Gradle system, and thus can be ported in and used as a library by another mod. This makes it WAY easier to import libraries and create dependencies.</p><p id="20125b7b-75dd-4644-8fbd-a7ada7bb57aa" class="">For these workshops, we have put together a clean template for us to use throughout the semester. You can find it here: </p><figure id="30c6186e-bd94-48b3-bdfe-fcfc731aed67"><div class="source">https://github.com/catanobro10/MC-Fabric-Workshop</div></figure><p id="4aa8d19e-68e0-4e00-b146-35c7524e7afd" class=""><del>You’ll be taken to page on Github with a lot of information on the project’s history, reported issues, push information, pull requests, and lots of other cool Git stuff that we can discuss and learn later as we go through the project and learn some helpful Git techniques.</del></p><p id="5b8fe711-986b-4907-bb90-cc182d0d6538" class="">
+</p><p id="4f11ea0c-5611-4f2e-af66-d0da9a8ba402" class="">You have two options to bring the template to your computer: using Git, or manually downloading and extracting it. Either way, I recommend making a new folder on your Desktop where you can put all of our workshop materials.</p><h3 id="24c0759a-7036-403a-b433-6c6da9d5804b" class=""><strong>Git HTTPS:</strong></h3><p id="8204f6eb-8b6f-4312-ae6c-2d91fe805d15" class="">This requires GitBash or Git SCM to be installed on your computer. If you don’t have these, don’t worry about it, you can do the manual way instead. These workshops are not meant to teach you Git. Go to the top and make sure the left tab is selected to 1.18, the version of the project we want. Next, go to the right side and clock on Code, then select the small tab ‘HTTPS’. You’ll see a URL. On the right side of that URL is a little button to copy it. Click that. Next, open up your command prompt or other system console and ‘cd’ into your workshop folder. You start at your User profile on your computer. For me, my folder is on my desktop and is called Minecraft Workshop Materials, so I’ll put it in</p><pre id="5d5c9d32-2000-4970-8384-b92124e00c95" class="code code-wrap"><code>cd Desktop\Minecraft Workshop Materials</code></pre><p id="0540da59-fa53-41f0-a0d5-e61ef57cf35a" class="">Once there, you can type</p><pre id="c31ab5e0-3f4e-4572-a21d-c5fedb883363" class="code code-wrap"><code>git clone https://github.com/catanobro10/MC-Fabric-Workshop.git</code></pre><p id="0ef2dc60-41b5-4ea0-bc89-437a413f474e" class="">and it will download a clone of the project for you.</p><h3 id="92a307a1-ff91-4a8f-ae08-404e5dc7ab60" class=""><strong>Manually:</strong></h3><p id="8267c4e0-2b44-448d-86e6-5e9804245ee0" class=""> Go to the top and make sure the left tab is selected to 1.18, the version of the project we want. Next, go to the right side and click on Code, then click on Download ZIP. Download the project to a place you can easily find it. Finally, open it up and extract the folder into your workshop folder</p><ul id="95337ce2-5cd3-4c73-838f-b681d38dd3aa" class="bulleted-list"><li style="list-style-type:disc"><strong>Advanced Technique:</strong> This repository is also a template, which means you can use it to create your own repository formatted after ours that you own and have control over. This can be very nice if you decide to start modding on your own time outside of these workshops, as you can quickly create your own mod repositories for people to visit, download your mod, report bugs and issues, and have other collaborators easily merge changes.</li></ul><ul id="afe34433-26f1-4bcf-9454-80e4d5ca1f80" class="bulleted-list"><li style="list-style-type:disc">All you need to do is be signed into GitHub and click “Use This Template”, give your new repository a name, make sure you’re the owner, and save. You can then use the same techniques above to clone the project</li></ul><p id="2c6d1656-e227-4666-b09e-3a56bd96a886" class=""><del>We actually don’t need to install anything else, as they come with the example project. However, if you have a version of Minecraft on your computer and want to either test your mod with the real version or just want to start exploring Fabric mods, you can go here to install Fabric for your game:
+
+</del><del><a href="https://fabricmc.net/use/installer/">https://fabricmc.net/use/installer/</a></del></p><h3 id="cd0f0285-fffd-474c-9246-6bc3129e339a" class="">More Info</h3><p id="4587fc80-bd59-4c68-b505-5abd2f3a836d" class="">The developers have very kindly created a whole Wiki to help with modding, and some better explanations of all the tools and systems that Fabric uses to turn the cogs. I will link these as well if you’re interested. We will be referring to the wiki multiple times during our workshops to have a starting place for our mods, but they do not explain everything. For that, you’ll have to play around with the code and problem-solve your way towards a solution.
+
+Intro to Fabric: <a href="https://fabricmc.net/wiki/tutorial:introduction">https://fabricmc.net/wiki/tutorial:introduction</a>
+Yarn and Loom: <a href="https://fabricmc.net/wiki/tutorial:migratemappings">https://fabricmc.net/wiki/tutorial:migratemappings</a>
+Additional Helpful Libraries (we may use a couple of these later): <a href="https://fabricmc.net/wiki/documentation:libraries">https://fabricmc.net/wiki/documentation:libraries</a></p><h1 id="0eaf78e2-0666-4894-8729-8241dc805514" class="">Loading &amp; Running the Project</h1><p id="0392f812-1997-4c02-b710-b563bd906586" class="">Now we can load the project into IntelliJ and ensure that it will run properly. This may require a lot of troubleshooting and trial and error, but once you do it once, it’ll be MUCH easier every time after.</p><ol type="1" id="95ec20ff-8a8a-4cab-8f24-cf572b73c85a" class="numbered-list" start="1"><li>Open up IntelliJ and select Open. Find the folder of the example mod (base-named fabric-example-mod-1.18). Be sure to select the extracted folder and not the ZIP folder. It may ask if you trust the project since Gradle can have some security issues related to loading foreign projects. In this case, we can trust this project, but do be careful about other people’s source code</li></ol><ol type="1" id="9e77aaba-9ce9-4621-aada-78d56ef9093f" class="numbered-list" start="2"><li>Gradle will probably start loading up immediately after opening the project. Let it do its thing in the meantime. This can take a couple of minutes to 10 minutes depending on your internet, your computer’s speed, Gradle’s server traffic at the moment, and lots of other stuff. You may also get an error message saying that JDK 17.0.1 is incompatible with a certain Gradle version. The build should sort this out automatically.</li></ol><ol type="1" id="e2ddc66a-735c-42fb-b83a-c77750fad5d1" class="numbered-list" start="3"><li>IntelliJ will probably also pull up the Build console while Gradle is running and setting stuff up. If it does not, go to the bottom and click ‘Build’ to pull it up. After Gradle has done its thing, you will hopefully see BUILD SUCCESSFUL at the end of the runtime. However, a lot of errors can occur, and in that case, you can go the section right after this to debug these</li></ol><ol type="1" id="60be46b5-7cda-4d44-a60e-9d2fc5b50a78" class="numbered-list" start="4"><li>With a successful build, we can do a test run of the project. On the right side, you should see a small tab called Gradle. Click on that, then open up <code>Tasks</code>, and it will pull up lots of Gradle options. Open up <code>fabric</code> and double-click on <code>runClient</code>. Gradle will get to work building and running your project with a debug version of Minecraft. Hopefully it will simply load up after a bit of time and an instance of Minecraft will run on your computer. Check the Build console to see all the work it’s doing and if there are any errors. You will also very likely get a 401 error, which is Minecraft saying that there is no valid player on the game, so it will give you a dummy player named something like Player4836 or some other random number.</li></ol><p id="3e06a1d9-8834-4146-bb01-e4c4e1cc0025" class="">You should now have a fully set up project and environment to do some Minecraft modding! From here, you can begin to play with code yourself and take a look at the Fabric Wiki to see what sort of things you can do. In the first workshop, we will start simple by making a couple of basic items that use crafting recipes and a furnace to obtain. Therefore, you can read ahead and look at the sections on making a basic item and creating recipes.</p><h3 id="232e02aa-28ae-4aae-bac5-5d8b90015617" class="">Common Issues</h3><p id="0854a001-b58f-49b9-b3de-806bc15373f4" class="">More often than not, the initial Gradle build fails. Fortunately, I’ve dealt with these often enough that I can debug the most common ones quickly.</p><p id="d7ed1267-0dd0-4316-9ff0-cbf7226b7d1c" class=""><strong>Wrong Java Bytecode:</strong> First we can check to make sure Java loaded in properly. At the top left, open File and go to Settings. In the search bar, look up ‘Java Compiler’. You should be sent to tab called exactly that. Under the “Use ‘—release’ option for cross-compilation” checkbox, click on the dropdown box and select 17 (as in JDK 17’s bytecode). Hit Apply in the bottom-right to save.</p><figure id="06160c7b-ef6d-4fd6-bfa0-4a51314c391f" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Preworkshop%20Onboarding%20%208762e2e596c6499f9a194b8c7abee362/Untitled%201.png"><img style="width:1006px" src="Minecraft%20Fabric%20Modding%20-%20Preworkshop%20Onboarding%20%208762e2e596c6499f9a194b8c7abee362/Untitled%201.png"/></a></figure><p id="6afbe0b7-2a23-4d40-82db-77a35ce449a4" class=""><strong>Incorrect Gradle JDK:</strong> Gradle may just be looking at the wrong JDK. If you have an older JDK installed on your computer, IntelliJ may point to that one by default, messing with Gradle. We can change this easily. In the Settings search bar, look up ‘Gradle’ and it will take you to the Gradle settings page. At the very bottom, select the dropdown for Gradle JVM and select either JAVA_HOME or JDK 17.0.1 directly. Either should work. Hit Apply in the bottom-right to save.</p><figure id="1185d8b3-9dc8-4bac-ace0-2ea606450c30" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Preworkshop%20Onboarding%20%208762e2e596c6499f9a194b8c7abee362/Untitled%202.png"><img style="width:996px" src="Minecraft%20Fabric%20Modding%20-%20Preworkshop%20Onboarding%20%208762e2e596c6499f9a194b8c7abee362/Untitled%202.png"/></a></figure><p id="279f9ac6-c3b7-493c-b609-085bba851bcb" class=""><strong>Missing JDK:</strong> IntelliJ may have also missed your JDK 17.0.1 installation, so you’ll have to manually add it. After you do this once, IntelliJ should save it for every project after. If JDK 17.0.1 is not an option, check to see if JAVA_HOME points to it instead. That should still work. If not, you may not have set up your JAVA_HOME variable correctly. You can go back and double-check that, and you can manually add JDK 17.0.1 to IntelliJ. Click “Add JDK...” at the bottom, which will give you a path popout. Locate your JDK 17.0.1 installation (usually in something like Program Files/Java/jdk-17.0.1) and highlight it, then click OK. Now you should be able to select JDK 17.0.1 for your project. Hit Apply in the bottom-right to save.</p><figure id="14651db9-91e8-40b7-847b-6fdca1003bad" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Preworkshop%20Onboarding%20%208762e2e596c6499f9a194b8c7abee362/Untitled%203.png"><img style="width:1004px" src="Minecraft%20Fabric%20Modding%20-%20Preworkshop%20Onboarding%20%208762e2e596c6499f9a194b8c7abee362/Untitled%203.png"/></a></figure><p id="3a436d3e-b9be-44fc-bcb6-a5eb5c20e806" class="">After checking these common errors, you should see tiny symbol of an elephant (Gradle’s logo) with a reload button towards the top-right. Click on that to reload IntelliJ and apply the changes you’ve made in the settings.</p><figure id="5865b385-c537-4394-9c4e-e37c394a8507" class="image"><a href="Minecraft%20Fabric%20Modding%20-%20Preworkshop%20Onboarding%20%208762e2e596c6499f9a194b8c7abee362/Untitled%204.png"><img style="width:1920px" src="Minecraft%20Fabric%20Modding%20-%20Preworkshop%20Onboarding%20%208762e2e596c6499f9a194b8c7abee362/Untitled%204.png"/></a></figure><p id="3596bc4a-13b5-405d-b0e1-5b1d2ac050d4" class="">You should hopefully get a successful build after this. If not, you can reach out before the first workshop or search up your error and you may find a solution online.</p><h1 id="e21426b0-a6b4-42cf-8d17-8c9c46193ac2" class="">Helpful Tip - Applying changes without restarting Minecraft</h1><ul id="66f4c161-d61b-4ca9-a4df-a25295c9ffd6" class="bulleted-list"><li style="list-style-type:disc">Reload changed classes
+In Eclipse or <strong>Intellij IDEA</strong>, run Minecraft in <strong>debug mode</strong>. To apply changes in code, click the build button in Intellij IDEA or save in Eclipse. Note: this only allows you to change method bodies. If you do any other kind of change, You will have to restart. However, if you use DCEVM <em>(Not supported by Java 11+)</em>, you will be able to do most changes, including adding and removing methods and classes.</li></ul><ul id="6038e4b8-403c-4c04-bc4d-1b25557c76d2" class="bulleted-list"><li style="list-style-type:disc">Reload assets
+After you make changes to assets such as textures and block/item models, you can rebuild the project and press F3 + T to apply changes without restarting Minecraft. More specifically, this is how to reload anything the mod provides as a resource pack.</li></ul><ul id="6b56ed58-fb43-4bdd-a8fb-6b025c8fc721" class="bulleted-list"><li style="list-style-type:disc">Reload data
+You can apply any changes made in the data/ directory such as recipes, loot tables and tags by rebuilding the project and then using the in-game command /reload. More specifically, this reloads anything the mod provides as a data pack.</li></ul><h1 id="dfd4bd6d-5cf7-463f-8853-5d656a768899" class="">Link to Workshop 1 Notion Page</h1><p id="86c75a43-1e5d-42bd-8e91-879ed05dbb04" class=""><a href="https://www.notion.so/Minecraft-Fabric-Modding-Workshop-1-Items-Assets-Data-71d1d341d15d41108fcc265da573fd88">https://ggiande.notion.site/Minecraft-Fabric-Modding-Workshop-1-Items-Assets-Data-71d1d341d15d41108fcc265da573fd88</a></p></div></article></body></html>

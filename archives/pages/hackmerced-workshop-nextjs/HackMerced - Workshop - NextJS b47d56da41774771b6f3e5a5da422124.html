@@ -1,0 +1,705 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>HackMerced - Workshop - NextJS</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="262fc584-de23-4d22-becf-0b45f64543fc" class="page sans"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://images.ctfassets.net/23aumh6u8s0i/c04wENP3FnbevwdWzrePs/1e2739fa6d0aa5192cf89599e009da4e/nextjs"/></div><h1 class="page-title">HackMerced - Workshop - NextJS</h1></header><div class="page-body"><h2 id="e37d9f4d-6df2-4382-9564-5e580ac8b770" class="">Description 🗨️</h2><p id="28a66be1-948f-42e2-83cc-b659ff783380" class="">The purpose of this workshop is to create a website using the NextJS Framework then deploy the site onto Vercel.</p><blockquote id="b462eb32-790b-4f59-972f-f493f6f19e19" class="">Remember: A jack of all trades is a master of none. But still always better than a master of one.</blockquote><h2 id="f230a3f1-7717-475f-9fdc-3a96f6ddce17" class="">Requirements 📃</h2><p id="81fa6b05-57a8-44db-84fd-abc028c77aaf" class="">Please visit the following page to ensure that you are prepped to start this workshop →</p><figure id="bb2e20f4-d414-48e3-91a0-fb2ebd260336" class="link-to-page"><a href="HackMerced%20-%20Workshop%20-%20NextJS%20b47d56da41774771b6f3e5a5da422124/On-boarding%20Web%20Development%20Workshop%20bb2e20f4d41448e391a0fb2ebd260336.html"><span class="icon">⚔️</span>On-boarding Web Development Workshop</a></figure><h2 id="04c0d342-0c1a-4566-9c58-f9ed390b13f7" class="">Want to Accomplish 🤔</h2><ul id="5b64f1f0-a7eb-468a-8ba3-346bf5f191cc" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Creating a NextJS project</span></li></ul><ul id="af64e0ec-16c5-4d2c-9a76-97f839ff33da" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Looking at the NextJS documentation</span></li></ul><ul id="5ea459a2-fcca-4c94-a047-de8d969a235f" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Learning how to use some optimized NextJS elements</span></li></ul><ul id="de37e252-dbe5-4d34-8507-ec8930aacd88" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Deploy a basic portfolio site onto <a href="https://vercel.com/docs/concepts/deployments/overview">Vercel</a></span></li></ul><h2 id="d5e7356e-39da-4620-8539-9af7b28a6d6b" class="">Set-Up 🔨</h2><p id="58c442f4-a53b-40a2-8283-f11755dbede1" class="">Inside of the root directory, create a new project</p><pre id="3836deb3-2a46-4112-957c-30a175bb8428" class="code code-wrap"><code>npx create-next-app@latest portfolio-app
+
+# Do NOT copy and paste me, dummy
+
+# If already inside the root directory use this instead:
+npx create-next-app@latest .</code></pre><p id="fed3001d-88b1-4946-b6af-dea978540687" class="">If you are already in the project, run <code>npm install</code>, otherwise, change into the <em>portfolio-app</em> directory. </p><pre id="e0a8b522-4016-4ab7-97a3-ca345ee3a892" class="code code-wrap"><code>cd portfolio-app
+npm install</code></pre><blockquote id="14e81bce-d7a9-448f-8e65-90cfc4d7a2e9" class="">🚨 If you encounter warnings or are suggested to run commands, do <strong>NOT</strong> run them.
+Then run <code>npm run dev</code>— Runs the app
+Then go to your<a href="http://localhost:3000"> local host</a> and you should see the following!</blockquote><figure id="802e19b2-93ba-4437-b618-805aa5e2f393" class="image"><a href="https://i.imgur.com/YHzmdLT.png"><img src="https://i.imgur.com/YHzmdLT.png"/></a></figure><h2 id="f92e33be-88bf-4f12-8df8-61b58544bf18" class="">Editor 🧑🏾‍💻</h2><p id="7acfc87e-92a4-4ad6-a165-a10d8f8c5ceb" class="">We will use <a href="https://code.visualstudio.com/">Visual Studio Code</a> as our main editor for this project. If you would like to learn how to set up the VSCode editor, then feel free to onboard VSCode NOW.</p><p id="be7ed629-b31f-4b9a-a0a2-a4380f6bfd6c" class="">From within VSCode, we want to open a new terminal window change directory <code>cd portfolio-app</code>, and run <code>code .</code> If you know the path of your project, then you can just run <code>code portfolio-app</code> to open the whole project in VSCode.</p><h2 id="db215912-ecdd-4c24-80ae-f13f46427d07" class="">What&#x27;s in Our Project ⁉️</h2><p id="6d70f981-5710-4f6e-bebf-9bab2a6b7648" class="">For the sake of time, I will briefly go over each file and its importance in the base app and what we will be doing with it.</p><p id="6aaee677-921d-4569-88a3-1ae03ffb30d5" class=""><code>_app.js</code> - The main file that renders the whole page. Any components declared here get reused across the <strong>whole</strong> page.</p><p id="73112320-df26-4fc5-9a53-6c1d9d7d494c" class=""><code>index.js</code> - The backbone of our page that we can manipulate to render the root page <code>(&quot;https://PageName&quot;)</code>.</p><p id="53c8bf86-190c-4f0e-b6e5-18177621a3f3" class=""><code>globals.css</code> - The cascading style sheet that never sees the light of day, except, serves as the backup for our fonts and look of the original page which we can use for dark mode.</p><p id="893700f2-f3bf-4dda-9b54-16e8f1424849" class=""><code>hello.js</code> - If we were making APIs and would want people to fetch data from our application, they could hit this page’s endpoint like so: <a href="https://site/hello/"><code>https://site/hello/</code></a> → returns data</p><p id="c5e334be-5ed3-4b9e-8c70-e755bdf401d8" class=""><code>/public/</code> - this folder hosts a lot of our images or any files that we would want the end-user to have downloaded on their site upon rendering a page.</p><p id="68d1791a-1d60-4b6c-b781-1ddddeadd11d" class="">
+</p><p id="237e782f-7a09-4170-8384-1679fec5e548" class="">Q: How do we reference our CSS style sheet?</p><p id="ec90d761-1a95-48a5-89f1-66f23162ec63" class="">A: We simply import it! If you look at the top of your <code>index.js</code> page you will see the single line of code that imports our sheet: <code>import styles from &quot;../styles/Home.module.css&quot;;</code></p><p id="925aced6-d63a-4153-9eb8-1a999f1a469d" class="">
+</p><p id="5bcf02e5-b840-495b-814b-6930dbe74305" class="">🚨 Just so you know, all ampersands need to be converted to their <a href="https://theasciicode.com.ar/ascii-printable-characters/ampersand-ascii-code-38.html">ASCII equivalents</a>. E.g., <strong>&amp;38; </strong>and single apostrophe requires &amp;39; </p><p id="6224ec38-fb89-4e4b-8cce-19891b4c11be" class="">
+</p><p id="de262e61-1376-4940-a189-2d6077cfea13" class="">Before we decide to deploy our app, let’s create reference links to the following pages: Blog, About, and Projects. One of the many great things about NextJS is that the <strong>Routing</strong> is simplified by file structure. This means that if we create a file named <code>about.js</code> and place it inside of the <code>pages/</code> directory, then we have successfully wired up the route for the about page. We can reference the following documentation from NextJS to create a new page. <a href="https://nextjs.org/docs/basic-features/pages">Pages in NextJS</a> </p><p id="33c70524-7efc-4280-859d-13c33168cea0" class=""><strong>Example</strong>: If you create <code>pages/about.js</code> that exports a React component like below, it will be accessible at <code>/about</code>.</p><p id="eac8655f-1ac5-494f-9749-0ed7100ecf34" class="">🔔Remember, to manually change all the <code>href</code> links to point to <code>/about</code> <code>href=&quot;/about&quot;</code> For us, this is in our Navigation. Below is our javascript code for our about page.</p><pre id="b6e90fcb-ec02-45cf-9a0f-00226c9d834c" class="code code-wrap"><code>function About() {
+  return &lt;h1&gt;About&lt;/h1&gt;}
+
+export default About</code></pre><figure id="b47d56da-4177-4771-b6f3-e5a5da422124" class="image"><a href="HackMerced%20-%20Workshop%20-%20NextJS%20b47d56da41774771b6f3e5a5da422124/Untitled.png"><img style="width:679px" src="HackMerced%20-%20Workshop%20-%20NextJS%20b47d56da41774771b6f3e5a5da422124/Untitled.png"/></a></figure><p id="b9fd6ad7-0c60-415c-9ce7-b6505b6cbbae" class="">We can follow suit with other pages. If you have done everything correctly, you can then use any navigation link to traverse to a new page. </p><p id="64b1b144-c204-4387-8b82-7fe326bb103d" class="">We can clean up our links from being <code>&lt;a href=&quot;google.com&quot; /&gt;</code> and place each of them inside a <code>nextjs/link</code> like so: </p><pre id="72f01bcc-3058-431e-88ed-6695bce337db" class="code code-wrap"><code>&lt;nav className=&quot;nav-container&quot;&gt;
+		&lt;Link href=&quot;/blog&quot; passHref&gt;
+			&lt;a className={styles.nav_links}&gt;Blog&lt;/a&gt;
+		&lt;/Link&gt;
+
+		&lt;Link href=&quot;/about&quot; passHref&gt;
+			&lt;a className=&quot;nav-links&quot;&gt;About&lt;/a&gt;
+		&lt;/Link&gt;
+
+		&lt;Link href=&quot;/projects&quot; passHref&gt;
+			&lt;a className=&quot;nav-links&quot;&gt;Projects&lt;/a&gt;
+		&lt;/Link&gt;
+
+		&lt;Link href=&quot;https://github.com/ggiande&quot; passHref&gt;
+			&lt;a className=&quot;nav-links&quot;&gt;Github&lt;/a&gt;
+		&lt;/Link&gt;
+&lt;/nav&gt;</code></pre><p id="ab3871fb-fd26-43a7-863d-5f167a6d1b94" class="">If you notice an issue with <code>&lt;Link /&gt;</code> not being recognized, make sure to import the module <code>import Link from &quot;next/link&quot;;</code> at the very top of <code>index.js</code></p><p id="0bb34fde-bad8-4a7e-ba0a-977e110e823e" class="">
+</p><p id="74045923-0937-435a-a737-70cd29569ca9" class="">Now that we have created our pages and everything, this is a good stopping point to deploy our NextJS Application. Vercel for GitHub automatically deploys your PRs to Vercel.</p><h2 id="25c9ec78-45fd-4d5e-a628-b7a3676f303e" class="">Follow the instructions on the following page to deploy to Vercel 🚧 👷🏾</h2><figure id="3e493acf-b602-4850-8b29-2252e19ccd4d" class="link-to-page"><a href="HackMerced%20-%20Workshop%20-%20NextJS%20b47d56da41774771b6f3e5a5da422124/Deploy%20NextJS%20to%20Vercel%203e493acfb60248508b292252e19ccd4d.html"><span class="icon">🕹️</span>Deploy NextJS to Vercel</a></figure><p id="5d25d7ed-7acc-46ab-aa18-84afe06cc126" class="">Following the deployment of our application, here is a quick look at what we have covered.</p><h2 id="4f183692-a0bd-4666-a9e2-a64dc7a5f82e" class="">Completed 🥳</h2><ul id="d748ee33-d4c1-456e-b096-83a02d390115" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Creating a NextJS project</span></li></ul><ul id="e7c6bb5a-20bb-4248-bcf5-e97a91182a23" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Looking at the NextJS documentation</span></li></ul><ul id="c04428f5-5498-4d5c-8458-3c1f88b9e900" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Learning how to use some optimized NextJS elements</span></li></ul><ul id="9450fb0d-e3cc-4123-bc80-029f11951f3d" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Recreate our portfolio</span></li></ul><ul id="d76c7516-2fce-43c6-be9a-24b65f9345b1" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Deploy a basic portfolio site onto <a href="https://vercel.com/docs/concepts/deployments/overview">Vercel</a></span></li></ul><h2 id="43355d98-77d6-4bf7-b8ab-fcc1ab855544" class="">Additional Challenges 💸</h2><ul id="4b344a6b-c32c-4baa-a29d-8fa528cb3592" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Implement dark mode using the following CSS</span></li></ul><pre id="8db62977-624e-42e9-af49-fcfcbfc8695e" class="code code-wrap"><code>@media (prefers-color-scheme: dark) {
+  .name_of_class{
+    background-color: rgb(15, 8, 28);
+  }
+}</code></pre><ul id="817309d2-b5b1-4cde-b2b5-c7c9635f5629" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Learn more about CSS Syntax Conventions</span></li></ul><figure id="62a53c53-b0b0-4a04-a7c7-6d5687ece119"><a href="https://twitter.com/_georgemoller/status/1485301524179922944?s=20" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">George Moller on Twitter: &quot;How to properly name CSS classes using BEM (with practical examples).🧵Thread 👇 pic.twitter.com/8dkBasrdvs / Twitter&quot;</div><div class="bookmark-description">How to properly name CSS classes using BEM (with practical examples).🧵Thread 👇 pic.twitter.com/8dkBasrdvs</div></div><div class="bookmark-href"><img src="https://abs.twimg.com/favicons/twitter.2.ico" class="icon bookmark-icon"/>https://twitter.com/_georgemoller/status/1485301524179922944?s=20</div></div><img src="https://abs.twimg.com/errors/logo46x38.png" class="bookmark-image"/></a></figure><ul id="bb412dfd-4bb2-4110-bedd-5d6107dc821f" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Learn more about the difference between npx and npm: <a href="https://www.youtube.com/watch?v=fSHWc8RTJug&amp;feature=emb_imp_woyt">npm vs npx - What&#x27;s the Difference?</a></span></li></ul><p id="5a37f9e5-e1cf-4513-bcb6-86ea3a774835" class="">
+</p></div></article></body></html>
