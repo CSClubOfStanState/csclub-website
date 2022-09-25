@@ -8,11 +8,15 @@ The **Computer Science Club Website** is a simple site students 👩🏻‍🎓 
 
 ## Installation & Setup 📐
 
--   [ ] Open using your favorite code editor, no extra steps needed
+- [ ] Open using your favorite code editor, no extra steps needed
 
 ## Want to Contribute 🙋‍♂️?
 
 Awesome! If you want to contribute to this project, you're always welcome! See [Contributing Guidelines](https://github.com/CSClubOfStanState/csclub-website/blob/main/CONTRIBUTING.md). You can also take a look at [open issues](https://github.com/CSClubOfStanState/csclub-website/issues) for getting more information about current or upcoming tasks. If you have any ideas not already found under the issues tab, feel free to make one too!
+
+## How do I start helping?
+
+To contribute, look at how to make your [first contribution](https://github.com/firstcontributions/first-contributions), then follow the same steps to contribute to this project.
 
 ## Want to discuss? 💬
 
