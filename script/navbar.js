@@ -43,7 +43,7 @@ class Navbar extends HTMLElement {
                 <a class="nav-link" href="./officers.html#">Officers</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./archives/archive.html#">Archive</a>
+                <a class="nav-link" href="./archive.html#">Archive</a>
               </li>
             </ul>
           </div>
