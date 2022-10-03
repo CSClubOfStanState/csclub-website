@@ -1,6 +1,6 @@
 class Navbar extends HTMLElement {
-	connectedCallback() {
-		this.innerHTML = `
+  connectedCallback() {
+    this.innerHTML = `
     <nav
         class="navbar sticky-top navbar-expand-lg"
         aria-label="CS Club Navbar"
@@ -53,7 +53,7 @@ class Navbar extends HTMLElement {
         </div>
       </nav>
     `;
-	}
+  }
 }
 
 customElements.define("my-navbar", Navbar);
