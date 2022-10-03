@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>CS Club Events</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+			crossorigin="anonymous"
+		/>
+		<script
+			src="https://kit.fontawesome.com/a9dfd7a150.js"
+			crossorigin="anonymous"
+		></script>
+		<link rel="stylesheet" href="./events.css" />
+		<link rel="icon" href="./images/socials/cs_club_logo.png" />
+	</head>
+	<body>
+		<main>
+			<section class="py-5 text-center container">
+				<div class="row py-lg-5">
+					<div class="col-lg-6 col-md-8 mx-auto">
+						<h1 class="fw-light">Events</h1>
+						<p class="lead text-muted">
+							Checkout some of the past an upcoming events,
+							updated weekly.
+						</p>
+					</div>
+				</div>
+			</section>
+
+			<!-- Navbar -->
+			<my-navbar></my-navbar>
+
+			<!-- Events List -->
+			<div class="album py-5 bg-light">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">
+										Timeline - Upcoming and Past
+									</h5>
+									<div id="content">
+										<ul class="timeline">
+											<li
+												class="event"
+												data-date="5:00 - 6:00pm"
+											>
+												<h3>
+													CS Club Meeting, 21 Oct.
+												</h3>
+												<p>
+													Join us this Friday and hang
+													out with some of your fellow
+													peers! Open to all!
+												</p>
+											</li>
+
+											<li
+												class="event"
+												data-date="12:00 - 1:00pm"
+											>
+												<h3>
+													Cracking the Coding
+													Interview, Session 4, 19
+													Oct.
+												</h3>
+												<p>
+													Join Dr. Ayat Hatem and
+													learn the basics on problem
+													solving and basics of
+													LeetCode. Open to selected
+													students.
+												</p>
+											</li>
+
+											<li
+												class="event"
+												data-date="12:00 - 1:00pm"
+											>
+												<h3>
+													Cracking the Coding
+													Interview, Session 3, 12
+													Oct.
+												</h3>
+												<p>
+													Join Dr. Ayat Hatem and
+													learn the basics on problem
+													solving and basics of
+													LeetCode. Open to selected
+													students.
+												</p>
+											</li>
+
+											<li
+												class="event"
+												data-date="12:00 - 1:00pm"
+											>
+												<h3>
+													Cracking the Coding
+													Interview, Session 2, 5 Oct.
+												</h3>
+												<p>
+													Join Dr. Ayat Hatem and
+													learn the basics on problem
+													solving and basics of
+													LeetCode. Open to selected
+													students.
+												</p>
+											</li>
+
+											<li
+												class="event"
+												data-date="5:00 - 6:00pm"
+											>
+												<h3>CS Club Meeting, 7 Oct.</h3>
+												<p>
+													Join us this Friday and hang
+													out with some of your fellow
+													peers! Open to all!
+												</p>
+											</li>
+
+											<li
+												class="event"
+												data-date="12:00 - 1:00pm"
+											>
+												<h3>
+													Cracking the Coding
+													Interview, Session 1, 28
+													Sept.
+												</h3>
+												<p>
+													Join Dr. Ayat Hatem and
+													learn the basics on problem
+													solving and basics of
+													LeetCode. Open to selected
+													students.
+												</p>
+											</li>
+
+											<li
+												class="event"
+												data-date="5:00 - 6:00pm"
+											>
+												<h3>
+													CS Club Meeting, 23 Sept.
+												</h3>
+												<p>
+													Join us this Friday and hang
+													out with some of your fellow
+													peers! Open to all!
+												</p>
+											</li>
+
+											<li
+												class="event"
+												data-date="3:30 - 5:00pm"
+											>
+												<h3>
+													Computer Science Department
+													Open House
+												</h3>
+												<p>
+													Come meet the faculty, other
+													cs students, learn about
+													scholarships, research
+													opportunities, internships,
+													etc. Hosted at an outdoor
+													area by DBH 167
+												</p>
+											</li>
+
+											<li
+												class="event"
+												data-date="5:00 - 6:00pm"
+											>
+												<h3>
+													CS Club Meeting, 9 Sept.
+												</h3>
+												<p>
+													Join us this Friday and hang
+													out with some of your fellow
+													peers! Open to all!
+												</p>
+											</li>
+
+											<li
+												class="event"
+												data-date="5:00 - 6:00pm"
+											>
+												<h3>
+													CS Club Meeting, 2 Sept.
+												</h3>
+												<p>
+													Join us this Friday and hang
+													out with some of your fellow
+													peers! Open to all!
+												</p>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<!-- Footer -->
+		<div class="container">
+			<footer class="py-3 my-4">
+				<ul class="nav justify-content-center border-bottom pb-2 mb-2">
+					<li class="nav-item">
+						<a href="#" class="nav-link px-2 text-muted">Home</a>
+					</li>
+					<li class="nav-item">
+						<a href="#Officers" class="nav-link px-2 text-muted"
+							>Officers</a
+						>
+					</li>
+					<li class="nav-item">
+						<a href="#Blog" class="nav-link px-2 text-muted"
+							>Blog</a
+						>
+					</li>
+					<li class="nav-item">
+						<a href="#Resources" class="nav-link px-2 text-muted"
+							>Resources</a
+						>
+					</li>
+					<li class="nav-item">
+						<a
+							class="nav-link px-2 text-muted"
+							href="./archive.html#"
+							>Archive</a
+						>
+					</li>
+					<li class="nav-item">
+						<a
+							href="https://www.instagram.com/csclubofcsustan/"
+							target="_blank"
+							class="nav-link px-2 text-muted"
+							>Instagram</a
+						>
+					</li>
+					<li class="nav-item">
+						<a
+							href="https://discord.com/invite/Gp5V58B"
+							target="_blank"
+							class="nav-link px-2 text-muted"
+							>Discord</a
+						>
+					</li>
+				</ul>
+				<p class="text-center text-muted">
+					© <span id="yearDate"></span>
+					2022 Computer Science Club at California State University,
+					Stanislaus
+				</p>
+			</footer>
+		</div>
+		<script src="./script/navbar.js"></script>
+		<script src="./script/index.js"></script>
+	</body>
+</html>
