@@ -2,7 +2,7 @@ class Navbar extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
     <nav
-        class="navbar sticky-top navbar-expand-lg bg-light opacity-75"
+        class="navbar sticky-top navbar-expand-lg bg-light"
         aria-label="CS Club Navbar"
       >
         <div class="container-fluid">
