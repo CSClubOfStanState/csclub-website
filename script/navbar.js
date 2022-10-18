@@ -52,6 +52,27 @@ class Navbar extends HTMLElement {
           </div>
         </div>
       </nav>
+      <div
+      class="alert alert-warning alert-dismissible fade show text-center"
+      role="alert"
+    >
+      <div>
+        <strong>Holy guacamole!</strong> We're on our third version already! If
+        you ever wonder if there are updates your are NOT seeing,
+        <a
+          href="https://www.cuit.columbia.edu/clear-cache"
+          class="alert-link"
+          target="_blank"
+          >clear your browser's cache!</a
+        >
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+    </div>
     `;
   }
 }

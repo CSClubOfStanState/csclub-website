@@ -47,32 +47,121 @@
           width="50%"
         /> -->
       </div>
+
       <div class="blog-post py-2">
-        <h1 class="blog-post-title">Unix shortcuts</h1>
-        <p class="blog-post-meta">
-          October 16, 2022 by
-          <a href="https://www.linkedin.com/in/giancarlo-garcia/"
-            >Giancarlo Garcia Deleon</a
-          >
+        <h1 class="blog-post-title">Unix shortcuts and wildcards</h1>
+        <p>
+          Some shortcuts and wildcards commonly used in Unix are listed here.
         </p>
+        <ul>
+          <li>
+            / (forward slash) The forward slash alone denotes the root of the
+            file system tree
+          </li>
+          <li>~ (tilde) stands for the your home directory</li>
+          <li>. (single period) stands for the current directory</li>
+          <li>
+            .. (double period) refers to the parent directory of the current
+            directory (the directory one level closer to the root of the file
+            system)
+          </li>
+          <li>* (asterisk) stands for zero or more of any character</li>
+          <li>? (question mark) stands for any single character in a file</li>
+          <li>
+            | (vertical bar) activates a Unix "pipe" from one command to the
+            next
+            <em>command</em>
+          </li>
+          wq
+        </ul>
+      </div>
 
-        <p>
-          This blog post shows a few different types of content that's supported
-          and styled with Bootstrap. Basic typography, images, and code are all
-          supported.
-        </p>
-        <hr />
-        <p>
-          Cum sociis natoque penatibus et magnis
-          <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean
-          eu leo quam. Pellentesque ornare sem lacinia quam venenatis
-          vestibulum. Sed posuere consectetur est at lobortis. Cras mattis
-          consectetur purus sit amet fermentum.
-        </p>
+      <div class="blog-post py-2">
+        <h1 class="blog-post-title">pwd, ls, mkdir, cd, and cp</h1>
+        <p>The following are some commonly used commands.</p>
+        <ul>
+          <li>
+            The pwd command (or print working directory) is used to output the
+            path of the current working directory.
+          </li>
+          <li>The ls command lists the content of a directory.</li>
+          <li>
+            The mkdir command (or make directory) is used to create a new
+            directory.
+          </li>
+          <li>
+            The cd command (or change directory) changes the current working
+            directory.
+          </li>
+          <li>The cp command is used to copy files and directories.</li>
+        </ul>
+      </div>
 
+      <div class="blog-post py-2">
+        <h1 class="blog-post-title">The cat command (program)</h1>
         <p>
-          Cras mattis consectetur purus sit amet fermentum. Sed posuere
-          consectetur est at lobortis.
+          The cat program can be used to display, combine, and create new text
+          files.
+        </p>
+      </div>
+
+      <div class="blog-post py-2">
+        <h1 class="blog-post-title">The grep command (program)</h1>
+        <p>
+          The grep command searches the given file for lines containing a match
+          to the given strings or words.
+        </p>
+      </div>
+
+      <div class="blog-post py-2">
+        <h1 class="blog-post-title">Redirecting output using " > "</h1>
+        <p>
+          The symbol " > " is typically use to redirect the output of a command
+          (generally) into a file.
+        </p>
+      </div>
+
+      <div>
+        <h1>Finding what you need using the find command</h1>
+        <p>
+          The find command can be used to find a file based on a wide variety of
+          search criteria. (Many more search criteria can be used. Use "man
+          find" to learn more.)
+        </p>
+      </div>
+
+      <div>
+        <h1>Redirecting the output using " | "</h1>
+        <p>
+          The symbol " | " is use to send the output of a command to the input
+          of another. This process is know as piping.
+        </p>
+      </div>
+
+      <div>
+        <h1>Looking at your history</h1>
+        <p>
+          You have been working for a while, and want to re-examine your
+          previous actions.
+        </p>
+        <ul>
+          <li>Type in the terminal command line: history .</li>
+          <li>
+            On the list produced, find one of the earlier grep commands you ran.
+            Each line of your list is numbered on the left. Suppose the number
+            on the leftmost end of the line of the grep command is 5. Then, to
+            run that grep command again, you type at the terminal command line:
+            !5
+          </li>
+          <li>Use history to run one of your previous grep commands</li>
+        </ul>
+      </div>
+
+      <div>
+        <h1>Looking at processes using ps command</h1>
+        <p>
+          The ps command can be used to examine processes running on your Unix
+          system.
         </p>
       </div>
     </main>
