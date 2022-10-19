@@ -32,9 +32,17 @@
         </ol>
       </nav>
 
-      <div class="row jumbotron p-3 p-md-5 text-white rounded bg-dark">
-        <div class="col-md-6 px-0">
-          <h1 class="display-4 font-italic">Hello, programmer</h1>
+      <div class="row jumbotron p-3 p-md-5 rounded">
+        <div class="col px-0">
+          <h1 class="display-4 font-italic">
+            Hello, programmer
+            <img
+              class="col"
+              alt="unix penguin logo"
+              src="../../images/socials/unix-penguin.png"
+              width="50px"
+            />
+          </h1>
           <p class="lead my-3">
             Below are some useful Unix commands. These commands are adapted from
             various sources; to view our sources, checkout the
@@ -47,12 +55,6 @@
             modal.
           </p>
         </div>
-        <!-- <img
-          class="col"
-          alt="unix penguin logo"
-          src="../../images/socials/unix-penguin.png"
-          width="50%"
-        /> -->
       </div>
       <!-- Button trigger modal -->
 
@@ -67,7 +69,9 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Sources</h1>
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                acknowledgements
+              </h1>
               <button
                 type="button"
                 class="btn-close"
@@ -76,20 +80,23 @@
               ></button>
             </div>
             <div class="modal-body">
-              Some examples derived from
-              <a target="_blank" href="https://www.cs.csustan.edu/~mthomas/"
-                >Dr. Meghan Thomas
-              </a>
+              <p>
+                Some examples derived from
+                <a target="_blank" href="https://www.cs.csustan.edu/~mthomas/"
+                  >Dr. Meghan Thomas
+                </a>
+              </p>
+              <p>
+                Some examples derived from
+                <a
+                  target="_blank"
+                  href="https://oliverelliott.org/article/unlinked/about/"
+                >
+                  Oliver Elliott
+                </a>
+              </p>
             </div>
-            <div class="modal-body">
-              Some examples derived from
-              <a
-                target="_blank"
-                href="https://oliverelliott.org/article/unlinked/about/"
-              >
-                Oliver Elliott
-              </a>
-            </div>
+
             <div class="modal-footer">
               <button
                 type="button"
@@ -111,7 +118,7 @@
       </div>
 
       <div class="blog-post py-2">
-        <h1 class="blog-post-title">Unix shortcuts and wildcards</h1>
+        <h2 class="blog-post-title">Unix shortcuts and wildcards</h2>
         <p>
           Some shortcuts and wildcards commonly used in Unix are listed here.
         </p>
@@ -139,7 +146,7 @@
       </div>
 
       <div class="blog-post py-2">
-        <h1 class="blog-post-title">pwd, ls, mkdir, cd, and cp</h1>
+        <h2 class="blog-post-title">pwd, ls, mkdir, cd, and cp</h2>
         <p>The following are some commonly used commands.</p>
 
         <p>
@@ -161,7 +168,7 @@
       </div>
 
       <div class="blog-post py-2">
-        <h1 class="blog-post-title">The cat command</h1>
+        <h2 class="blog-post-title">The cat command</h2>
         <p>
           <code>cat</code> prints the <em>contents</em> of files passed to it as
           arguments and can be used to combine, and create new files.
@@ -191,7 +198,7 @@
       </div>
 
       <div class="blog-post py-2">
-        <h1 class="blog-post-title">The grep command</h1>
+        <h2 class="blog-post-title">The grep command</h2>
         <p>
           The <code>grep</code> command is the terminal's analog of
           <em>find</em> from ordinary computing (not to be confused with unix
@@ -234,7 +241,7 @@
       </div>
 
       <div class="blog-post py-2">
-        <h1 class="blog-post-title">Redirecting output using " > "</h1>
+        <h2 class="blog-post-title">Redirecting output using " > "</h2>
         <p>
           The symbol " > " is typically use to redirect the output of a command
           (generally) into a file.
@@ -252,7 +259,7 @@
       </div>
 
       <div>
-        <h1>Finding what you need using the find command</h1>
+        <h2>Finding what you need using the find command</h2>
         <p>
           The find command recursively descends the directory tree for each path
           listed, evaluating an expression (composed of the “primaries” and
@@ -277,7 +284,7 @@
       </div>
 
       <div>
-        <h1>Redirecting the output using " | "</h1>
+        <h2>Redirecting the output using " | "</h2>
         <p>
           The symbol " | " is use to send the output of a command to the input
           of another. This process is know as piping.
@@ -294,7 +301,7 @@
       </div>
 
       <div>
-        <h1>Looking at your history</h1>
+        <h2>Looking at your history</h2>
         <p>
           You have been working for a while, and want to re-examine your
           previous actions.
@@ -313,7 +320,7 @@
       </div>
 
       <div>
-        <h1>Looking at processes using ps & sleep command</h1>
+        <h2>Looking at processes using ps & sleep command</h2>
         <p>
           The ps command can be used to examine processes running on your Unix
           system.
